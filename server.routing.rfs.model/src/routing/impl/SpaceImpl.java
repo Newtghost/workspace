@@ -2,6 +2,7 @@
  */
 package routing.impl;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
@@ -11,6 +12,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EcoreEMap;
@@ -32,6 +34,7 @@ import routing.StopPoint;
  *   <li>{@link routing.impl.SpaceImpl#getConnections <em>Connections</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getFootpaths <em>Footpaths</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getStops <em>Stops</em>}</li>
+ *   <li>{@link routing.impl.SpaceImpl#getTimezone <em>Timezone</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,6 +70,26 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	 * @ordered
 	 */
 	protected EMap<String, StopPoint> stops;
+
+	/**
+	 * The default value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTimezone()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TIMEZONE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTimezone()
+	 * @generated
+	 * @ordered
+	 */
+	protected String timezone = TIMEZONE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -128,6 +151,27 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getTimezone() {
+		return timezone;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTimezone(String newTimezone) {
+		String oldTimezone = timezone;
+		timezone = newTimezone;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.SPACE__TIMEZONE, oldTimezone, timezone));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -158,6 +202,8 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 			case RoutingPackage.SPACE__STOPS:
 				if (coreType) return getStops();
 				else return getStops().map();
+			case RoutingPackage.SPACE__TIMEZONE:
+				return getTimezone();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -178,6 +224,9 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 				return;
 			case RoutingPackage.SPACE__STOPS:
 				((EStructuralFeature.Setting)getStops()).set(newValue);
+				return;
+			case RoutingPackage.SPACE__TIMEZONE:
+				setTimezone((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -200,6 +249,9 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 			case RoutingPackage.SPACE__STOPS:
 				getStops().clear();
 				return;
+			case RoutingPackage.SPACE__TIMEZONE:
+				setTimezone(TIMEZONE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -218,8 +270,26 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 				return footpaths != null && !footpaths.isEmpty();
 			case RoutingPackage.SPACE__STOPS:
 				return stops != null && !stops.isEmpty();
+			case RoutingPackage.SPACE__TIMEZONE:
+				return TIMEZONE_EDEFAULT == null ? timezone != null : !TIMEZONE_EDEFAULT.equals(timezone);
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (timezone: ");
+		result.append(timezone);
+		result.append(')');
+		return result.toString();
 	}
 
 } //SpaceImpl

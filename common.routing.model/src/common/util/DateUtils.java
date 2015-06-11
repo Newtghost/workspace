@@ -296,6 +296,7 @@ public class DateUtils {
     }
     
 	/* TODO : dupliqué, à unifier, modifier, faire une bibli propre pour la gestion des dates */
+
     /* Return a number of seconds */
     public static long parseTimeD(String time) {
     	int[] aux = null;

@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link common.Request#getToLat <em>To Lat</em>}</li>
  *   <li>{@link common.Request#getToLon <em>To Lon</em>}</li>
  *   <li>{@link common.Request#getMaxWalkDistance <em>Max Walk Distance</em>}</li>
- *   <li>{@link common.Request#getTimezone <em>Timezone</em>}</li>
  * </ul>
  * </p>
  *
@@ -263,31 +262,5 @@ public interface Request extends EObject {
 	 * @generated
 	 */
 	void setMaxWalkDistance(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Timezone</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Timezone</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Timezone</em>' attribute.
-	 * @see #setTimezone(String)
-	 * @see common.CommonPackage#getRequest_Timezone()
-	 * @model
-	 * @generated
-	 */
-	String getTimezone();
-
-	/**
-	 * Sets the value of the '{@link common.Request#getTimezone <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Timezone</em>' attribute.
-	 * @see #getTimezone()
-	 * @generated
-	 */
-	void setTimezone(String value);
 
 } // Request

@@ -54,21 +54,7 @@ public class MyRoutingFactory {
 	public static Request createRequest (String departureId, String arrivalId, String time, String date) {
 		Request r = CommonFactory.eINSTANCE.createRequest() ;
 		r.setFromStopId(departureId);
-		r.setToStopId(arrivalId);
-
-		/* TODO : problème pour parser la date */
-//		TimeZone tz = TimeZone.getDefault(); /* TODO : il faut récupérer la timezone dans le GTFS */
-//		System.out.println("Time : " + time + " - Date : " + date) ;
-//		System.out.println("En long : " + DateUtils.toDate(time, date, tz).getTime()) ; 
-		
-		/* TODO : Décalage d'une heure sur le résultat pourquoi 10h20 ... commence qu'à 11h20 ?? */
-		
-		/* Description du scénario idéal en ce qui concerne la gestion du temps :
-		 * On fait une requête avec un temps local - peu importe la timezone
-		 * On a quand même une timezone
-		 * On ajoute le décalage horaire pour avoir un timestamp global lors de l'export
-		 * */
-		
+		r.setToStopId(arrivalId);		
 		r.setTime(time);
 		r.setDate(date);
 		return r ;

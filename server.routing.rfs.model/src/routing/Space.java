@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.Space#getConnections <em>Connections</em>}</li>
  *   <li>{@link routing.Space#getFootpaths <em>Footpaths</em>}</li>
  *   <li>{@link routing.Space#getStops <em>Stops</em>}</li>
+ *   <li>{@link routing.Space#getTimezone <em>Timezone</em>}</li>
  * </ul>
  * </p>
  *
@@ -76,5 +77,31 @@ public interface Space extends EObject {
 	 * @generated
 	 */
 	EMap<String, StopPoint> getStops();
+
+	/**
+	 * Returns the value of the '<em><b>Timezone</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Timezone</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Timezone</em>' attribute.
+	 * @see #setTimezone(String)
+	 * @see routing.RoutingPackage#getSpace_Timezone()
+	 * @model
+	 * @generated
+	 */
+	String getTimezone();
+
+	/**
+	 * Sets the value of the '{@link routing.Space#getTimezone <em>Timezone</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Timezone</em>' attribute.
+	 * @see #getTimezone()
+	 * @generated
+	 */
+	void setTimezone(String value);
 
 } // Space

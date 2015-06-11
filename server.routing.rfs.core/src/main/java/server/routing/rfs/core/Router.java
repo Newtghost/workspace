@@ -64,14 +64,7 @@ public class Router {
 		
 		/* Core of the algorithm */
 		for (Connection c : sorted_connections) {
-			
-			/* TODO : refaire la simu de tracking OTP vs RFS pourquoi RFS ne choisit pas le même trip (trip - 5425354) 
-			 * Il faut debugger avec des traces complète, pour ça il faut savoir exactement à quel stop sequence on commence
-			 * Ce stop doit etre accessible quand on y arrive dessus, etc...
-			 * Pour ca passer en mode debug sur le tracking et ecrire les .json en profiter pour faire du propre dans
-			 * toutes les traces et tout ce qui est généré.
-			 * Au final... retard d'une heure de RFS. */
-						
+									
 			if (c.getDepartureTime() < startTime) continue ; /* Before the departure */
 			/* Break if we can't improve the best arrival time to the target*/
 			if (targetStop.getBestArrivalTime() <= c.getDepartureTime()) {
@@ -148,7 +141,7 @@ public class Router {
 		 * prenant en compte la timezone et la date.
 		 */
 
-		long tz = 9 * 3600 ; // TODO : bidouille à changer, doit être récupéré du GTFS (leg) ou de la requête ?
+		long tz = RoutingAccessors.getJetlag(space) ; 
 		long date = DateUtils.parseDate(request.getDate(), TimeZone.getDefault()).getTime() / 1000 ;
 		
 		for (Leg s : RoutingAccessors.getPath(solution)) {

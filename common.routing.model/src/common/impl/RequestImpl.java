@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link common.impl.RequestImpl#getToLat <em>To Lat</em>}</li>
  *   <li>{@link common.impl.RequestImpl#getToLon <em>To Lon</em>}</li>
  *   <li>{@link common.impl.RequestImpl#getMaxWalkDistance <em>Max Walk Distance</em>}</li>
- *   <li>{@link common.impl.RequestImpl#getTimezone <em>Timezone</em>}</li>
  * </ul>
  * </p>
  *
@@ -214,26 +213,6 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 	 * @ordered
 	 */
 	protected int maxWalkDistance = MAX_WALK_DISTANCE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTimezone()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TIMEZONE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTimezone()
-	 * @generated
-	 * @ordered
-	 */
-	protected String timezone = TIMEZONE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -448,27 +427,6 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getTimezone() {
-		return timezone;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTimezone(String newTimezone) {
-		String oldTimezone = timezone;
-		timezone = newTimezone;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CommonPackage.REQUEST__TIMEZONE, oldTimezone, timezone));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -490,8 +448,6 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 				return getToLon();
 			case CommonPackage.REQUEST__MAX_WALK_DISTANCE:
 				return getMaxWalkDistance();
-			case CommonPackage.REQUEST__TIMEZONE:
-				return getTimezone();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -530,9 +486,6 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 				return;
 			case CommonPackage.REQUEST__MAX_WALK_DISTANCE:
 				setMaxWalkDistance((Integer)newValue);
-				return;
-			case CommonPackage.REQUEST__TIMEZONE:
-				setTimezone((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -573,9 +526,6 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 			case CommonPackage.REQUEST__MAX_WALK_DISTANCE:
 				setMaxWalkDistance(MAX_WALK_DISTANCE_EDEFAULT);
 				return;
-			case CommonPackage.REQUEST__TIMEZONE:
-				setTimezone(TIMEZONE_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -606,8 +556,6 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 				return toLon != TO_LON_EDEFAULT;
 			case CommonPackage.REQUEST__MAX_WALK_DISTANCE:
 				return maxWalkDistance != MAX_WALK_DISTANCE_EDEFAULT;
-			case CommonPackage.REQUEST__TIMEZONE:
-				return TIMEZONE_EDEFAULT == null ? timezone != null : !TIMEZONE_EDEFAULT.equals(timezone);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -640,8 +588,6 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 		result.append(toLon);
 		result.append(", maxWalkDistance: ");
 		result.append(maxWalkDistance);
-		result.append(", timezone: ");
-		result.append(timezone);
 		result.append(')');
 		return result.toString();
 	}

@@ -26,8 +26,7 @@ public class ViewLabelProvider extends StyledCellLabelProvider {
 			Date dep, arr ;
 			String dep2s, arr2s ;
 			
-			/* TODO : propager la timezone via la request */
-			long tz = 9 * 3600 ; // OTP 
+			long tz = Main.JET_LAG ;
 			
 			if (le.getMode().equals("WALK")) {
 				dep = new Date((le.getStartTime() - tz + le.getDepartureDelay()) * 1000);

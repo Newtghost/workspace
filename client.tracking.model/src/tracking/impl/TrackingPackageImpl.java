@@ -254,15 +254,6 @@ public class TrackingPackageImpl extends EPackageImpl implements TrackingPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLeg_Timezone() {
-		return (EAttribute)legEClass.getEStructuralFeatures().get(13);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public TrackingFactory getTrackingFactory() {
 		return (TrackingFactory)getEFactoryInstance();
 	}
@@ -304,7 +295,6 @@ public class TrackingPackageImpl extends EPackageImpl implements TrackingPackage
 		createEAttribute(legEClass, LEG__DEPARTURE_DELAY);
 		createEAttribute(legEClass, LEG__FROM_STOP_SEQUENCE);
 		createEAttribute(legEClass, LEG__TO_STOP_SEQUENCE);
-		createEAttribute(legEClass, LEG__TIMEZONE);
 	}
 
 	/**
@@ -355,7 +345,6 @@ public class TrackingPackageImpl extends EPackageImpl implements TrackingPackage
 		initEAttribute(getLeg_DepartureDelay(), ecorePackage.getEInt(), "departureDelay", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLeg_FromStopSequence(), ecorePackage.getEInt(), "fromStopSequence", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLeg_ToStopSequence(), ecorePackage.getEInt(), "toStopSequence", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLeg_Timezone(), ecorePackage.getEString(), "timezone", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

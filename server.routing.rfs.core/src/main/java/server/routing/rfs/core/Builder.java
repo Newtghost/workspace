@@ -26,7 +26,7 @@ public class Builder {
 	
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
 	
-	private static final boolean REBUILD = false; 
+	private static final boolean REBUILD = true; 
 	private ArrayList<Connection> sorted_connections ; 
 	Space space ;
 		
@@ -35,6 +35,9 @@ public class Builder {
 		if (REBUILD) {
 	    	
 			space = RoutingFactory.eINSTANCE.createSpace();
+			
+			/* TODO : est ce qu'on peut récupérer la Timezone du GTFS ? */
+			space.setTimezone("Portland");
 			
 	    	// Read the GTFS
 			GtfsReader reader = new GtfsReader();
@@ -63,11 +66,7 @@ public class Builder {
 			Connection prevC = null, c = null ;
 			for (StopTime st : stop_times) {
 				
-				/* TODO : prendre en compte calendar.txt et calendar_dates.txt */
-				/* TODO : faire un point sur ce que l'on peut/doit utiliser dans le GTFS et qui n'est pas fait
-				 * La timezone
-				 * etc
-				  */
+				/* TODO : prendre en compte calendar.txt et calendar_dates.txt, etc */
 
 				// Initialization
 				if (prevST == null) prevST = st ;			
@@ -113,7 +112,7 @@ public class Builder {
 		}
 		else {
 			// Deserialization 
-			space = MyRoutingFactory.deserialize() ; /* TODO : faire fonctionner la deserialization... au moins en partie en XML (footpaths + StopPoints) possible ? */
+			space = MyRoutingFactory.deserialize() ;
 	        if (space != null) LOG.info("De-serialization proceeded successfully.");
 		}
         

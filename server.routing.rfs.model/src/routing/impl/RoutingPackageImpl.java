@@ -192,6 +192,15 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSpace_Timezone() {
+		return (EAttribute)spaceEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getLeg() {
 		return legEClass;
 	}
@@ -212,15 +221,6 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 */
 	public EAttribute getLeg_ArrivalId() {
 		return (EAttribute)legEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getLeg_Timezone() {
-		return (EAttribute)legEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -516,11 +516,11 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		createEReference(spaceEClass, SPACE__CONNECTIONS);
 		createEReference(spaceEClass, SPACE__FOOTPATHS);
 		createEReference(spaceEClass, SPACE__STOPS);
+		createEAttribute(spaceEClass, SPACE__TIMEZONE);
 
 		legEClass = createEClass(LEG);
 		createEAttribute(legEClass, LEG__DEPARTURE_ID);
 		createEAttribute(legEClass, LEG__ARRIVAL_ID);
-		createEAttribute(legEClass, LEG__TIMEZONE);
 
 		connectionEClass = createEClass(CONNECTION);
 		createEAttribute(connectionEClass, CONNECTION__TRIP_ID);
@@ -595,11 +595,11 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		initEReference(getSpace_Connections(), this.getStringToConnectionMap(), null, "connections", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpace_Footpaths(), this.getStringToFootpathMap(), null, "footpaths", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpace_Stops(), this.getStringToStopPointMap(), null, "stops", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSpace_Timezone(), ecorePackage.getEString(), "timezone", null, 0, 1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(legEClass, Leg.class, "Leg", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLeg_DepartureId(), ecorePackage.getEString(), "departureId", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLeg_ArrivalId(), ecorePackage.getEString(), "arrivalId", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLeg_Timezone(), ecorePackage.getEString(), "timezone", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(connectionEClass, Connection.class, "Connection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getConnection_TripId(), ecorePackage.getEString(), "tripId", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

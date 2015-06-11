@@ -147,22 +147,13 @@ public interface CommonPackage extends EPackage {
 	int REQUEST__MAX_WALK_DISTANCE = 8;
 
 	/**
-	 * The feature id for the '<em><b>Timezone</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUEST__TIMEZONE = 9;
-
-	/**
 	 * The number of structural features of the '<em>Request</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUEST_FEATURE_COUNT = 10;
+	int REQUEST_FEATURE_COUNT = 9;
 
 	/**
 	 * The number of operations of the '<em>Request</em>' class.
@@ -284,17 +275,6 @@ public interface CommonPackage extends EPackage {
 	EAttribute getRequest_MaxWalkDistance();
 
 	/**
-	 * Returns the meta object for the attribute '{@link common.Request#getTimezone <em>Timezone</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Timezone</em>'.
-	 * @see common.Request#getTimezone()
-	 * @see #getRequest()
-	 * @generated
-	 */
-	EAttribute getRequest_Timezone();
-
-	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -398,14 +378,6 @@ public interface CommonPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute REQUEST__MAX_WALK_DISTANCE = eINSTANCE.getRequest_MaxWalkDistance();
-
-		/**
-		 * The meta object literal for the '<em><b>Timezone</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute REQUEST__TIMEZONE = eINSTANCE.getRequest_Timezone();
 
 	}
 

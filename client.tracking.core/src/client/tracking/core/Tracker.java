@@ -1,7 +1,6 @@
 package client.tracking.core;
 
 import java.io.BufferedReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
@@ -124,10 +123,11 @@ public class Tracker {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"))) {
         	String json = reader.readLine() ;
         	
-        	/* Sauvegarde du Json */
+        	/* Sauvegarde du Json 
         	FileWriter writer = new FileWriter(filename + ".json");
     		writer.write(json);
     		writer.close();
+    		*/
 
     		/* Create an object to save all useful informations about computed itineraries */
     		ArrayList<Itinerary> result = new ArrayList<Itinerary>() ;

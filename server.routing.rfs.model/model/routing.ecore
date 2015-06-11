@@ -8,11 +8,11 @@
         eType="#//StringToFootpathMap" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="stops" upperBound="-1"
         eType="#//StringToStopPointMap" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timezone" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Leg">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="departureId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrivalId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timezone" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Connection" eSuperTypes="#//Leg">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tripId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

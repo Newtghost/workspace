@@ -42,5 +42,13 @@ public class RoutingAccessors {
 	public static long getStartTime (Request r) {
 		return DateUtils.parseTimeD (r.getTime()) ;
 	}
+
+	public static long getJetlag (Space space) {
+		/* Depend de la Timezone - récupéré depuis le GTFS stocké dans le Space */
+		if (space.getTimezone().equals("Portland")) {
+			return 9 * 3600 ;
+		}
+		return 0 ;
+	}
 	
 }

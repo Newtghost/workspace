@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link tracking.Leg#getDepartureDelay <em>Departure Delay</em>}</li>
  *   <li>{@link tracking.Leg#getFromStopSequence <em>From Stop Sequence</em>}</li>
  *   <li>{@link tracking.Leg#getToStopSequence <em>To Stop Sequence</em>}</li>
- *   <li>{@link tracking.Leg#getTimezone <em>Timezone</em>}</li>
  * </ul>
  * </p>
  *
@@ -371,31 +370,5 @@ public interface Leg extends EObject {
 	 * @generated
 	 */
 	void setToStopSequence(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Timezone</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Timezone</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Timezone</em>' attribute.
-	 * @see #setTimezone(String)
-	 * @see tracking.TrackingPackage#getLeg_Timezone()
-	 * @model
-	 * @generated
-	 */
-	String getTimezone();
-
-	/**
-	 * Sets the value of the '{@link tracking.Leg#getTimezone <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Timezone</em>' attribute.
-	 * @see #getTimezone()
-	 * @generated
-	 */
-	void setTimezone(String value);
 
 } // Leg

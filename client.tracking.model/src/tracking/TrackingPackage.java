@@ -230,22 +230,13 @@ public interface TrackingPackage extends EPackage {
 	int LEG__TO_STOP_SEQUENCE = 12;
 
 	/**
-	 * The feature id for the '<em><b>Timezone</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LEG__TIMEZONE = 13;
-
-	/**
 	 * The number of structural features of the '<em>Leg</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LEG_FEATURE_COUNT = 14;
+	int LEG_FEATURE_COUNT = 13;
 
 	/**
 	 * The number of operations of the '<em>Leg</em>' class.
@@ -443,17 +434,6 @@ public interface TrackingPackage extends EPackage {
 	EAttribute getLeg_ToStopSequence();
 
 	/**
-	 * Returns the meta object for the attribute '{@link tracking.Leg#getTimezone <em>Timezone</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Timezone</em>'.
-	 * @see tracking.Leg#getTimezone()
-	 * @see #getLeg()
-	 * @generated
-	 */
-	EAttribute getLeg_Timezone();
-
-	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -615,14 +595,6 @@ public interface TrackingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LEG__TO_STOP_SEQUENCE = eINSTANCE.getLeg_ToStopSequence();
-
-		/**
-		 * The meta object literal for the '<em><b>Timezone</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute LEG__TIMEZONE = eINSTANCE.getLeg_Timezone();
 
 	}
 

@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link routing.Leg#getDepartureId <em>Departure Id</em>}</li>
  *   <li>{@link routing.Leg#getArrivalId <em>Arrival Id</em>}</li>
- *   <li>{@link routing.Leg#getTimezone <em>Timezone</em>}</li>
  * </ul>
  * </p>
  *
@@ -74,31 +73,5 @@ public interface Leg extends EObject {
 	 * @generated
 	 */
 	void setArrivalId(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Timezone</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Timezone</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Timezone</em>' attribute.
-	 * @see #setTimezone(String)
-	 * @see routing.RoutingPackage#getLeg_Timezone()
-	 * @model
-	 * @generated
-	 */
-	String getTimezone();
-
-	/**
-	 * Sets the value of the '{@link routing.Leg#getTimezone <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Timezone</em>' attribute.
-	 * @see #getTimezone()
-	 * @generated
-	 */
-	void setTimezone(String value);
 
 } // Leg

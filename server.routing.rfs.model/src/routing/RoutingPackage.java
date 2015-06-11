@@ -94,13 +94,22 @@ public interface RoutingPackage extends EPackage {
 	int SPACE__STOPS = 2;
 
 	/**
+	 * The feature id for the '<em><b>Timezone</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPACE__TIMEZONE = 3;
+
+	/**
 	 * The number of structural features of the '<em>Space</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SPACE_FEATURE_COUNT = 3;
+	int SPACE_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Space</em>' class.
@@ -140,22 +149,13 @@ public interface RoutingPackage extends EPackage {
 	int LEG__ARRIVAL_ID = 1;
 
 	/**
-	 * The feature id for the '<em><b>Timezone</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LEG__TIMEZONE = 2;
-
-	/**
 	 * The number of structural features of the '<em>Leg</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LEG_FEATURE_COUNT = 3;
+	int LEG_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Leg</em>' class.
@@ -193,15 +193,6 @@ public interface RoutingPackage extends EPackage {
 	 * @ordered
 	 */
 	int CONNECTION__ARRIVAL_ID = LEG__ARRIVAL_ID;
-
-	/**
-	 * The feature id for the '<em><b>Timezone</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CONNECTION__TIMEZONE = LEG__TIMEZONE;
 
 	/**
 	 * The feature id for the '<em><b>Trip Id</b></em>' attribute.
@@ -320,15 +311,6 @@ public interface RoutingPackage extends EPackage {
 	 * @ordered
 	 */
 	int FOOTPATH__ARRIVAL_ID = LEG__ARRIVAL_ID;
-
-	/**
-	 * The feature id for the '<em><b>Timezone</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int FOOTPATH__TIMEZONE = LEG__TIMEZONE;
 
 	/**
 	 * The feature id for the '<em><b>Distance</b></em>' attribute.
@@ -659,6 +641,17 @@ public interface RoutingPackage extends EPackage {
 	EReference getSpace_Stops();
 
 	/**
+	 * Returns the meta object for the attribute '{@link routing.Space#getTimezone <em>Timezone</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Timezone</em>'.
+	 * @see routing.Space#getTimezone()
+	 * @see #getSpace()
+	 * @generated
+	 */
+	EAttribute getSpace_Timezone();
+
+	/**
 	 * Returns the meta object for class '{@link routing.Leg <em>Leg</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -689,17 +682,6 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getLeg_ArrivalId();
-
-	/**
-	 * Returns the meta object for the attribute '{@link routing.Leg#getTimezone <em>Timezone</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Timezone</em>'.
-	 * @see routing.Leg#getTimezone()
-	 * @see #getLeg()
-	 * @generated
-	 */
-	EAttribute getLeg_Timezone();
 
 	/**
 	 * Returns the meta object for class '{@link routing.Connection <em>Connection</em>}'.
@@ -1077,6 +1059,14 @@ public interface RoutingPackage extends EPackage {
 		EReference SPACE__STOPS = eINSTANCE.getSpace_Stops();
 
 		/**
+		 * The meta object literal for the '<em><b>Timezone</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SPACE__TIMEZONE = eINSTANCE.getSpace_Timezone();
+
+		/**
 		 * The meta object literal for the '{@link routing.impl.LegImpl <em>Leg</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1101,14 +1091,6 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LEG__ARRIVAL_ID = eINSTANCE.getLeg_ArrivalId();
-
-		/**
-		 * The meta object literal for the '<em><b>Timezone</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute LEG__TIMEZONE = eINSTANCE.getLeg_Timezone();
 
 		/**
 		 * The meta object literal for the '{@link routing.impl.ConnectionImpl <em>Connection</em>}' class.

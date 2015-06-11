@@ -8,6 +8,9 @@ import client.tracking.core.Util;
 
 public class Main {
 	
+	/* TODO : comment récupérer la timezone dans l'IHM de tracking ? Via la requête ? */
+	public static int JET_LAG = 9*3600 ;
+	
 	private static int _refreshInterval = 1;
 
 	private static Process pOTP ;

@@ -32,7 +32,6 @@ import tracking.TrackingPackage;
  *   <li>{@link tracking.impl.LegImpl#getDepartureDelay <em>Departure Delay</em>}</li>
  *   <li>{@link tracking.impl.LegImpl#getFromStopSequence <em>From Stop Sequence</em>}</li>
  *   <li>{@link tracking.impl.LegImpl#getToStopSequence <em>To Stop Sequence</em>}</li>
- *   <li>{@link tracking.impl.LegImpl#getTimezone <em>Timezone</em>}</li>
  * </ul>
  * </p>
  *
@@ -298,26 +297,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * @ordered
 	 */
 	protected int toStopSequence = TO_STOP_SEQUENCE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTimezone()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TIMEZONE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTimezone()
-	 * @generated
-	 * @ordered
-	 */
-	protected String timezone = TIMEZONE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -616,27 +595,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getTimezone() {
-		return timezone;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTimezone(String newTimezone) {
-		String oldTimezone = timezone;
-		timezone = newTimezone;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TrackingPackage.LEG__TIMEZONE, oldTimezone, timezone));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -666,8 +624,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return getFromStopSequence();
 			case TrackingPackage.LEG__TO_STOP_SEQUENCE:
 				return getToStopSequence();
-			case TrackingPackage.LEG__TIMEZONE:
-				return getTimezone();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -718,9 +674,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return;
 			case TrackingPackage.LEG__TO_STOP_SEQUENCE:
 				setToStopSequence((Integer)newValue);
-				return;
-			case TrackingPackage.LEG__TIMEZONE:
-				setTimezone((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -773,9 +726,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 			case TrackingPackage.LEG__TO_STOP_SEQUENCE:
 				setToStopSequence(TO_STOP_SEQUENCE_EDEFAULT);
 				return;
-			case TrackingPackage.LEG__TIMEZONE:
-				setTimezone(TIMEZONE_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -814,8 +764,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return fromStopSequence != FROM_STOP_SEQUENCE_EDEFAULT;
 			case TrackingPackage.LEG__TO_STOP_SEQUENCE:
 				return toStopSequence != TO_STOP_SEQUENCE_EDEFAULT;
-			case TrackingPackage.LEG__TIMEZONE:
-				return TIMEZONE_EDEFAULT == null ? timezone != null : !TIMEZONE_EDEFAULT.equals(timezone);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -856,8 +804,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 		result.append(fromStopSequence);
 		result.append(", toStopSequence: ");
 		result.append(toStopSequence);
-		result.append(", timezone: ");
-		result.append(timezone);
 		result.append(')');
 		return result.toString();
 	}

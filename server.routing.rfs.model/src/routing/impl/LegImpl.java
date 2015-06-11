@@ -21,7 +21,6 @@ import routing.RoutingPackage;
  * <ul>
  *   <li>{@link routing.impl.LegImpl#getDepartureId <em>Departure Id</em>}</li>
  *   <li>{@link routing.impl.LegImpl#getArrivalId <em>Arrival Id</em>}</li>
- *   <li>{@link routing.impl.LegImpl#getTimezone <em>Timezone</em>}</li>
  * </ul>
  * </p>
  *
@@ -67,26 +66,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * @ordered
 	 */
 	protected String arrivalId = ARRIVAL_ID_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTimezone()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TIMEZONE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTimezone()
-	 * @generated
-	 * @ordered
-	 */
-	protected String timezone = TIMEZONE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -154,27 +133,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getTimezone() {
-		return timezone;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTimezone(String newTimezone) {
-		String oldTimezone = timezone;
-		timezone = newTimezone;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.LEG__TIMEZONE, oldTimezone, timezone));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -182,8 +140,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return getDepartureId();
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				return getArrivalId();
-			case RoutingPackage.LEG__TIMEZONE:
-				return getTimezone();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -201,9 +157,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return;
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				setArrivalId((String)newValue);
-				return;
-			case RoutingPackage.LEG__TIMEZONE:
-				setTimezone((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -223,9 +176,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				setArrivalId(ARRIVAL_ID_EDEFAULT);
 				return;
-			case RoutingPackage.LEG__TIMEZONE:
-				setTimezone(TIMEZONE_EDEFAULT);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -242,8 +192,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return DEPARTURE_ID_EDEFAULT == null ? departureId != null : !DEPARTURE_ID_EDEFAULT.equals(departureId);
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				return ARRIVAL_ID_EDEFAULT == null ? arrivalId != null : !ARRIVAL_ID_EDEFAULT.equals(arrivalId);
-			case RoutingPackage.LEG__TIMEZONE:
-				return TIMEZONE_EDEFAULT == null ? timezone != null : !TIMEZONE_EDEFAULT.equals(timezone);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -262,8 +210,6 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 		result.append(departureId);
 		result.append(", arrivalId: ");
 		result.append(arrivalId);
-		result.append(", timezone: ");
-		result.append(timezone);
 		result.append(')');
 		return result.toString();
 	}
