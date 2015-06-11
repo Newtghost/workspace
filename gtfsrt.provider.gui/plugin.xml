@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="gtfsrt.provider.gui.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="Perspective"
+            class="gtfsrt.provider.gui.Perspective"
+            id="gtfsrt-provider.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="All trips updated"
+            class="gtfsrt.provider.gui.View"
+            id="gtfsrt-provider.view">
+      </view>
+      <view
+            class="gtfsrt.provider.gui.Addview"
+            id="gtfsrt-provider.addview"
+            name="Add a delay on a trip"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="*">
+         <view
+               standalone="true"
+               minimized="false"
+               relative="org.eclipse.ui.editorss"
+               relationship="left"
+               id="gtfsrt-provider.view">
+         </view>
+         <view
+               id="gtfsrt-provider.addview"
+               minimized="false"
+               ratio="0.5"
+               relationship="left"
+               relative="org.eclipse.ui.editorss">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               label="File">
+            <command
+                  commandId="org.eclipse.ui.file.exit"
+                  label="Exit">
+            </command>
+         </menu>
+         <menu
+               label="GTFS-RT provider">
+            <command
+                  commandId="gtfsrt-provider.run"
+                  label="Run"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="gtfsrt.provider.gui.Run"
+            id="gtfsrt-provider.run"
+            name="Run">
+      </command>
+   </extension>
+
+</plugin>
