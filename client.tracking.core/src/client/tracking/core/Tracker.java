@@ -162,7 +162,7 @@ public class Tracker {
 			    			l.setAgencyId((String) leg.get("agencyId")) ;
 			    			l.setTripId((String) leg.get("tripId")) ;
 			    			l.setToStopSequence(((Long) to.get("stopSequence")).intValue()) ;
-			    			l.setFromStopSequence(((Long) to.get("stopSequence")).intValue()) ;
+			    			l.setFromStopSequence(((Long) from.get("stopSequence")).intValue()) ;
 		    			}
 		    			it.getLegs().add(l);
 		    		}

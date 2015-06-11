@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimeZone;
 
 import routing.Connection;
 import routing.Footpath;
@@ -12,8 +13,8 @@ import routing.Leg;
 import routing.RoutingFactory;
 import routing.Space;
 import routing.StopPoint;
-
 import common.Request;
+import common.util.DateUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,10 +71,12 @@ public class Router {
 			 * Pour ca passer en mode debug sur le tracking et ecrire les .json en profiter pour faire du propre dans
 			 * toutes les traces et tout ce qui est généré.
 			 * Au final... retard d'une heure de RFS. */
-			
+						
 			if (c.getDepartureTime() < startTime) continue ; /* Before the departure */
 			/* Break if we can't improve the best arrival time to the target*/
-			if (targetStop.getBestArrivalTime() <= c.getDepartureTime()) break ;
+			if (targetStop.getBestArrivalTime() <= c.getDepartureTime()) {
+				break ;
+			}
 			
 			cDepStop = RoutingAccessors.getStop(space, c.getDepartureId()) ;
 			cArrStop = RoutingAccessors.getStop(space, c.getArrivalId()) ;
@@ -140,8 +143,14 @@ public class Router {
 		Connection prevC = null ;
 		long prevEndTime = RoutingAccessors.getStartTime(request) ; /* Utile pour calculer les start time et end time des footpaths */
 
-		long tz = 9 * 3600 ; // TODO : local TIMEZONE à changer  
+		/* Le calcul d'itinéraire se fait avec un horaire local.
+		 * Ce n'est qu'au moment de l'export json que l'on passe dans un référentiel global en 
+		 * prenant en compte la timezone et la date.
+		 */
 
+		long tz = 9 * 3600 ; // TODO : bidouille à changer, doit être récupéré du GTFS (leg) ou de la requête ?
+		long date = DateUtils.parseDate(request.getDate(), TimeZone.getDefault()).getTime() / 1000 ;
+		
 		for (Leg s : RoutingAccessors.getPath(solution)) {
 
 			if (s instanceof Footpath) {
@@ -153,7 +162,7 @@ public class Router {
 					to.put("stopSequence", prevC.getArrStopSequence()) ;
 					leg.put("to", to) ;
 					prevEndTime = prevC.getArrivalTime() ;
-					leg.put("endTime", (prevEndTime+tz) * 1000) ;
+					leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
 					leg.put("arrivalDelay", 0) ;
 					legs.add(leg) ;
 					leg = null ;
@@ -169,9 +178,9 @@ public class Router {
 				to.put("stopId", s.getArrivalId()) ;
 				leg.put("from", from) ;
 				leg.put("to", to) ;
-				leg.put("startTime", (prevEndTime+tz) * 1000) ;
+				leg.put("startTime", (prevEndTime+date+tz) * 1000) ;
 				prevEndTime += ((Footpath) s).getDuration() ;
-				leg.put("endTime", (prevEndTime+tz) * 1000) ;
+				leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
 				leg.put("departureDelay", 0) ;
 				leg.put("arrivalDelay", 0) ;
 				leg.put("distance", ((Footpath) s).getDistance()) ;
@@ -191,7 +200,7 @@ public class Router {
 						to.put("stopSequence", prevC.getArrStopSequence()) ;
 						leg.put("to", to) ;
 						prevEndTime = prevC.getArrivalTime() ;
-						leg.put("endTime", (prevEndTime+tz) * 1000) ;
+						leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
 						leg.put("arrivalDelay", 0) ;
 						legs.add(leg) ;
 						leg = null ;
@@ -204,7 +213,7 @@ public class Router {
 					from.put("stopId", c.getDepartureId()) ;
 					from.put("stopSequence", c.getDepStopSequence()) ;
 					leg.put("from", from) ;
-					leg.put("startTime", (c.getDepartureTime()+tz) * 1000) ;
+					leg.put("startTime", (c.getDepartureTime()+date+tz) * 1000) ;
 					leg.put("departureDelay", 0) ;
 					leg.put("distance", 0.1) ; /* Default value */
 					leg.put("mode", "TRANSIT") ;
@@ -225,7 +234,7 @@ public class Router {
 			to.put("stopSequence", prevC.getArrStopSequence()) ;
 			leg.put("to", to) ;
 			prevEndTime = prevC.getArrivalTime() ;
-			leg.put("endTime", (prevEndTime+tz) * 1000) ;
+			leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
 			leg.put("arrivalDelay", 0) ;
 			legs.add(leg) ;
 			leg = null ;

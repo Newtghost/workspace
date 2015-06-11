@@ -167,7 +167,7 @@ public class DateUtils {
                         dl = SMALL_DF_LIST;
                     }
                 }
-
+                
                 for (String df : dl) {
                     SimpleDateFormat sdf = new SimpleDateFormat(df);
                     sdf.setTimeZone(tz);
@@ -284,7 +284,6 @@ public class DateUtils {
         try {
             return sdf.parse(string);
         } catch (Exception e) {
-			e.printStackTrace();
         }
         return null;
     }

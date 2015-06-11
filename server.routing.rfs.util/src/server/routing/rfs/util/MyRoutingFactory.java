@@ -18,7 +18,7 @@ import common.util.EmfUtil;
 
 public class MyRoutingFactory {
 	
-	public static final double SPEED = 0.5; /* 0.5 meter per second */
+	public static final double SPEED = 1.2; /* meter per second */
 
 	public static Connection createConnection (String tripId, String routeId, String departureId, String arrivalId, 
 			long departureTime, long arrivalTime, int departureSeq, int arrivalSeq) {
