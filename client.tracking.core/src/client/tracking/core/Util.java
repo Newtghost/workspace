@@ -9,10 +9,10 @@ public class Util {
 	
 	public static final boolean COMPUTE_WITH_OTP = true ;
 	public static final boolean OTP_IS_RUNNING = true ;
-	public static final boolean COMPUTE_WITH_RFS = true ;
-	public static final boolean RFS_IS_RUNNING = true ;
+	public static final boolean COMPUTE_WITH_RFS = false ;
+	public static final boolean RFS_IS_RUNNING = false ;
 	
-	public static final boolean UPDATED = false ;
+	public static final boolean UPDATED = true ;
 
 	public static final String CHEMIN_OTP = "C:\\Users\\david.leydier\\workspace\\otp\\target\\";
 	public static final String CHEMIN_RFS = "C:\\Users\\david.leydier\\workspace\\routing\\target\\";

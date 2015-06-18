@@ -21,6 +21,8 @@ public class OTPView extends ViewPart {
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new ViewContentProvider());
 		viewer.setLabelProvider(new ViewLabelProvider());
+
+		Main.startRefresh();
 	}
 
 	public void update (ArrayList<Itinerary> list) {

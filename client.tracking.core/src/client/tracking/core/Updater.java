@@ -29,10 +29,13 @@ public class Updater {
 	private ScheduledExecutorService executor;
 	public static boolean need2refresh = false ;
 	
+	Tracker tracker ;
+	
 	/* Itineraries we want to update */ 
 	ArrayList<Itinerary> itineraries ;
-
-	public Updater (ArrayList<Itinerary> itineraries) {
+		
+	public Updater (Tracker tracker, ArrayList<Itinerary> itineraries) {
+		this.tracker = tracker ;
 		this.itineraries = itineraries ;
 	}
 	
@@ -40,6 +43,10 @@ public class Updater {
 		executor = Executors.newSingleThreadScheduledExecutor();
 		executor.scheduleAtFixedRate(new RefreshTask(), 0,
 				REFRESH_INTERVAL, TimeUnit.SECONDS);
+	}
+
+	public void setItineraries(ArrayList<Itinerary> itineraries) {
+		this.itineraries = itineraries;
 	}
 
 	public ArrayList<Itinerary> getItineraries() {
@@ -111,6 +118,17 @@ public class Updater {
 		
 		setDeprecated();
 		
+		if (needToRecompute ()) {
+			
+			System.out.println("Need to recompute all itineraries.") ;
+
+			try {
+				tracker.recomputeItineraries();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	public void setDeprecated () {
@@ -121,18 +139,13 @@ public class Updater {
 			List<Leg> legs = it.getLegs() ;
 			int delay = 0 ;
 			for (int i=0 ; i < legs.size()-1 ; i++) {
-				delay = 0 ;
-				if (legs.get(i).getEndTime() + legs.get(i).getArrivalDelay() > legs.get(i+1).getStartTime() + legs.get(i+1).getDepartureDelay()) {
-					if (legs.get(i+1).getMode().equals("WALK")) { /* On décale la correspondance d'après si c'est une WALK */
-						delay = (int) (legs.get(i).getEndTime() + legs.get(i).getArrivalDelay() - legs.get(i+1).getStartTime()) ;
-					}
-					else {
-						it.setDeprecated(true) ; /* Risque de rater une correspondance */
-					}
-				}
-				if (legs.get(i+1).getMode().equals("WALK")) {
+				if (legs.get(i+1).getMode().equals("WALK")) { /* Un segment de type WALK doit être "adapté" au segment précédent */
+					delay = (int) (legs.get(i).getEndTime() + legs.get(i).getArrivalDelay() - legs.get(i+1).getStartTime()) ;
 					legs.get(i+1).setArrivalDelay(delay);
 					legs.get(i+1).setDepartureDelay(delay);
+				}
+				else if (legs.get(i).getEndTime() + legs.get(i).getArrivalDelay() > legs.get(i+1).getStartTime() + legs.get(i+1).getDepartureDelay()) {
+					it.setDeprecated(true) ; /* Risque de rater une correspondance */
 				}
 			}
 
@@ -141,6 +154,15 @@ public class Updater {
 				it.setDeprecated(true) ; 
 			}			
 		}
+	}
+	
+	/* Return true if all itineraries are deprecated */
+	public boolean needToRecompute () {
+		boolean aux = true ;
+    	for (Itinerary it : itineraries) { 
+    		aux = aux && it.isDeprecated() ;
+    	}
+    	return aux ;
 	}
 
 

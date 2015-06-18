@@ -44,8 +44,8 @@ public class Main {
 	}
 	
 	private static void update () {
-		RFSView.instance.update(tracker.getRFS_itineraries());
-		OTPView.instance.update(tracker.getOTP_itineraries());
+		if (Util.COMPUTE_WITH_RFS) RFSView.instance.update(tracker.getRFS_itineraries());
+		if (Util.COMPUTE_WITH_OTP) OTPView.instance.update(tracker.getOTP_itineraries());
 	}
 
 	@SuppressWarnings("unused")

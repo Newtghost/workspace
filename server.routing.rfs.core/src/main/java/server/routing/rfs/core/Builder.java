@@ -26,14 +26,14 @@ public class Builder {
 	
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
 	
-	private static final boolean REBUILD = true; 
+	private static final boolean REBUILD = false; 
 	private ArrayList<Connection> sorted_connections ; 
 	Space space ;
 		
 	public Builder (String path) throws IOException {
 		
 		if (REBUILD) {
-	    	
+	    	 
 			space = RoutingFactory.eINSTANCE.createSpace();
 			
 			/* TODO : est ce qu'on peut récupérer la Timezone du GTFS ? */
