@@ -88,11 +88,11 @@ public class MyRoutingFactory {
 	}
 
 	public static boolean serialize(Space space) {
-		return EmfUtil.doSaveBin(space, "C:\\Users\\david.leydier\\workspace\\server.routing.rfs.core\\target\\rfsMaps",".obj") ; 
+		return EmfUtil.doSaveBin(space, Util.PATH + "rfsMaps",".obj") ; 
 	}
 
 	public static Space deserialize() {
-		return (Space) EmfUtil.doOpenBin(RoutingPackage.eINSTANCE, "C:\\Users\\david.leydier\\workspace\\server.routing.rfs.core\\target\\rfsMaps",".obj");
+		return (Space) EmfUtil.doOpenBin(RoutingPackage.eINSTANCE, Util.PATH + "rfsMaps",".obj");
 	}
 
 	public static void initialize(Space space) {

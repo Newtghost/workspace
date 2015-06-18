@@ -37,7 +37,7 @@ public class Builder {
 			space = RoutingFactory.eINSTANCE.createSpace();
 			
 			/* TODO : est ce qu'on peut récupérer la Timezone du GTFS ? */
-			space.setTimezone("Portland");
+			space.setTimezone("Portland"); 
 			
 	    	// Read the GTFS
 			GtfsReader reader = new GtfsReader();

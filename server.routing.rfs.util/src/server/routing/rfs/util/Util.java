@@ -2,7 +2,10 @@ package server.routing.rfs.util;
 
 public class Util {
 
-	private static final double CONNECTION_THRESHOLD = 500; 
+	/* TODO : ne doit pas être en dur */
+	public static final String PATH = "C:\\Users\\david.leydier\\workspace\\server.routing.rfs.core\\target\\"; 
+
+	private static final double CONNECTION_THRESHOLD = 500;
 
 	public static double gps2m (double lat_a, double lng_a, double lat_b, double lng_b) {
 	    double pk = 180 / Math.PI;
