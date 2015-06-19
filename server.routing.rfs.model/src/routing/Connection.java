@@ -11,6 +11,7 @@ package routing;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link routing.Connection#getServiceId <em>Service Id</em>}</li>
  *   <li>{@link routing.Connection#getTripId <em>Trip Id</em>}</li>
  *   <li>{@link routing.Connection#getRouteId <em>Route Id</em>}</li>
  *   <li>{@link routing.Connection#getDepStopSequence <em>Dep Stop Sequence</em>}</li>
@@ -27,6 +28,32 @@ package routing;
  * @generated
  */
 public interface Connection extends Leg, Comparable<Connection> {
+	/**
+	 * Returns the value of the '<em><b>Service Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Service Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Service Id</em>' attribute.
+	 * @see #setServiceId(String)
+	 * @see routing.RoutingPackage#getConnection_ServiceId()
+	 * @model
+	 * @generated
+	 */
+	String getServiceId();
+
+	/**
+	 * Sets the value of the '{@link routing.Connection#getServiceId <em>Service Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Service Id</em>' attribute.
+	 * @see #getServiceId()
+	 * @generated
+	 */
+	void setServiceId(String value);
+
 	/**
 	 * Returns the value of the '<em><b>Trip Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->

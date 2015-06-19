@@ -45,11 +45,11 @@ public class MyService {
 			Request request = MyRoutingFactory.createRequest(queryParams.get("from").get(0), queryParams.get("to").get(0), 
 					queryParams.get("time").get(0), queryParams.get("date").get(0)) ;
 
-			Router router = new Router(builder, request) ;       
-			router.run_CSA();
+			builder.getRouter().processNewRequest(request);
+			builder.getRouter().run_CSA();
 
 			try {
-				String json = router.journey2Json() ;
+				String json = builder.getRouter().journey2Json() ;
 				if (App.DEBUG) {
 		        	FileWriter writer = new FileWriter("DEBUG.json");
 		    		writer.write(json);

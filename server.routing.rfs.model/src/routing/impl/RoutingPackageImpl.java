@@ -91,6 +91,13 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	private EClass stringToConnectionMapEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass dateToStringMapEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -192,8 +199,17 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSpace_Calendar() {
+		return (EReference)spaceEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getSpace_Timezone() {
-		return (EAttribute)spaceEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)spaceEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -237,7 +253,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_TripId() {
+	public EAttribute getConnection_ServiceId() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -246,7 +262,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_RouteId() {
+	public EAttribute getConnection_TripId() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -255,7 +271,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_DepStopSequence() {
+	public EAttribute getConnection_RouteId() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -264,7 +280,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_DepartureTime() {
+	public EAttribute getConnection_DepStopSequence() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -273,7 +289,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_ArrStopSequence() {
+	public EAttribute getConnection_DepartureTime() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -282,7 +298,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_ArrivalTime() {
+	public EAttribute getConnection_ArrStopSequence() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -291,7 +307,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_Relaxed() {
+	public EAttribute getConnection_ArrivalTime() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -300,8 +316,17 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getConnection_Relaxed() {
+		return (EAttribute)connectionEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getConnection_PrevC() {
-		return (EReference)connectionEClass.getEStructuralFeatures().get(7);
+		return (EReference)connectionEClass.getEStructuralFeatures().get(8);
 	}
 
 	/**
@@ -489,6 +514,33 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getDateToStringMap() {
+		return dateToStringMapEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDateToStringMap_Key() {
+		return (EAttribute)dateToStringMapEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getDateToStringMap_Value() {
+		return (EAttribute)dateToStringMapEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public RoutingFactory getRoutingFactory() {
 		return (RoutingFactory)getEFactoryInstance();
 	}
@@ -516,6 +568,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		createEReference(spaceEClass, SPACE__CONNECTIONS);
 		createEReference(spaceEClass, SPACE__FOOTPATHS);
 		createEReference(spaceEClass, SPACE__STOPS);
+		createEReference(spaceEClass, SPACE__CALENDAR);
 		createEAttribute(spaceEClass, SPACE__TIMEZONE);
 
 		legEClass = createEClass(LEG);
@@ -523,6 +576,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		createEAttribute(legEClass, LEG__ARRIVAL_ID);
 
 		connectionEClass = createEClass(CONNECTION);
+		createEAttribute(connectionEClass, CONNECTION__SERVICE_ID);
 		createEAttribute(connectionEClass, CONNECTION__TRIP_ID);
 		createEAttribute(connectionEClass, CONNECTION__ROUTE_ID);
 		createEAttribute(connectionEClass, CONNECTION__DEP_STOP_SEQUENCE);
@@ -557,6 +611,10 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		stringToConnectionMapEClass = createEClass(STRING_TO_CONNECTION_MAP);
 		createEAttribute(stringToConnectionMapEClass, STRING_TO_CONNECTION_MAP__KEY);
 		createEReference(stringToConnectionMapEClass, STRING_TO_CONNECTION_MAP__VALUE);
+
+		dateToStringMapEClass = createEClass(DATE_TO_STRING_MAP);
+		createEAttribute(dateToStringMapEClass, DATE_TO_STRING_MAP__KEY);
+		createEAttribute(dateToStringMapEClass, DATE_TO_STRING_MAP__VALUE);
 	}
 
 	/**
@@ -595,6 +653,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		initEReference(getSpace_Connections(), this.getStringToConnectionMap(), null, "connections", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpace_Footpaths(), this.getStringToFootpathMap(), null, "footpaths", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpace_Stops(), this.getStringToStopPointMap(), null, "stops", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSpace_Calendar(), this.getDateToStringMap(), null, "calendar", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSpace_Timezone(), ecorePackage.getEString(), "timezone", null, 0, 1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(legEClass, Leg.class, "Leg", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -602,6 +661,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		initEAttribute(getLeg_ArrivalId(), ecorePackage.getEString(), "arrivalId", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(connectionEClass, Connection.class, "Connection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getConnection_ServiceId(), ecorePackage.getEString(), "serviceId", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnection_TripId(), ecorePackage.getEString(), "tripId", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnection_RouteId(), ecorePackage.getEString(), "routeId", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnection_DepStopSequence(), ecorePackage.getEInt(), "depStopSequence", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -636,6 +696,10 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		initEClass(stringToConnectionMapEClass, Map.Entry.class, "StringToConnectionMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringToConnectionMap_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStringToConnectionMap_Value(), this.getConnection(), null, "value", null, 0, -1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(dateToStringMapEClass, Map.Entry.class, "DateToStringMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getDateToStringMap_Key(), ecorePackage.getEDate(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDateToStringMap_Value(), ecorePackage.getEString(), "value", null, 0, -1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

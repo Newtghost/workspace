@@ -118,6 +118,8 @@ public class Tracker {
         int maxWalkDistance = request.getMaxWalkDistance() ;
         
         String req ;
+        
+        long currentTime = 0;
 
         /* OTP routing request */
         if (Util.COMPUTE_WITH_OTP) {
@@ -126,14 +128,18 @@ public class Tracker {
             req += "time=" + time + "&date=" + date + "&mode=TRANSIT,WALK"
             		+ "&toPlace=" + lat_to +"%2C" + lon_to + "&fromPlace=" + lat_from + "%2C" + lon_from + "&maxWalkDistance=" + maxWalkDistance ;        
 			System.out.println("Launch OTP routing request.") ;
+	        currentTime = System.currentTimeMillis();
             OTP_itineraries = processRequest(req, "OTP_itineraries") ;
+	        System.out.println("Temps d'éxécution : " + (System.currentTimeMillis()-currentTime) + "ms.");
         }
 
         /* RFS routing request */
         if (Util.COMPUTE_WITH_RFS) {
 	        req = "http://localhost:8079/myapp/myservice?from=" + stop_from + "&to=" + stop_to + "&time=" + time + "&date=" + date ;        
 			System.out.println("Launch RFS routing request.") ;
+	        currentTime = System.currentTimeMillis();
 	        RFS_itineraries = processRequest(req, "RFS_itineraries") ;
+	        System.out.println("Temps d'éxécution : " + (System.currentTimeMillis()-currentTime) + "ms.");
         }
     }
 

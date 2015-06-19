@@ -2,6 +2,7 @@
  */
 package routing.util;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -123,6 +124,12 @@ public class RoutingSwitch<T> extends Switch<T> {
 			case RoutingPackage.STRING_TO_CONNECTION_MAP: {
 				@SuppressWarnings("unchecked") Map.Entry<String, EList<Connection>> stringToConnectionMap = (Map.Entry<String, EList<Connection>>)theEObject;
 				T result = caseStringToConnectionMap(stringToConnectionMap);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case RoutingPackage.DATE_TO_STRING_MAP: {
+				@SuppressWarnings("unchecked") Map.Entry<Date, EList<String>> dateToStringMap = (Map.Entry<Date, EList<String>>)theEObject;
+				T result = caseDateToStringMap(dateToStringMap);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -262,6 +269,21 @@ public class RoutingSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseStringToConnectionMap(Map.Entry<String, EList<Connection>> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Date To String Map</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Date To String Map</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDateToStringMap(Map.Entry<Date, EList<String>> object) {
 		return null;
 	}
 

@@ -2,9 +2,9 @@
  */
 package routing;
 
+import java.util.Date;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.Space#getConnections <em>Connections</em>}</li>
  *   <li>{@link routing.Space#getFootpaths <em>Footpaths</em>}</li>
  *   <li>{@link routing.Space#getStops <em>Stops</em>}</li>
+ *   <li>{@link routing.Space#getCalendar <em>Calendar</em>}</li>
  *   <li>{@link routing.Space#getTimezone <em>Timezone</em>}</li>
  * </ul>
  * </p>
@@ -77,6 +78,23 @@ public interface Space extends EObject {
 	 * @generated
 	 */
 	EMap<String, StopPoint> getStops();
+
+	/**
+	 * Returns the value of the '<em><b>Calendar</b></em>' map.
+	 * The key is of type {@link java.util.Date},
+	 * and the value is of type list of {@link java.lang.String},
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Calendar</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Calendar</em>' map.
+	 * @see routing.RoutingPackage#getSpace_Calendar()
+	 * @model mapType="routing.DateToStringMap<org.eclipse.emf.ecore.EDate, org.eclipse.emf.ecore.EString>"
+	 * @generated
+	 */
+	EMap<Date, EList<String>> getCalendar();
 
 	/**
 	 * Returns the value of the '<em><b>Timezone</b></em>' attribute.

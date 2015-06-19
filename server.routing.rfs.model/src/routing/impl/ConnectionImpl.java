@@ -19,6 +19,7 @@ import routing.RoutingPackage;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link routing.impl.ConnectionImpl#getServiceId <em>Service Id</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getTripId <em>Trip Id</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getRouteId <em>Route Id</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getDepStopSequence <em>Dep Stop Sequence</em>}</li>
@@ -33,6 +34,26 @@ import routing.RoutingPackage;
  * @generated
  */
 public class ConnectionImpl extends LegImpl implements Connection {
+	/**
+	 * The default value of the '{@link #getServiceId() <em>Service Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getServiceId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SERVICE_ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getServiceId() <em>Service Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getServiceId()
+	 * @generated
+	 * @ordered
+	 */
+	protected String serviceId = SERVICE_ID_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getTripId() <em>Trip Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -200,6 +221,27 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	@Override
 	protected EClass eStaticClass() {
 		return RoutingPackage.Literals.CONNECTION;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getServiceId() {
+		return serviceId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setServiceId(String newServiceId) {
+		String oldServiceId = serviceId;
+		serviceId = newServiceId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.CONNECTION__SERVICE_ID, oldServiceId, serviceId));
 	}
 
 	/**
@@ -395,6 +437,8 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case RoutingPackage.CONNECTION__SERVICE_ID:
+				return getServiceId();
 			case RoutingPackage.CONNECTION__TRIP_ID:
 				return getTripId();
 			case RoutingPackage.CONNECTION__ROUTE_ID:
@@ -424,6 +468,9 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case RoutingPackage.CONNECTION__SERVICE_ID:
+				setServiceId((String)newValue);
+				return;
 			case RoutingPackage.CONNECTION__TRIP_ID:
 				setTripId((String)newValue);
 				return;
@@ -460,6 +507,9 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case RoutingPackage.CONNECTION__SERVICE_ID:
+				setServiceId(SERVICE_ID_EDEFAULT);
+				return;
 			case RoutingPackage.CONNECTION__TRIP_ID:
 				setTripId(TRIP_ID_EDEFAULT);
 				return;
@@ -496,6 +546,8 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case RoutingPackage.CONNECTION__SERVICE_ID:
+				return SERVICE_ID_EDEFAULT == null ? serviceId != null : !SERVICE_ID_EDEFAULT.equals(serviceId);
 			case RoutingPackage.CONNECTION__TRIP_ID:
 				return TRIP_ID_EDEFAULT == null ? tripId != null : !TRIP_ID_EDEFAULT.equals(tripId);
 			case RoutingPackage.CONNECTION__ROUTE_ID:
@@ -526,7 +578,9 @@ public class ConnectionImpl extends LegImpl implements Connection {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (tripId: ");
+		result.append(" (serviceId: ");
+		result.append(serviceId);
+		result.append(", tripId: ");
 		result.append(tripId);
 		result.append(", routeId: ");
 		result.append(routeId);

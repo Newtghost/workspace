@@ -12,13 +12,13 @@ import routing.Space;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
+import org.onebusaway.gtfs.model.ServiceCalendarDate;
 import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
 import org.onebusaway.gtfs.serialization.GtfsReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import server.routing.rfs.util.RoutingAccessors;
 import server.routing.rfs.util.MyRoutingFactory;
 import server.routing.rfs.util.Util;
 
@@ -26,19 +26,19 @@ public class Builder {
 	
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
 	
-	private static final boolean REBUILD = false; 
-	private ArrayList<Connection> sorted_connections ; 
-	Space space ;
-		
+	private static final boolean REBUILD = false;  
+	private Router router ;   
+	private Space space ;
+		 
 	public Builder (String path) throws IOException {
 		
 		if (REBUILD) {
 	    	 
-			space = RoutingFactory.eINSTANCE.createSpace();
+			space = RoutingFactory.eINSTANCE.createSpace(); 
 			
-			/* TODO : est ce qu'on peut récupérer la Timezone du GTFS ? */
+			/* TODO : est ce qu'on peut récupérer la Timezone du GTFS ? Oui dans le fichier agency.txt */
 			space.setTimezone("Portland"); 
-			
+			 
 	    	// Read the GTFS
 			GtfsReader reader = new GtfsReader();
 			reader.setInputLocation(new File(path));
@@ -60,14 +60,12 @@ public class Builder {
 					}
 				}			
 			} );
-	
+				
 			// Access entities through the store to create connections
 			StopTime prevST = null ;
-			Connection prevC = null, c = null ;
+			Connection prevC = null, c = null ; 
 			for (StopTime st : stop_times) {
 				
-				/* TODO : prendre en compte calendar.txt et calendar_dates.txt, etc */
-
 				// Initialization
 				if (prevST == null) prevST = st ;			
 				// The same trip
@@ -75,7 +73,7 @@ public class Builder {
 					// The next stop
 					if (st.getStopSequence() == prevST.getStopSequence() + 1) {					
 						// Create a new connection and add it to the map
-						c = MyRoutingFactory.addConnection(space, st.getTrip().getId().getId(), st.getTrip().getRoute().getId().getId(), prevST.getStop().getId().getId(), 
+						c = MyRoutingFactory.addConnection(space, st.getTrip().getServiceId().getId(), st.getTrip().getId().getId(), st.getTrip().getRoute().getId().getId(), prevST.getStop().getId().getId(), 
 								st.getStop().getId().getId(), prevST.getDepartureTime(), st.getArrivalTime(), prevST.getStopSequence(), st.getStopSequence()) ;
 						c.setPrevC(prevC);
 						prevC = c ;						
@@ -92,6 +90,13 @@ public class Builder {
 			}
 			
 	        LOG.info("List of connections created successfully.");
+			
+			// Create an hashmap indexed with the date that resume all the information contained in calendar.txt and calendar_dates.txt
+			for (ServiceCalendarDate cd : store.getAllCalendarDates()) {
+				MyRoutingFactory.addDate(space, cd.getDate().getAsDate(), cd.getServiceId().getId()) ;
+			}
+			
+	        LOG.info("List of dates created successfully.");
 	
 			for (Stop s1 : store.getAllStops()) {
 				for (Stop s2 : store.getAllStops()) {
@@ -115,20 +120,9 @@ public class Builder {
 			space = MyRoutingFactory.deserialize() ;
 	        if (space != null) LOG.info("De-serialization proceeded successfully.");
 		}
-        
-		// Création d'une liste des mêmes connections mais triée
-		sorted_connections = new ArrayList<Connection>() ;
-		for (String k : RoutingAccessors.getConnectionsKeySet(space)) {
-			sorted_connections.addAll(RoutingAccessors.getConnections(space, k)) ;
-		}
-		Collections.sort(sorted_connections);
-
+		
+		router = new Router(space) ;
 	} 
-
-	/* Renvoie la liste des connections triée : plus simple pour le déroulement de l'algo */
-	ArrayList<Connection> getSortedConnections() {
-		return sorted_connections ;
-	}
 
 	/**
      * Return an HK2 Binder that injects this specific Builder instance into Jersey web resources.
@@ -145,5 +139,9 @@ public class Builder {
             }
         };
     }
+
+	public Router getRouter() {
+		return router;
+	}
 
  }

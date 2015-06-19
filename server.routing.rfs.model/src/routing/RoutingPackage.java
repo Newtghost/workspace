@@ -94,13 +94,22 @@ public interface RoutingPackage extends EPackage {
 	int SPACE__STOPS = 2;
 
 	/**
+	 * The feature id for the '<em><b>Calendar</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPACE__CALENDAR = 3;
+
+	/**
 	 * The feature id for the '<em><b>Timezone</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SPACE__TIMEZONE = 3;
+	int SPACE__TIMEZONE = 4;
 
 	/**
 	 * The number of structural features of the '<em>Space</em>' class.
@@ -109,7 +118,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SPACE_FEATURE_COUNT = 4;
+	int SPACE_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Space</em>' class.
@@ -195,13 +204,22 @@ public interface RoutingPackage extends EPackage {
 	int CONNECTION__ARRIVAL_ID = LEG__ARRIVAL_ID;
 
 	/**
+	 * The feature id for the '<em><b>Service Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTION__SERVICE_ID = LEG_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Trip Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__TRIP_ID = LEG_FEATURE_COUNT + 0;
+	int CONNECTION__TRIP_ID = LEG_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Route Id</b></em>' attribute.
@@ -210,7 +228,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__ROUTE_ID = LEG_FEATURE_COUNT + 1;
+	int CONNECTION__ROUTE_ID = LEG_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Dep Stop Sequence</b></em>' attribute.
@@ -219,7 +237,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__DEP_STOP_SEQUENCE = LEG_FEATURE_COUNT + 2;
+	int CONNECTION__DEP_STOP_SEQUENCE = LEG_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Departure Time</b></em>' attribute.
@@ -228,7 +246,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__DEPARTURE_TIME = LEG_FEATURE_COUNT + 3;
+	int CONNECTION__DEPARTURE_TIME = LEG_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Arr Stop Sequence</b></em>' attribute.
@@ -237,7 +255,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__ARR_STOP_SEQUENCE = LEG_FEATURE_COUNT + 4;
+	int CONNECTION__ARR_STOP_SEQUENCE = LEG_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Arrival Time</b></em>' attribute.
@@ -246,7 +264,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__ARRIVAL_TIME = LEG_FEATURE_COUNT + 5;
+	int CONNECTION__ARRIVAL_TIME = LEG_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Relaxed</b></em>' attribute.
@@ -255,7 +273,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__RELAXED = LEG_FEATURE_COUNT + 6;
+	int CONNECTION__RELAXED = LEG_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Prev C</b></em>' reference.
@@ -264,7 +282,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__PREV_C = LEG_FEATURE_COUNT + 7;
+	int CONNECTION__PREV_C = LEG_FEATURE_COUNT + 8;
 
 	/**
 	 * The number of structural features of the '<em>Connection</em>' class.
@@ -273,7 +291,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION_FEATURE_COUNT = LEG_FEATURE_COUNT + 8;
+	int CONNECTION_FEATURE_COUNT = LEG_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of operations of the '<em>Connection</em>' class.
@@ -598,6 +616,53 @@ public interface RoutingPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link routing.impl.DateToStringMapImpl <em>Date To String Map</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see routing.impl.DateToStringMapImpl
+	 * @see routing.impl.RoutingPackageImpl#getDateToStringMap()
+	 * @generated
+	 */
+	int DATE_TO_STRING_MAP = 9;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DATE_TO_STRING_MAP__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DATE_TO_STRING_MAP__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Date To String Map</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DATE_TO_STRING_MAP_FEATURE_COUNT = 2;
+
+	/**
+	 * The number of operations of the '<em>Date To String Map</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DATE_TO_STRING_MAP_OPERATION_COUNT = 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link routing.Space <em>Space</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -639,6 +704,17 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSpace_Stops();
+
+	/**
+	 * Returns the meta object for the map '{@link routing.Space#getCalendar <em>Calendar</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>Calendar</em>'.
+	 * @see routing.Space#getCalendar()
+	 * @see #getSpace()
+	 * @generated
+	 */
+	EReference getSpace_Calendar();
 
 	/**
 	 * Returns the meta object for the attribute '{@link routing.Space#getTimezone <em>Timezone</em>}'.
@@ -692,6 +768,17 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getConnection();
+
+	/**
+	 * Returns the meta object for the attribute '{@link routing.Connection#getServiceId <em>Service Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Service Id</em>'.
+	 * @see routing.Connection#getServiceId()
+	 * @see #getConnection()
+	 * @generated
+	 */
+	EAttribute getConnection_ServiceId();
 
 	/**
 	 * Returns the meta object for the attribute '{@link routing.Connection#getTripId <em>Trip Id</em>}'.
@@ -1002,6 +1089,40 @@ public interface RoutingPackage extends EPackage {
 	EReference getStringToConnectionMap_Value();
 
 	/**
+	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Date To String Map</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Date To String Map</em>'.
+	 * @see java.util.Map.Entry
+	 * @model keyDataType="org.eclipse.emf.ecore.EDate"
+	 *        valueDataType="org.eclipse.emf.ecore.EString" valueMany="true"
+	 * @generated
+	 */
+	EClass getDateToStringMap();
+
+	/**
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getDateToStringMap()
+	 * @generated
+	 */
+	EAttribute getDateToStringMap_Key();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Value</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getDateToStringMap()
+	 * @generated
+	 */
+	EAttribute getDateToStringMap_Value();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1059,6 +1180,14 @@ public interface RoutingPackage extends EPackage {
 		EReference SPACE__STOPS = eINSTANCE.getSpace_Stops();
 
 		/**
+		 * The meta object literal for the '<em><b>Calendar</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SPACE__CALENDAR = eINSTANCE.getSpace_Calendar();
+
+		/**
 		 * The meta object literal for the '<em><b>Timezone</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1101,6 +1230,14 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CONNECTION = eINSTANCE.getConnection();
+
+		/**
+		 * The meta object literal for the '<em><b>Service Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTION__SERVICE_ID = eINSTANCE.getConnection_ServiceId();
 
 		/**
 		 * The meta object literal for the '<em><b>Trip Id</b></em>' attribute feature.
@@ -1337,6 +1474,32 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EReference STRING_TO_CONNECTION_MAP__VALUE = eINSTANCE.getStringToConnectionMap_Value();
+
+		/**
+		 * The meta object literal for the '{@link routing.impl.DateToStringMapImpl <em>Date To String Map</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see routing.impl.DateToStringMapImpl
+		 * @see routing.impl.RoutingPackageImpl#getDateToStringMap()
+		 * @generated
+		 */
+		EClass DATE_TO_STRING_MAP = eINSTANCE.getDateToStringMap();
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DATE_TO_STRING_MAP__KEY = eINSTANCE.getDateToStringMap_Key();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DATE_TO_STRING_MAP__VALUE = eINSTANCE.getDateToStringMap_Value();
 
 	}
 

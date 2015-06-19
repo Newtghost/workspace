@@ -2,6 +2,7 @@
  */
 package routing.impl;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -69,6 +70,7 @@ public class RoutingFactoryImpl extends EFactoryImpl implements RoutingFactory {
 			case RoutingPackage.STRING_TO_FOOTPATH_MAP: return (EObject)createStringToFootpathMap();
 			case RoutingPackage.STRING_TO_STOP_POINT_MAP: return (EObject)createStringToStopPointMap();
 			case RoutingPackage.STRING_TO_CONNECTION_MAP: return (EObject)createStringToConnectionMap();
+			case RoutingPackage.DATE_TO_STRING_MAP: return (EObject)createDateToStringMap();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -162,6 +164,16 @@ public class RoutingFactoryImpl extends EFactoryImpl implements RoutingFactory {
 	public Map.Entry<String, EList<Connection>> createStringToConnectionMap() {
 		StringToConnectionMapImpl stringToConnectionMap = new StringToConnectionMapImpl();
 		return stringToConnectionMap;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<Date, EList<String>> createDateToStringMap() {
+		DateToStringMapImpl dateToStringMap = new DateToStringMapImpl();
+		return dateToStringMap;
 	}
 
 	/**

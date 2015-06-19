@@ -1,8 +1,10 @@
 package server.routing.rfs.util;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 
 import routing.Connection;
 import routing.Footpath;
@@ -43,12 +45,24 @@ public class RoutingAccessors {
 		return DateUtils.parseTimeD (r.getTime()) ;
 	}
 
+	public static Date getDate(Request request) {
+		return DateUtils.parseDate(request.getDate(), TimeZone.getDefault()); 
+	}
+
 	public static long getJetlag (Space space) {
 		/* Depend de la Timezone - récupéré depuis le GTFS stocké dans le Space */
 		if (space.getTimezone().equals("Portland")) {
 			return 9 * 3600 ;
 		}
 		return 0 ;
+	}
+
+	public static Set<Date> getCalendarDates(Space space) {
+		return space.getCalendar().keySet() ;
+	}
+
+	public static List<String> getServicesIdForDate(Space space, Date d) {
+		return space.getCalendar().get(d) ;
 	}
 	
 }

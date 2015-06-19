@@ -1,6 +1,7 @@
 package server.routing.rfs.util;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -11,7 +12,6 @@ import routing.Space;
 import routing.Connection;
 import routing.Footpath;
 import routing.StopPoint;
-
 import common.CommonFactory;
 import common.Request;
 import common.util.EmfUtil;
@@ -20,9 +20,10 @@ public class MyRoutingFactory {
 	
 	public static final double SPEED = 1.2; /* meter per second */
 
-	public static Connection createConnection (String tripId, String routeId, String departureId, String arrivalId, 
+	public static Connection createConnection (String serviceId, String tripId, String routeId, String departureId, String arrivalId, 
 			long departureTime, long arrivalTime, int departureSeq, int arrivalSeq) {
 		Connection c = RoutingFactory.eINSTANCE.createConnection() ;
+		c.setServiceId(serviceId) ;
 		c.setTripId(tripId) ;
 		c.setRouteId(routeId) ;
 		c.setArrivalId(arrivalId) ;
@@ -60,9 +61,9 @@ public class MyRoutingFactory {
 		return r ;
 	}
 	
-	public static Connection addConnection (Space space, String tripId, String routeId, String departureId, String arrivalId, 
+	public static Connection addConnection (Space space, String serviceId, String tripId, String routeId, String departureId, String arrivalId, 
 			long departureTime, long arrivalTime, int departureSeq, int arrivalSeq) {
-		Connection c = createConnection(tripId, routeId, departureId, arrivalId, departureTime, arrivalTime, departureSeq, arrivalSeq) ;
+		Connection c = createConnection(serviceId, tripId, routeId, departureId, arrivalId, departureTime, arrivalTime, departureSeq, arrivalSeq) ;
 		if (space.getConnections().containsKey(departureId)) {
 			space.getConnections().get(departureId).add(c) ;
 		} else {
@@ -105,6 +106,15 @@ public class MyRoutingFactory {
 			for (Connection c : space.getConnections().get(k)) {
 				c.setRelaxed(false);
 			}	
+		}
+	}
+
+	public static void addDate(Space space, Date date, String id) {
+		if (space.getCalendar().containsKey(date)) {
+			space.getCalendar().get(date).add(id) ;
+		} else {
+			EList<String> list = new BasicEList<String>(Arrays.asList(id));
+			space.getCalendar().put(date, list) ;
 		}
 	}
 

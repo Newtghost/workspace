@@ -33,16 +33,38 @@ public class Router {
 	
 	Space space ;
 	private ArrayList<Connection> sorted_connections ; 
-	
+	private String currentDate = "" ;
 	private Itinerary solution ;
 	
-	public Router (Builder builder, Request request) {
-		this.request = request ;	
-		sorted_connections = builder.getSortedConnections() ;
-		solution = RoutingFactory.eINSTANCE.createItinerary() ;
-		space = builder.space ;
+	public Router (Space space) {
+		this.space = space ;
 	}
 	
+	public void processNewRequest (Request request) {
+		this.request = request ;	
+		solution  = RoutingFactory.eINSTANCE.createItinerary() ; 
+		
+		if (currentDate.equals(request.getDate())) return ; // No need to recompute the list
+				
+		createSortedConnectionsList() ;	
+	}
+	
+	private void createSortedConnectionsList() {
+		currentDate = request.getDate() ;
+		List<String> serviceIDs = RoutingAccessors.getServicesIdForDate(space, RoutingAccessors.getDate(request)) ;
+		
+		/* Contains all connections that the user could take in order to perform its trip */
+		sorted_connections = new ArrayList<Connection>() ;
+		for (String k : RoutingAccessors.getConnectionsKeySet(space)) {
+			for (Connection c : RoutingAccessors.getConnections(space, k)) {
+				if (serviceIDs.contains(c.getServiceId()))
+					sorted_connections.add(c) ;				
+			}
+		}
+		Collections.sort(sorted_connections);
+		// # connections : 351'093 vs 2'457'382	
+	}
+
 	public void run_CSA () {
 
 		LOG.info("Start computing solutions.");

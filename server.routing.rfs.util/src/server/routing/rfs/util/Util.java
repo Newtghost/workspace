@@ -2,7 +2,7 @@ package server.routing.rfs.util;
 
 public class Util {
 
-	/* TODO : ne doit pas être en dur */
+	/* TODO : attention chemin en dur - fichier de config ? */
 	public static final String PATH = "C:\\Users\\david.leydier\\workspace\\server.routing.rfs.core\\target\\"; 
 
 	private static final double CONNECTION_THRESHOLD = 500;

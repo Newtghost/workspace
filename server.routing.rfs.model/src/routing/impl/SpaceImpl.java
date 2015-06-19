@@ -2,22 +2,18 @@
  */
 package routing.impl;
 
+import java.util.Date;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
-
 import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import routing.Connection;
 import routing.Footpath;
 import routing.RoutingPackage;
@@ -34,6 +30,7 @@ import routing.StopPoint;
  *   <li>{@link routing.impl.SpaceImpl#getConnections <em>Connections</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getFootpaths <em>Footpaths</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getStops <em>Stops</em>}</li>
+ *   <li>{@link routing.impl.SpaceImpl#getCalendar <em>Calendar</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getTimezone <em>Timezone</em>}</li>
  * </ul>
  * </p>
@@ -70,6 +67,16 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	 * @ordered
 	 */
 	protected EMap<String, StopPoint> stops;
+
+	/**
+	 * The cached value of the '{@link #getCalendar() <em>Calendar</em>}' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getCalendar()
+	 * @generated
+	 * @ordered
+	 */
+	protected EMap<Date, EList<String>> calendar;
 
 	/**
 	 * The default value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
@@ -151,6 +158,18 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EMap<Date, EList<String>> getCalendar() {
+		if (calendar == null) {
+			calendar = new EcoreEMap<Date,EList<String>>(RoutingPackage.Literals.DATE_TO_STRING_MAP, DateToStringMapImpl.class, this, RoutingPackage.SPACE__CALENDAR);
+		}
+		return calendar;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public String getTimezone() {
 		return timezone;
 	}
@@ -181,6 +200,8 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 				return ((InternalEList<?>)getFootpaths()).basicRemove(otherEnd, msgs);
 			case RoutingPackage.SPACE__STOPS:
 				return ((InternalEList<?>)getStops()).basicRemove(otherEnd, msgs);
+			case RoutingPackage.SPACE__CALENDAR:
+				return ((InternalEList<?>)getCalendar()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -202,6 +223,9 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 			case RoutingPackage.SPACE__STOPS:
 				if (coreType) return getStops();
 				else return getStops().map();
+			case RoutingPackage.SPACE__CALENDAR:
+				if (coreType) return getCalendar();
+				else return getCalendar().map();
 			case RoutingPackage.SPACE__TIMEZONE:
 				return getTimezone();
 		}
@@ -224,6 +248,9 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 				return;
 			case RoutingPackage.SPACE__STOPS:
 				((EStructuralFeature.Setting)getStops()).set(newValue);
+				return;
+			case RoutingPackage.SPACE__CALENDAR:
+				((EStructuralFeature.Setting)getCalendar()).set(newValue);
 				return;
 			case RoutingPackage.SPACE__TIMEZONE:
 				setTimezone((String)newValue);
@@ -249,6 +276,9 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 			case RoutingPackage.SPACE__STOPS:
 				getStops().clear();
 				return;
+			case RoutingPackage.SPACE__CALENDAR:
+				getCalendar().clear();
+				return;
 			case RoutingPackage.SPACE__TIMEZONE:
 				setTimezone(TIMEZONE_EDEFAULT);
 				return;
@@ -270,6 +300,8 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 				return footpaths != null && !footpaths.isEmpty();
 			case RoutingPackage.SPACE__STOPS:
 				return stops != null && !stops.isEmpty();
+			case RoutingPackage.SPACE__CALENDAR:
+				return calendar != null && !calendar.isEmpty();
 			case RoutingPackage.SPACE__TIMEZONE:
 				return TIMEZONE_EDEFAULT == null ? timezone != null : !TIMEZONE_EDEFAULT.equals(timezone);
 		}
