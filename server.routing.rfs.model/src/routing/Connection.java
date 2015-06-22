@@ -13,7 +13,6 @@ package routing;
  * <ul>
  *   <li>{@link routing.Connection#getServiceId <em>Service Id</em>}</li>
  *   <li>{@link routing.Connection#getTripId <em>Trip Id</em>}</li>
- *   <li>{@link routing.Connection#getRouteId <em>Route Id</em>}</li>
  *   <li>{@link routing.Connection#getDepStopSequence <em>Dep Stop Sequence</em>}</li>
  *   <li>{@link routing.Connection#getDepartureTime <em>Departure Time</em>}</li>
  *   <li>{@link routing.Connection#getArrStopSequence <em>Arr Stop Sequence</em>}</li>
@@ -79,32 +78,6 @@ public interface Connection extends Leg, Comparable<Connection> {
 	 * @generated
 	 */
 	void setTripId(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Route Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Route Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Route Id</em>' attribute.
-	 * @see #setRouteId(String)
-	 * @see routing.RoutingPackage#getConnection_RouteId()
-	 * @model
-	 * @generated
-	 */
-	String getRouteId();
-
-	/**
-	 * Sets the value of the '{@link routing.Connection#getRouteId <em>Route Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Route Id</em>' attribute.
-	 * @see #getRouteId()
-	 * @generated
-	 */
-	void setRouteId(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Dep Stop Sequence</b></em>' attribute.

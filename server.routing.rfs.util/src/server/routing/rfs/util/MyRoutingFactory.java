@@ -6,6 +6,8 @@ import java.util.Date;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 
+import routing.Itinerary;
+import routing.Leg;
 import routing.RoutingFactory;
 import routing.RoutingPackage;
 import routing.Space;
@@ -19,6 +21,7 @@ import common.util.EmfUtil;
 public class MyRoutingFactory {
 	
 	public static final double SPEED = 1.2; /* meter per second */
+	public static final double NB_ITINERARIES = 3; /* Max nb of pareto-opt itineraries per StopPoint */
 
 	public static Connection createConnection (String serviceId, String tripId, String routeId, String departureId, String arrivalId, 
 			long departureTime, long arrivalTime, int departureSeq, int arrivalSeq) {
@@ -39,6 +42,7 @@ public class MyRoutingFactory {
 		Footpath f = RoutingFactory.eINSTANCE.createFootpath() ;
 		f.setDepartureId(departureId);
 		f.setArrivalId(arrivalId);
+		f.setRouteId("");
 		f.setDistance(Util.gps2m(depLat, depLon, arrLat, arrLon)) ; /* Calcul de la distance */
 		f.setDuration((int) (f.getDistance()/SPEED));
 		return f ;
@@ -98,8 +102,7 @@ public class MyRoutingFactory {
 
 	public static void initialize(Space space) {
 		for (StopPoint p : RoutingAccessors.getStops(space)) {
-			p.setBestArrivalTime(Long.MAX_VALUE);
-			p.setBestArrivalLeg(null);
+			p.getBestJourneys().clear();
 		}	
 		
 		for (String k : space.getConnections().keySet()) {
@@ -116,6 +119,16 @@ public class MyRoutingFactory {
 			EList<String> list = new BasicEList<String>(Arrays.asList(id));
 			space.getCalendar().put(date, list) ;
 		}
+	}
+
+	public static Itinerary createItinerary(Itinerary itdep, Leg l, long arrivalTime, int nbTransfers) {
+		Itinerary it = RoutingFactory.eINSTANCE.createItinerary() ;
+		it.setArrivalTime(arrivalTime);
+		if (l!=null) it.setLastTrip(l.getRouteId());
+		else it.setLastTrip("");
+		it.setNbTransfers(nbTransfers);
+		if (itdep!=null) it.getPath().addAll(itdep.getPath()) ;
+		return it;
 	}
 
 }

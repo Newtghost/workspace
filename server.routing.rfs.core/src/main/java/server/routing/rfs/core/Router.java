@@ -61,7 +61,7 @@ public class Router {
 					sorted_connections.add(c) ;				
 			}
 		}
-		Collections.sort(sorted_connections);
+		Collections.sort(sorted_connections); 
 		// # connections : 351'093 vs 2'457'382	
 	}
 
@@ -76,9 +76,14 @@ public class Router {
 		
 		/* Initialization */
 		MyRoutingFactory.initialize(space) ;  
-		sourceStop.setBestArrivalTime(startTime - sourceStop.getMinimalConnectionTime()); 
+
+		// TODO : il faut penser sur le dernier itinéraire itinéraire de rajouter le minimum connection time ??? Ou pas
+		Itinerary it = MyRoutingFactory.createItinerary(null, null, startTime - sourceStop.getMinimalConnectionTime(), 0) ; /* Itinéraire qui domine tous les autres */
+		RoutingAccessors.getJourneys(sourceStop).add(it) ;
+		
 		for (Footpath f : RoutingAccessors.getFootpaths(space, sourceStop.getStopId())) {
-			updateStopPoint (RoutingAccessors.getStop(space, f.getArrivalId()), f, startTime + f.getDuration()) ;
+			updateStopPoint (RoutingAccessors.getStop(space, f.getDepartureId()), 
+					RoutingAccessors.getStop(space, f.getArrivalId()), Long.MAX_VALUE, startTime + f.getDuration(), f) ;
 		}
 
 		StopPoint cDepStop, cArrStop ;
@@ -99,12 +104,13 @@ public class Router {
 			if (cDepStop.getBestArrivalTime() + cDepStop.getMinimalConnectionTime() <= c.getDepartureTime() ||
 					(c.getPrevC() != null && c.getPrevC().isRelaxed())) {
 								
-				updateStopPoint (cArrStop, c, c.getArrivalTime()) ;
+				updateStopPoint (cDepStop, cArrStop, c.getDepartureTime(), c.getArrivalTime(), c) ;
 
 				footpaths = RoutingAccessors.getFootpaths(space, cArrStop.getStopId()) ;
 				if (footpaths != null) { 
 					for (Footpath f : footpaths) {
-						updateStopPoint (RoutingAccessors.getStop(space, f.getArrivalId()), f, c.getArrivalTime() + cArrStop.getMinimalConnectionTime() + f.getDuration()) ;
+						updateStopPoint (RoutingAccessors.getStop(space, f.getDepartureId()), RoutingAccessors.getStop(space, f.getArrivalId()),
+								Long.MAX_VALUE, c.getArrivalTime() + cArrStop.getMinimalConnectionTime() + f.getDuration(), f) ;
 					}
 				}
 				
@@ -113,37 +119,65 @@ public class Router {
 
 		}
 
-		sourceStop.setBestArrivalTime(sourceStop.getBestArrivalTime() + sourceStop.getMinimalConnectionTime()); 
-		
 		LOG.info("Computing succeed.");
 
-		/* Re-build the journey */
-		buildJourney() ;
-		printJourney() ;		
+		/* Print itineraries */
+		System.out.println(RoutingAccessors.getJourneys(targetStop).size());
+//		solution = RoutingAccessors.getJourneys(targetStop).get(0) ;
+//		printJourney() ;		
 	}
 
-	public void updateStopPoint (StopPoint s, Leg l, long time) {
-		if (time < s.getBestArrivalTime()) { /* Meilleure connection */
-			s.setBestArrivalTime(time);
-			s.setBestArrivalLeg(l);
+	public void updateStopPoint (StopPoint dep, StopPoint arr, long departureTime, long arrivalTime, Leg l) {
+		int aux, nbTransfers ;
+		List<Itinerary> depJourneys = RoutingAccessors.getJourneys(dep) ;
+		List<Itinerary> arrJourneys = RoutingAccessors.getJourneys(arr) ;
+		
+		if (arrJourneys.size() <= 0) {
+			for (Itinerary itdep : depJourneys) {
+				if (itdep.getArrivalTime() + dep.getMinimalConnectionTime() > departureTime) continue ;
+				nbTransfers = itdep.getNbTransfers() + (itdep.getLastTrip().equals(l.getRouteId())?0:1) ;
+				Itinerary it = MyRoutingFactory.createItinerary(itdep, l, arrivalTime, nbTransfers) ;
+				arrJourneys.add(it) ;
+			}
 		}
+		else {
+			for (Itinerary itarr : new ArrayList<Itinerary>(arrJourneys)) { // Cloning to avoid stupid compilation error
+				for (Itinerary itdep : depJourneys) {
+					nbTransfers = itdep.getNbTransfers() + (itdep.getLastTrip().equals(l.getRouteId())?0:1) ;
+					aux = itarr.isDominated(arrivalTime, nbTransfers) ;
+					if (aux == 1) {
+						continue ; // The itinerary is dominated
+					} else if (aux == -1) {
+						arrJourneys.remove(itarr) ;
+						Itinerary it = MyRoutingFactory.createItinerary(itdep, l, arrivalTime, nbTransfers) ;						
+						arrJourneys.add(it) ;
+					} else {
+						if (arrJourneys.size() >= MyRoutingFactory.NB_ITINERARIES) continue ;
+						Itinerary it = MyRoutingFactory.createItinerary(itdep, l, arrivalTime, nbTransfers) ;
+						arrJourneys.add(it) ;
+					}
+				}
+			}
+		}
+		
+		
 	}
 	
 
-	private void buildJourney() {
-		StopPoint stop = RoutingAccessors.getStop(space, request.getToStopId());
-		Leg aux = stop.getBestArrivalLeg();
-		List<Leg> res = new ArrayList<Leg>() ;
-		while (true) {
-			res.add(aux); /* On rajoute le segment dans la solution */
-			stop = RoutingAccessors.getStop(space, aux.getDepartureId()) ;
-			aux = stop.getBestArrivalLeg() ;
-			if (stop.getBestArrivalLeg() == null || stop.getStopId().equals(request.getFromStopId())) break ; /* On est revenu au départ */
-		}		
-		Collections.reverse(res) ;
-		RoutingAccessors.getPath(solution).addAll(res) ;
-		LOG.info("Journey build successfully.");
-	}
+//	private void buildJourney() {
+//		StopPoint stop = RoutingAccessors.getStop(space, request.getToStopId());
+//		Leg aux = stop.getBestArrivalLeg();
+//		List<Leg> res = new ArrayList<Leg>() ;
+//		while (true) {
+//			res.add(aux); /* On rajoute le segment dans la solution */
+//			stop = RoutingAccessors.getStop(space, aux.getDepartureId()) ;
+//			aux = stop.getBestArrivalLeg() ;
+//			if (stop.getBestArrivalLeg() == null || stop.getStopId().equals(request.getFromStopId())) break ; /* On est revenu au départ */
+//		}		
+//		Collections.reverse(res) ;
+//		RoutingAccessors.getPath(solution).addAll(res) ;
+//		LOG.info("Journey build successfully.");
+//	}
 	
 
 	@SuppressWarnings("unchecked")

@@ -2,15 +2,16 @@
  */
 package routing.impl;
 
+import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
-
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
-import routing.Leg;
+import routing.Itinerary;
 import routing.RoutingPackage;
 import routing.StopPoint;
 
@@ -24,8 +25,7 @@ import routing.StopPoint;
  *   <li>{@link routing.impl.StopPointImpl#getStopId <em>Stop Id</em>}</li>
  *   <li>{@link routing.impl.StopPointImpl#getName <em>Name</em>}</li>
  *   <li>{@link routing.impl.StopPointImpl#getMinimalConnectionTime <em>Minimal Connection Time</em>}</li>
- *   <li>{@link routing.impl.StopPointImpl#getBestArrivalTime <em>Best Arrival Time</em>}</li>
- *   <li>{@link routing.impl.StopPointImpl#getBestArrivalLeg <em>Best Arrival Leg</em>}</li>
+ *   <li>{@link routing.impl.StopPointImpl#getBestJourneys <em>Best Journeys</em>}</li>
  * </ul>
  * </p>
  *
@@ -93,34 +93,14 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 	protected int minimalConnectionTime = MINIMAL_CONNECTION_TIME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getBestArrivalTime() <em>Best Arrival Time</em>}' attribute.
+	 * The cached value of the '{@link #getBestJourneys() <em>Best Journeys</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getBestArrivalTime()
+	 * @see #getBestJourneys()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final long BEST_ARRIVAL_TIME_EDEFAULT = 0L;
-
-	/**
-	 * The cached value of the '{@link #getBestArrivalTime() <em>Best Arrival Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBestArrivalTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected long bestArrivalTime = BEST_ARRIVAL_TIME_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getBestArrivalLeg() <em>Best Arrival Leg</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBestArrivalLeg()
-	 * @generated
-	 * @ordered
-	 */
-	protected Leg bestArrivalLeg;
+	protected EList<Itinerary> bestJourneys;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -209,58 +189,11 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public long getBestArrivalTime() {
-		return bestArrivalTime;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setBestArrivalTime(long newBestArrivalTime) {
-		long oldBestArrivalTime = bestArrivalTime;
-		bestArrivalTime = newBestArrivalTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.STOP_POINT__BEST_ARRIVAL_TIME, oldBestArrivalTime, bestArrivalTime));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Leg getBestArrivalLeg() {
-		if (bestArrivalLeg != null && bestArrivalLeg.eIsProxy()) {
-			InternalEObject oldBestArrivalLeg = (InternalEObject)bestArrivalLeg;
-			bestArrivalLeg = (Leg)eResolveProxy(oldBestArrivalLeg);
-			if (bestArrivalLeg != oldBestArrivalLeg) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, RoutingPackage.STOP_POINT__BEST_ARRIVAL_LEG, oldBestArrivalLeg, bestArrivalLeg));
-			}
+	public EList<Itinerary> getBestJourneys() {
+		if (bestJourneys == null) {
+			bestJourneys = new EObjectResolvingEList<Itinerary>(Itinerary.class, this, RoutingPackage.STOP_POINT__BEST_JOURNEYS);
 		}
-		return bestArrivalLeg;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Leg basicGetBestArrivalLeg() {
-		return bestArrivalLeg;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setBestArrivalLeg(Leg newBestArrivalLeg) {
-		Leg oldBestArrivalLeg = bestArrivalLeg;
-		bestArrivalLeg = newBestArrivalLeg;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.STOP_POINT__BEST_ARRIVAL_LEG, oldBestArrivalLeg, bestArrivalLeg));
+		return bestJourneys;
 	}
 
 	/**
@@ -277,11 +210,8 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 				return getName();
 			case RoutingPackage.STOP_POINT__MINIMAL_CONNECTION_TIME:
 				return getMinimalConnectionTime();
-			case RoutingPackage.STOP_POINT__BEST_ARRIVAL_TIME:
-				return getBestArrivalTime();
-			case RoutingPackage.STOP_POINT__BEST_ARRIVAL_LEG:
-				if (resolve) return getBestArrivalLeg();
-				return basicGetBestArrivalLeg();
+			case RoutingPackage.STOP_POINT__BEST_JOURNEYS:
+				return getBestJourneys();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -291,6 +221,7 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
@@ -303,11 +234,9 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 			case RoutingPackage.STOP_POINT__MINIMAL_CONNECTION_TIME:
 				setMinimalConnectionTime((Integer)newValue);
 				return;
-			case RoutingPackage.STOP_POINT__BEST_ARRIVAL_TIME:
-				setBestArrivalTime((Long)newValue);
-				return;
-			case RoutingPackage.STOP_POINT__BEST_ARRIVAL_LEG:
-				setBestArrivalLeg((Leg)newValue);
+			case RoutingPackage.STOP_POINT__BEST_JOURNEYS:
+				getBestJourneys().clear();
+				getBestJourneys().addAll((Collection<? extends Itinerary>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -330,11 +259,8 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 			case RoutingPackage.STOP_POINT__MINIMAL_CONNECTION_TIME:
 				setMinimalConnectionTime(MINIMAL_CONNECTION_TIME_EDEFAULT);
 				return;
-			case RoutingPackage.STOP_POINT__BEST_ARRIVAL_TIME:
-				setBestArrivalTime(BEST_ARRIVAL_TIME_EDEFAULT);
-				return;
-			case RoutingPackage.STOP_POINT__BEST_ARRIVAL_LEG:
-				setBestArrivalLeg((Leg)null);
+			case RoutingPackage.STOP_POINT__BEST_JOURNEYS:
+				getBestJourneys().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -354,10 +280,8 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 			case RoutingPackage.STOP_POINT__MINIMAL_CONNECTION_TIME:
 				return minimalConnectionTime != MINIMAL_CONNECTION_TIME_EDEFAULT;
-			case RoutingPackage.STOP_POINT__BEST_ARRIVAL_TIME:
-				return bestArrivalTime != BEST_ARRIVAL_TIME_EDEFAULT;
-			case RoutingPackage.STOP_POINT__BEST_ARRIVAL_LEG:
-				return bestArrivalLeg != null;
+			case RoutingPackage.STOP_POINT__BEST_JOURNEYS:
+				return bestJourneys != null && !bestJourneys.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -378,10 +302,18 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 		result.append(name);
 		result.append(", minimalConnectionTime: ");
 		result.append(minimalConnectionTime);
-		result.append(", bestArrivalTime: ");
-		result.append(bestArrivalTime);
 		result.append(')');
 		return result.toString();
+	}
+
+	@Override
+	public long getBestArrivalTime() {
+		long time = Integer.MAX_VALUE ;
+		if (bestJourneys.size() <= 0) return time ;
+		for (Itinerary it : bestJourneys) {
+			if (it.getArrivalTime() < time) time = it.getArrivalTime() ;
+		}
+		return time;
 	}
 
 } //StopPointImpl

@@ -31,8 +31,8 @@ public class Builder {
 	private Space space ;
 		 
 	public Builder (String path) throws IOException {
-		
-		if (REBUILD) {
+		 
+		if (REBUILD) { 
 	    	 
 			space = RoutingFactory.eINSTANCE.createSpace(); 
 			

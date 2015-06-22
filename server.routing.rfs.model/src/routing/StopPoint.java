@@ -2,6 +2,7 @@
  */
 package routing;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -15,8 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.StopPoint#getStopId <em>Stop Id</em>}</li>
  *   <li>{@link routing.StopPoint#getName <em>Name</em>}</li>
  *   <li>{@link routing.StopPoint#getMinimalConnectionTime <em>Minimal Connection Time</em>}</li>
- *   <li>{@link routing.StopPoint#getBestArrivalTime <em>Best Arrival Time</em>}</li>
- *   <li>{@link routing.StopPoint#getBestArrivalLeg <em>Best Arrival Leg</em>}</li>
+ *   <li>{@link routing.StopPoint#getBestJourneys <em>Best Journeys</em>}</li>
  * </ul>
  * </p>
  *
@@ -104,55 +104,21 @@ public interface StopPoint extends EObject {
 	void setMinimalConnectionTime(int value);
 
 	/**
-	 * Returns the value of the '<em><b>Best Arrival Time</b></em>' attribute.
+	 * Returns the value of the '<em><b>Best Journeys</b></em>' reference list.
+	 * The list contents are of type {@link routing.Itinerary}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Best Arrival Time</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Best Journeys</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Best Arrival Time</em>' attribute.
-	 * @see #setBestArrivalTime(long)
-	 * @see routing.RoutingPackage#getStopPoint_BestArrivalTime()
+	 * @return the value of the '<em>Best Journeys</em>' reference list.
+	 * @see routing.RoutingPackage#getStopPoint_BestJourneys()
 	 * @model
 	 * @generated
 	 */
+	EList<Itinerary> getBestJourneys();
+
 	long getBestArrivalTime();
-
-	/**
-	 * Sets the value of the '{@link routing.StopPoint#getBestArrivalTime <em>Best Arrival Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Best Arrival Time</em>' attribute.
-	 * @see #getBestArrivalTime()
-	 * @generated
-	 */
-	void setBestArrivalTime(long value);
-
-	/**
-	 * Returns the value of the '<em><b>Best Arrival Leg</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Best Arrival Leg</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Best Arrival Leg</em>' reference.
-	 * @see #setBestArrivalLeg(Leg)
-	 * @see routing.RoutingPackage#getStopPoint_BestArrivalLeg()
-	 * @model
-	 * @generated
-	 */
-	Leg getBestArrivalLeg();
-
-	/**
-	 * Sets the value of the '{@link routing.StopPoint#getBestArrivalLeg <em>Best Arrival Leg</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Best Arrival Leg</em>' reference.
-	 * @see #getBestArrivalLeg()
-	 * @generated
-	 */
-	void setBestArrivalLeg(Leg value);
 
 } // StopPoint

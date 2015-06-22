@@ -21,6 +21,7 @@ import routing.RoutingPackage;
  * <ul>
  *   <li>{@link routing.impl.LegImpl#getDepartureId <em>Departure Id</em>}</li>
  *   <li>{@link routing.impl.LegImpl#getArrivalId <em>Arrival Id</em>}</li>
+ *   <li>{@link routing.impl.LegImpl#getRouteId <em>Route Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,6 +67,26 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * @ordered
 	 */
 	protected String arrivalId = ARRIVAL_ID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getRouteId() <em>Route Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRouteId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ROUTE_ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getRouteId() <em>Route Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRouteId()
+	 * @generated
+	 * @ordered
+	 */
+	protected String routeId = ROUTE_ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -133,6 +154,27 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getRouteId() {
+		return routeId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRouteId(String newRouteId) {
+		String oldRouteId = routeId;
+		routeId = newRouteId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.LEG__ROUTE_ID, oldRouteId, routeId));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -140,6 +182,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return getDepartureId();
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				return getArrivalId();
+			case RoutingPackage.LEG__ROUTE_ID:
+				return getRouteId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -157,6 +201,9 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return;
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				setArrivalId((String)newValue);
+				return;
+			case RoutingPackage.LEG__ROUTE_ID:
+				setRouteId((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -176,6 +223,9 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				setArrivalId(ARRIVAL_ID_EDEFAULT);
 				return;
+			case RoutingPackage.LEG__ROUTE_ID:
+				setRouteId(ROUTE_ID_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -192,6 +242,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return DEPARTURE_ID_EDEFAULT == null ? departureId != null : !DEPARTURE_ID_EDEFAULT.equals(departureId);
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				return ARRIVAL_ID_EDEFAULT == null ? arrivalId != null : !ARRIVAL_ID_EDEFAULT.equals(arrivalId);
+			case RoutingPackage.LEG__ROUTE_ID:
+				return ROUTE_ID_EDEFAULT == null ? routeId != null : !ROUTE_ID_EDEFAULT.equals(routeId);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -210,6 +262,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 		result.append(departureId);
 		result.append(", arrivalId: ");
 		result.append(arrivalId);
+		result.append(", routeId: ");
+		result.append(routeId);
 		result.append(')');
 		return result.toString();
 	}

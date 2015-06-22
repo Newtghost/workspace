@@ -64,5 +64,9 @@ public class RoutingAccessors {
 	public static List<String> getServicesIdForDate(Space space, Date d) {
 		return space.getCalendar().get(d) ;
 	}
+
+	public static List<Itinerary> getJourneys(StopPoint dep) {
+		return dep.getBestJourneys();
+	}
 	
 }

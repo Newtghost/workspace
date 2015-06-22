@@ -21,7 +21,6 @@ import routing.RoutingPackage;
  * <ul>
  *   <li>{@link routing.impl.ConnectionImpl#getServiceId <em>Service Id</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getTripId <em>Trip Id</em>}</li>
- *   <li>{@link routing.impl.ConnectionImpl#getRouteId <em>Route Id</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getDepStopSequence <em>Dep Stop Sequence</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getDepartureTime <em>Departure Time</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getArrStopSequence <em>Arr Stop Sequence</em>}</li>
@@ -73,26 +72,6 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	 * @ordered
 	 */
 	protected String tripId = TRIP_ID_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getRouteId() <em>Route Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRouteId()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String ROUTE_ID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getRouteId() <em>Route Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRouteId()
-	 * @generated
-	 * @ordered
-	 */
-	protected String routeId = ROUTE_ID_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getDepStopSequence() <em>Dep Stop Sequence</em>}' attribute.
@@ -270,27 +249,6 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getRouteId() {
-		return routeId;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setRouteId(String newRouteId) {
-		String oldRouteId = routeId;
-		routeId = newRouteId;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.CONNECTION__ROUTE_ID, oldRouteId, routeId));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public int getDepStopSequence() {
 		return depStopSequence;
 	}
@@ -441,8 +399,6 @@ public class ConnectionImpl extends LegImpl implements Connection {
 				return getServiceId();
 			case RoutingPackage.CONNECTION__TRIP_ID:
 				return getTripId();
-			case RoutingPackage.CONNECTION__ROUTE_ID:
-				return getRouteId();
 			case RoutingPackage.CONNECTION__DEP_STOP_SEQUENCE:
 				return getDepStopSequence();
 			case RoutingPackage.CONNECTION__DEPARTURE_TIME:
@@ -473,9 +429,6 @@ public class ConnectionImpl extends LegImpl implements Connection {
 				return;
 			case RoutingPackage.CONNECTION__TRIP_ID:
 				setTripId((String)newValue);
-				return;
-			case RoutingPackage.CONNECTION__ROUTE_ID:
-				setRouteId((String)newValue);
 				return;
 			case RoutingPackage.CONNECTION__DEP_STOP_SEQUENCE:
 				setDepStopSequence((Integer)newValue);
@@ -513,9 +466,6 @@ public class ConnectionImpl extends LegImpl implements Connection {
 			case RoutingPackage.CONNECTION__TRIP_ID:
 				setTripId(TRIP_ID_EDEFAULT);
 				return;
-			case RoutingPackage.CONNECTION__ROUTE_ID:
-				setRouteId(ROUTE_ID_EDEFAULT);
-				return;
 			case RoutingPackage.CONNECTION__DEP_STOP_SEQUENCE:
 				setDepStopSequence(DEP_STOP_SEQUENCE_EDEFAULT);
 				return;
@@ -550,8 +500,6 @@ public class ConnectionImpl extends LegImpl implements Connection {
 				return SERVICE_ID_EDEFAULT == null ? serviceId != null : !SERVICE_ID_EDEFAULT.equals(serviceId);
 			case RoutingPackage.CONNECTION__TRIP_ID:
 				return TRIP_ID_EDEFAULT == null ? tripId != null : !TRIP_ID_EDEFAULT.equals(tripId);
-			case RoutingPackage.CONNECTION__ROUTE_ID:
-				return ROUTE_ID_EDEFAULT == null ? routeId != null : !ROUTE_ID_EDEFAULT.equals(routeId);
 			case RoutingPackage.CONNECTION__DEP_STOP_SEQUENCE:
 				return depStopSequence != DEP_STOP_SEQUENCE_EDEFAULT;
 			case RoutingPackage.CONNECTION__DEPARTURE_TIME:
@@ -582,8 +530,6 @@ public class ConnectionImpl extends LegImpl implements Connection {
 		result.append(serviceId);
 		result.append(", tripId: ");
 		result.append(tripId);
-		result.append(", routeId: ");
-		result.append(routeId);
 		result.append(", depStopSequence: ");
 		result.append(depStopSequence);
 		result.append(", departureTime: ");

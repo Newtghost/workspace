@@ -15,6 +15,9 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link routing.Itinerary#getPath <em>Path</em>}</li>
+ *   <li>{@link routing.Itinerary#getArrivalTime <em>Arrival Time</em>}</li>
+ *   <li>{@link routing.Itinerary#getNbTransfers <em>Nb Transfers</em>}</li>
+ *   <li>{@link routing.Itinerary#getLastTrip <em>Last Trip</em>}</li>
  * </ul>
  * </p>
  *
@@ -39,4 +42,85 @@ public interface Itinerary extends EObject {
 	 */
 	EList<Leg> getPath();
 
+	/**
+	 * Returns the value of the '<em><b>Arrival Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Arrival Time</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Arrival Time</em>' attribute.
+	 * @see #setArrivalTime(long)
+	 * @see routing.RoutingPackage#getItinerary_ArrivalTime()
+	 * @model
+	 * @generated
+	 */
+	long getArrivalTime();
+
+	/**
+	 * Sets the value of the '{@link routing.Itinerary#getArrivalTime <em>Arrival Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Arrival Time</em>' attribute.
+	 * @see #getArrivalTime()
+	 * @generated
+	 */
+	void setArrivalTime(long value);
+
+	/**
+	 * Returns the value of the '<em><b>Nb Transfers</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Nb Transfers</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Nb Transfers</em>' attribute.
+	 * @see #setNbTransfers(int)
+	 * @see routing.RoutingPackage#getItinerary_NbTransfers()
+	 * @model
+	 * @generated
+	 */
+	int getNbTransfers();
+
+	/**
+	 * Sets the value of the '{@link routing.Itinerary#getNbTransfers <em>Nb Transfers</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Nb Transfers</em>' attribute.
+	 * @see #getNbTransfers()
+	 * @generated
+	 */
+	void setNbTransfers(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Last Trip</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Last Trip</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Last Trip</em>' attribute.
+	 * @see #setLastTrip(String)
+	 * @see routing.RoutingPackage#getItinerary_LastTrip()
+	 * @model
+	 * @generated
+	 */
+	String getLastTrip();
+
+	/**
+	 * Sets the value of the '{@link routing.Itinerary#getLastTrip <em>Last Trip</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Last Trip</em>' attribute.
+	 * @see #getLastTrip()
+	 * @generated
+	 */
+	void setLastTrip(String value);
+	
+	public int isDominated (long arrivalTime, int nbTransfers) ;
+
+	
 } // Itinerary

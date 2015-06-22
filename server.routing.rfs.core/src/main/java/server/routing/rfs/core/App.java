@@ -6,9 +6,12 @@ import java.net.URI;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import server.routing.rfs.util.MyRoutingFactory;
+import common.Request;
+
 public class App {
 	
-    public static final boolean DEBUG = false ;
+    public static final boolean DEBUG = true ;
     
     // Builder
 	Builder builder = null;
@@ -24,10 +27,11 @@ public class App {
 		}
 
     	/* Debug */
-//    	Request request = RoutingFactory.createRequest("3932", "2391", 0) ;
-//		Router router = new Router(builder, request) ;       
-//		router.run_CSA();
-//		router.printJourney();
+    	if (DEBUG) {
+	    	Request request = MyRoutingFactory.createRequest("3932", "2391", "10:20am", "06-22-2015") ;
+			builder.getRouter().processNewRequest(request);
+			builder.getRouter().run_CSA();
+    	}
 	}
 	
     /**
@@ -51,7 +55,7 @@ public class App {
 			System.exit(-1);
 		}	
     	App myapp = new App (args[0]) ;
-    	myapp.startServer();
+    	if (!DEBUG) myapp.startServer();
     }
 
     
