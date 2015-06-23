@@ -306,19 +306,27 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 
 	@Override
 	public int isDominated (long arrivalTime, int nbTransfers) {
-		int res = 0 ;
+		int nbDominated = 0 ;
+		int nbDominate = 0 ;
 		
-		if (this.nbTransfers <= nbTransfers) res ++;
-		else res -- ;
-		if (this.arrivalTime <= arrivalTime) res ++ ;
-		else res -- ;
+		if (this.nbTransfers < nbTransfers) {
+			nbDominate ++;
+		} else if (this.nbTransfers > nbTransfers) {
+			nbDominated ++ ;
+		}
 		
-		if (res == 2) {
+		if (this.arrivalTime < arrivalTime) {
+			nbDominate ++;
+		} else if (this.arrivalTime > arrivalTime) {
+			nbDominated ++;
+		}
+		
+		if (nbDominated <= 0) {
 			return 1;
-		} else if (res == -2) {
-			return -1;
+		} else if (nbDominated > 0 && nbDominate > 0) {
+			return 0; // Pareto Opt
 		} else {
-			return 0;
+			return -1;
 		}
 	}
 

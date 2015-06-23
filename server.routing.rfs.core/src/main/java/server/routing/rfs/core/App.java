@@ -11,7 +11,7 @@ import common.Request;
 
 public class App {
 	
-    public static final boolean DEBUG = true ;
+    public static final boolean DEBUG = false ;
     
     // Builder
 	Builder builder = null;
@@ -20,6 +20,9 @@ public class App {
     public static final String BASE_URI = "http://localhost:8079/myapp/";
 
 	public App (String path) {
+		
+		// TODO : pour améliorer les perfs, charger les trips qui correspondent à la date courante de base
+		
     	try {
 			builder = new Builder (path);
 		} catch (IOException e) {

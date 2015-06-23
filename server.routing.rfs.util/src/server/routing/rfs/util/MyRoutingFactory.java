@@ -127,7 +127,10 @@ public class MyRoutingFactory {
 		if (l!=null) it.setLastTrip(l.getRouteId());
 		else it.setLastTrip("");
 		it.setNbTransfers(nbTransfers);
-		if (itdep!=null) it.getPath().addAll(itdep.getPath()) ;
+		if (itdep!=null) {
+			it.getPath().addAll(itdep.getPath()) ;
+			it.getPath().add(l) ;
+		}
 		return it;
 	}
 

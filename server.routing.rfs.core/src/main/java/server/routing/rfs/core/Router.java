@@ -10,7 +10,6 @@ import routing.Connection;
 import routing.Footpath;
 import routing.Itinerary;
 import routing.Leg;
-import routing.RoutingFactory;
 import routing.Space;
 import routing.StopPoint;
 import common.Request;
@@ -34,7 +33,6 @@ public class Router {
 	Space space ;
 	private ArrayList<Connection> sorted_connections ; 
 	private String currentDate = "" ;
-	private Itinerary solution ;
 	
 	public Router (Space space) {
 		this.space = space ;
@@ -42,7 +40,6 @@ public class Router {
 	
 	public void processNewRequest (Request request) {
 		this.request = request ;	
-		solution  = RoutingFactory.eINSTANCE.createItinerary() ; 
 		
 		if (currentDate.equals(request.getDate())) return ; // No need to recompute the list
 				
@@ -122,71 +119,60 @@ public class Router {
 		LOG.info("Computing succeed.");
 
 		/* Print itineraries */
-		System.out.println(RoutingAccessors.getJourneys(targetStop).size());
-//		solution = RoutingAccessors.getJourneys(targetStop).get(0) ;
-//		printJourney() ;		
+		if (App.DEBUG) printJourneys() ;		
 	}
 
 	public void updateStopPoint (StopPoint dep, StopPoint arr, long departureTime, long arrivalTime, Leg l) {
+		
 		int aux, nbTransfers ;
 		List<Itinerary> depJourneys = RoutingAccessors.getJourneys(dep) ;
 		List<Itinerary> arrJourneys = RoutingAccessors.getJourneys(arr) ;
 		
 		if (arrJourneys.size() <= 0) {
 			for (Itinerary itdep : depJourneys) {
-				if (itdep.getArrivalTime() + dep.getMinimalConnectionTime() > departureTime) continue ;
+				if (itdep.getArrivalTime() + dep.getMinimalConnectionTime() > departureTime) continue ; /* In time for the transfer */
+				if (itdep.getLastTrip().equals("") && l.getRouteId().equals("")) continue ; /* Transitive footpath closure */
 				nbTransfers = itdep.getNbTransfers() + (itdep.getLastTrip().equals(l.getRouteId())?0:1) ;
 				Itinerary it = MyRoutingFactory.createItinerary(itdep, l, arrivalTime, nbTransfers) ;
 				arrJourneys.add(it) ;
 			}
 		}
 		else {
-			for (Itinerary itarr : new ArrayList<Itinerary>(arrJourneys)) { // Cloning to avoid stupid compilation error
-				for (Itinerary itdep : depJourneys) {
-					nbTransfers = itdep.getNbTransfers() + (itdep.getLastTrip().equals(l.getRouteId())?0:1) ;
+			for (Itinerary itdep : depJourneys) {
+				boolean treated = false ;
+				if (itdep.getArrivalTime() + dep.getMinimalConnectionTime() > departureTime) continue ; /* In time for the transfer */
+				if (itdep.getLastTrip().equals("") && l.getRouteId().equals("")) continue ; /* Transitive footpath closure */
+				nbTransfers = itdep.getNbTransfers() + (itdep.getLastTrip().equals(l.getRouteId())?0:1) ;
+				for (Itinerary itarr : new ArrayList<Itinerary>(arrJourneys)) { // Cloning to avoid stupid compilation error
 					aux = itarr.isDominated(arrivalTime, nbTransfers) ;
-					if (aux == 1) {
-						continue ; // The itinerary is dominated
-					} else if (aux == -1) {
+					if (aux == 1) { // The new itinerary is dominated by an existing one.
+						treated = true ;
+						break ; 
+					} else if (aux == -1) { // The new itinerary dominate an existing one.
 						arrJourneys.remove(itarr) ;
-						Itinerary it = MyRoutingFactory.createItinerary(itdep, l, arrivalTime, nbTransfers) ;						
-						arrJourneys.add(it) ;
-					} else {
-						if (arrJourneys.size() >= MyRoutingFactory.NB_ITINERARIES) continue ;
-						Itinerary it = MyRoutingFactory.createItinerary(itdep, l, arrivalTime, nbTransfers) ;
-						arrJourneys.add(it) ;
-					}
+						if (!treated) {
+							Itinerary it = MyRoutingFactory.createItinerary(itdep, l, arrivalTime, nbTransfers) ;						
+							if (it != null) arrJourneys.add(it) ;
+						}
+						treated = true ;
+					} 
+				}
+				if (! treated && arrJourneys.size() < MyRoutingFactory.NB_ITINERARIES) {
+					Itinerary it = MyRoutingFactory.createItinerary(itdep, l, arrivalTime, nbTransfers) ;
+					arrJourneys.add(it) ;
 				}
 			}
 		}
-		
-		
+				
 	}
-	
-
-//	private void buildJourney() {
-//		StopPoint stop = RoutingAccessors.getStop(space, request.getToStopId());
-//		Leg aux = stop.getBestArrivalLeg();
-//		List<Leg> res = new ArrayList<Leg>() ;
-//		while (true) {
-//			res.add(aux); /* On rajoute le segment dans la solution */
-//			stop = RoutingAccessors.getStop(space, aux.getDepartureId()) ;
-//			aux = stop.getBestArrivalLeg() ;
-//			if (stop.getBestArrivalLeg() == null || stop.getStopId().equals(request.getFromStopId())) break ; /* On est revenu au départ */
-//		}		
-//		Collections.reverse(res) ;
-//		RoutingAccessors.getPath(solution).addAll(res) ;
-//		LOG.info("Journey build successfully.");
-//	}
-	
 
 	@SuppressWarnings("unchecked")
 	public String journey2Json() throws IOException, JSONException {
 		JSONObject obj = new JSONObject();
 		JSONObject plan = new JSONObject();
 		JSONArray itineraries = new JSONArray();
-		JSONObject itinerary = new JSONObject();
-		JSONArray legs = new JSONArray();
+		JSONObject itinerary = null;
+		JSONArray legs = null;
 		JSONObject leg = null;
 
 		Connection prevC = null ;
@@ -200,48 +186,16 @@ public class Router {
 		long tz = RoutingAccessors.getJetlag(space) ; 
 		long date = DateUtils.parseDate(request.getDate(), TimeZone.getDefault()).getTime() / 1000 ;
 		
-		for (Leg s : RoutingAccessors.getPath(solution)) {
+		StopPoint targetStop = RoutingAccessors.getStop(space, request.getToStopId()) ;
+		for (Itinerary it : RoutingAccessors.getJourneys(targetStop)) {
 
-			if (s instanceof Footpath) {
-
-				if (leg != null) { /* Signifie qu'on a changé de Leg et qu'on doit donc ajouter le segment précédent qui est terminé */	
-					JSONObject to = new JSONObject() ;
-					to.put("name", RoutingAccessors.getStop(space, prevC.getArrivalId()).getName()) ;
-					to.put("stopId", prevC.getArrivalId()) ;
-					to.put("stopSequence", prevC.getArrStopSequence()) ;
-					leg.put("to", to) ;
-					prevEndTime = prevC.getArrivalTime() ;
-					leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
-					leg.put("arrivalDelay", 0) ;
-					legs.add(leg) ;
-					leg = null ;
-				}
-
-				/* New leg corresponding to a footpath */
-				leg = new JSONObject() ;
-				JSONObject from = new JSONObject() ;
-				JSONObject to = new JSONObject() ;
-				from.put("name", RoutingAccessors.getStop(space, s.getDepartureId()).getName()) ;
-				from.put("stopId", s.getDepartureId()) ;
-				to.put("name", RoutingAccessors.getStop(space, s.getArrivalId()).getName()) ;
-				to.put("stopId", s.getArrivalId()) ;
-				leg.put("from", from) ;
-				leg.put("to", to) ;
-				leg.put("startTime", (prevEndTime+date+tz) * 1000) ;
-				prevEndTime += ((Footpath) s).getDuration() ;
-				leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
-				leg.put("departureDelay", 0) ;
-				leg.put("arrivalDelay", 0) ;
-				leg.put("distance", ((Footpath) s).getDistance()) ;
-				leg.put("mode", "WALK") ;
-				legs.add(leg);
-				leg = null ;
-
-			} else {
-				
-				Connection c = (Connection) s ;
-				
-				if (prevC == null || ! c.getTripId().equals(prevC.getTripId())) {
+			itinerary = new JSONObject();
+			legs = new JSONArray();
+			
+			for (Leg s : RoutingAccessors.getPath(it)) {
+	
+				if (s instanceof Footpath) {
+	
 					if (leg != null) { /* Signifie qu'on a changé de Leg et qu'on doit donc ajouter le segment précédent qui est terminé */	
 						JSONObject to = new JSONObject() ;
 						to.put("name", RoutingAccessors.getStop(space, prevC.getArrivalId()).getName()) ;
@@ -254,64 +208,112 @@ public class Router {
 						legs.add(leg) ;
 						leg = null ;
 					}
-					
-					/* Creation of a new transit path */
+	
+					/* New leg corresponding to a footpath */
 					leg = new JSONObject() ;
 					JSONObject from = new JSONObject() ;
-					from.put("name", RoutingAccessors.getStop(space, c.getDepartureId()).getName()) ;
-					from.put("stopId", c.getDepartureId()) ;
-					from.put("stopSequence", c.getDepStopSequence()) ;
+					JSONObject to = new JSONObject() ;
+					from.put("name", RoutingAccessors.getStop(space, s.getDepartureId()).getName()) ;
+					from.put("stopId", s.getDepartureId()) ;
+					to.put("name", RoutingAccessors.getStop(space, s.getArrivalId()).getName()) ;
+					to.put("stopId", s.getArrivalId()) ;
 					leg.put("from", from) ;
-					leg.put("startTime", (c.getDepartureTime()+date+tz) * 1000) ;
+					leg.put("to", to) ;
+					leg.put("startTime", (prevEndTime+date+tz) * 1000) ;
+					prevEndTime += ((Footpath) s).getDuration() ;
+					leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
 					leg.put("departureDelay", 0) ;
-					leg.put("distance", 0.1) ; /* Default value */
-					leg.put("mode", "TRANSIT") ;
-					leg.put("routeId", c.getRouteId()) ;
-					leg.put("agencyId", "") ;
-					leg.put("tripId", c.getTripId()) ;
-
+					leg.put("arrivalDelay", 0) ;
+					leg.put("distance", ((Footpath) s).getDistance()) ;
+					leg.put("mode", "WALK") ;
+					legs.add(leg);
+					leg = null ;
+	
+				} else {
+					
+					Connection c = (Connection) s ;
+					
+					if (prevC == null || ! c.getTripId().equals(prevC.getTripId())) {
+						if (leg != null) { /* Signifie qu'on a changé de Leg et qu'on doit donc ajouter le segment précédent qui est terminé */	
+							JSONObject to = new JSONObject() ;
+							to.put("name", RoutingAccessors.getStop(space, prevC.getArrivalId()).getName()) ;
+							to.put("stopId", prevC.getArrivalId()) ;
+							to.put("stopSequence", prevC.getArrStopSequence()) ;
+							leg.put("to", to) ;
+							prevEndTime = prevC.getArrivalTime() ;
+							leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
+							leg.put("arrivalDelay", 0) ;
+							legs.add(leg) ;
+							leg = null ;
+						}
+						
+						/* Creation of a new transit path */
+						leg = new JSONObject() ;
+						JSONObject from = new JSONObject() ;
+						from.put("name", RoutingAccessors.getStop(space, c.getDepartureId()).getName()) ;
+						from.put("stopId", c.getDepartureId()) ;
+						from.put("stopSequence", c.getDepStopSequence()) ;
+						leg.put("from", from) ;
+						leg.put("startTime", (c.getDepartureTime()+date+tz) * 1000) ;
+						leg.put("departureDelay", 0) ;
+						leg.put("distance", 0.1) ; /* Default value */
+						leg.put("mode", "TRANSIT") ;
+						leg.put("routeId", c.getRouteId()) ;
+						leg.put("agencyId", "") ;
+						leg.put("tripId", c.getTripId()) ;
+	
+					}
+					
+					prevC = c ;
 				}
-				
-				prevC = c ;
 			}
+			
+			if (leg != null) { /* On doit ajouter le dernier segment (en cours) */	
+				JSONObject to = new JSONObject() ;
+				to.put("name", RoutingAccessors.getStop(space, prevC.getArrivalId()).getName()) ;
+				to.put("stopId", prevC.getArrivalId()) ;
+				to.put("stopSequence", prevC.getArrStopSequence()) ;
+				leg.put("to", to) ;
+				prevEndTime = prevC.getArrivalTime() ;
+				leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
+				leg.put("arrivalDelay", 0) ;
+				legs.add(leg) ;
+				leg = null ;
+			}
+			
+			itinerary.put("legs", legs) ;
+			itineraries.add(itinerary) ;
 		}
 		
-		if (leg != null) { /* On doit ajouter le dernier segment (en cours) */	
-			JSONObject to = new JSONObject() ;
-			to.put("name", RoutingAccessors.getStop(space, prevC.getArrivalId()).getName()) ;
-			to.put("stopId", prevC.getArrivalId()) ;
-			to.put("stopSequence", prevC.getArrStopSequence()) ;
-			leg.put("to", to) ;
-			prevEndTime = prevC.getArrivalTime() ;
-			leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
-			leg.put("arrivalDelay", 0) ;
-			legs.add(leg) ;
-			leg = null ;
-		}
-		
-		itinerary.put("legs", legs) ;
-		itineraries.add(itinerary) ;
 		plan.put("itineraries", itineraries) ;
 		obj.put("plan", plan) ;
 		
         return obj.toString();
 	}
-	
 
-	public void printJourney() {
-		Connection c_prev = null ;
-		for (Leg s : RoutingAccessors.getPath(solution)) {
-			if (s instanceof Footpath) {
-				System.out.println("Footpath : " + s.getDepartureId() + " --> " + s.getArrivalId() + " (" + ((Footpath) s).getDuration() + ")");
-			} else {
-				Connection c = (Connection) s ;
-				if (c_prev == null || ! c.getTripId().equals(c_prev.getTripId())) {
-					System.out.println("Transit : " + c.getRouteId() + ", " + c.getTripId());
+	public void printJourneys() {		
+		StopPoint targetStop = RoutingAccessors.getStop(space, request.getToStopId()) ;
+		List<Itinerary> journeys =  RoutingAccessors.getJourneys(targetStop) ;
+		if (journeys.size() <= 0) {
+			System.out.println("No solution found.") ;
+		}
+		int i = 0 ;
+		for (Itinerary it : journeys) {
+			System.out.println("----------------------- Itinerary # " + (++i) + " -----------------------") ;
+			Connection c_prev = null ;
+			for (Leg s : RoutingAccessors.getPath(it)) {
+				if (s instanceof Footpath) {
+					System.out.println("Footpath : " + s.getDepartureId() + " --> " + s.getArrivalId() + " (" + ((Footpath) s).getDuration() + ")");
+				} else {
+					Connection c = (Connection) s ;
+					if (c_prev == null || ! c.getTripId().equals(c_prev.getTripId())) {
+						System.out.println("Transit : " + c.getRouteId() + ", " + c.getTripId());
+					}
+					System.out.println("\t" + c.getDepartureId() + " (" + c.getDepartureTime() + "), " + c.getArrivalId() + " (" + c.getArrivalTime() + ")");
+					c_prev = c ;
 				}
-				System.out.println("\t" + c.getDepartureId() + " (" + c.getDepartureTime() + "), " + c.getArrivalId() + " (" + c.getArrivalTime() + ")");
-				c_prev = c ;
-			}
-		}		
+			}		
+		}
 	}
 
 
