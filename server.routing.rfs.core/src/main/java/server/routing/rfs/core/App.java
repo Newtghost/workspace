@@ -31,7 +31,7 @@ public class App {
 
     	/* Debug */
     	if (DEBUG) {
-	    	Request request = MyRoutingFactory.createRequest("3932", "2391", "10:20am", "06-22-2015") ;
+	    	Request request = MyRoutingFactory.createRequest("3932", "2391", "10:20am", "06-24-2015") ;
 			builder.getRouter().processNewRequest(request);
 			builder.getRouter().run_CSA();
     	}

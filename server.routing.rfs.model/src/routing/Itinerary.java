@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.Itinerary#getArrivalTime <em>Arrival Time</em>}</li>
  *   <li>{@link routing.Itinerary#getNbTransfers <em>Nb Transfers</em>}</li>
  *   <li>{@link routing.Itinerary#getLastTrip <em>Last Trip</em>}</li>
+ *   <li>{@link routing.Itinerary#getWalkingDistance <em>Walking Distance</em>}</li>
  * </ul>
  * </p>
  *
@@ -120,7 +121,33 @@ public interface Itinerary extends EObject {
 	 */
 	void setLastTrip(String value);
 	
-	public int isDominated (long arrivalTime, int nbTransfers) ;
+	/**
+	 * Returns the value of the '<em><b>Walking Distance</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Walking Distance</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Walking Distance</em>' attribute.
+	 * @see #setWalkingDistance(Double)
+	 * @see routing.RoutingPackage#getItinerary_WalkingDistance()
+	 * @model
+	 * @generated
+	 */
+	Double getWalkingDistance();
+
+	/**
+	 * Sets the value of the '{@link routing.Itinerary#getWalkingDistance <em>Walking Distance</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Walking Distance</em>' attribute.
+	 * @see #getWalkingDistance()
+	 * @generated
+	 */
+	void setWalkingDistance(Double value);
+
+	public int isDominated (long arrivalTime, int nbTransfers, double walkingDistance) ;
 
 	
 } // Itinerary

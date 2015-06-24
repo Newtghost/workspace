@@ -28,9 +28,9 @@ public class Builder {
 	
 	private static final boolean REBUILD = false;  
 	private Router router ;   
-	private Space space ;
+	private Space space ; 
 		 
-	public Builder (String path) throws IOException {
+	public Builder (String path) throws IOException {  
 		 
 		if (REBUILD) { 
 	    	 

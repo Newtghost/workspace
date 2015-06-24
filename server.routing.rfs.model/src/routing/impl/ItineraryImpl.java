@@ -29,6 +29,7 @@ import routing.RoutingPackage;
  *   <li>{@link routing.impl.ItineraryImpl#getArrivalTime <em>Arrival Time</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#getNbTransfers <em>Nb Transfers</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#getLastTrip <em>Last Trip</em>}</li>
+ *   <li>{@link routing.impl.ItineraryImpl#getWalkingDistance <em>Walking Distance</em>}</li>
  * </ul>
  * </p>
  *
@@ -89,7 +90,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String LAST_TRIP_EDEFAULT = "";
+	protected static final String LAST_TRIP_EDEFAULT = null;
+
 	/**
 	 * The cached value of the '{@link #getLastTrip() <em>Last Trip</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -99,6 +101,26 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * @ordered
 	 */
 	protected String lastTrip = LAST_TRIP_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getWalkingDistance() <em>Walking Distance</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWalkingDistance()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Double WALKING_DISTANCE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getWalkingDistance() <em>Walking Distance</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWalkingDistance()
+	 * @generated
+	 * @ordered
+	 */
+	protected Double walkingDistance = WALKING_DISTANCE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -199,6 +221,27 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Double getWalkingDistance() {
+		return walkingDistance;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWalkingDistance(Double newWalkingDistance) {
+		Double oldWalkingDistance = walkingDistance;
+		walkingDistance = newWalkingDistance;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.ITINERARY__WALKING_DISTANCE, oldWalkingDistance, walkingDistance));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -210,6 +253,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				return getNbTransfers();
 			case RoutingPackage.ITINERARY__LAST_TRIP:
 				return getLastTrip();
+			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
+				return getWalkingDistance();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -236,6 +281,9 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			case RoutingPackage.ITINERARY__LAST_TRIP:
 				setLastTrip((String)newValue);
 				return;
+			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
+				setWalkingDistance((Double)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -260,6 +308,9 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			case RoutingPackage.ITINERARY__LAST_TRIP:
 				setLastTrip(LAST_TRIP_EDEFAULT);
 				return;
+			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
+				setWalkingDistance(WALKING_DISTANCE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -280,6 +331,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				return nbTransfers != NB_TRANSFERS_EDEFAULT;
 			case RoutingPackage.ITINERARY__LAST_TRIP:
 				return LAST_TRIP_EDEFAULT == null ? lastTrip != null : !LAST_TRIP_EDEFAULT.equals(lastTrip);
+			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
+				return WALKING_DISTANCE_EDEFAULT == null ? walkingDistance != null : !WALKING_DISTANCE_EDEFAULT.equals(walkingDistance);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -300,31 +353,48 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		result.append(nbTransfers);
 		result.append(", lastTrip: ");
 		result.append(lastTrip);
+		result.append(", walkingDistance: ");
+		result.append(walkingDistance);
 		result.append(')');
 		return result.toString();
 	}
 
+	
+	private static final int THREASHOLD_TRANSFERS = 0 ;
+	private static final int THREASHOLD_ARRIVAL_TIME = 300 ; /* in seconds */
+	private static final int THREASHOLD_WALKING = 10 ; /* in meters */
+
 	@Override
-	public int isDominated (long arrivalTime, int nbTransfers) {
+	public int isDominated (long arrivalTime, int nbTransfers, double walkingDistance) {
+		
 		int nbDominated = 0 ;
 		int nbDominate = 0 ;
 		
-		if (this.nbTransfers < nbTransfers) {
+		if (this.nbTransfers + THREASHOLD_TRANSFERS < nbTransfers) {
 			nbDominate ++;
-		} else if (this.nbTransfers > nbTransfers) {
+		} else if (this.nbTransfers > nbTransfers + THREASHOLD_TRANSFERS) {
 			nbDominated ++ ;
 		}
 		
-		if (this.arrivalTime < arrivalTime) {
+		if (this.walkingDistance + THREASHOLD_WALKING < walkingDistance) {
 			nbDominate ++;
-		} else if (this.arrivalTime > arrivalTime) {
+		} else if (this.walkingDistance > walkingDistance + THREASHOLD_WALKING) {
 			nbDominated ++;
 		}
 		
-		if (nbDominated <= 0) {
-			return 1;
-		} else if (nbDominated > 0 && nbDominate > 0) {
+		if (nbDominated == 0 && nbDominate == 0) {
+			/* If two paths are equivalent, then we prefer to keep the one which arrive the last */
+			if (this.arrivalTime + THREASHOLD_ARRIVAL_TIME < arrivalTime) {
+				nbDominated ++;
+			} else if (this.arrivalTime > arrivalTime + THREASHOLD_ARRIVAL_TIME) {
+				nbDominate ++;
+			}
+		}
+
+		if ((nbDominated > 0 && nbDominate > 0) || (nbDominated == 0 && nbDominate == 0)) {
 			return 0; // Pareto Opt
+		} else if (nbDominated == 0) {
+			return 1;
 		} else {
 			return -1;
 		}

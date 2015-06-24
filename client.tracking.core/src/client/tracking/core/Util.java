@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
 
 public class Util {
 	
-	public static final boolean COMPUTE_WITH_OTP = true ;
-	public static final boolean OTP_IS_RUNNING = true ;
+	public static final boolean COMPUTE_WITH_OTP = false ;
+	public static final boolean OTP_IS_RUNNING = false ;
 	public static final boolean COMPUTE_WITH_RFS = true ;
 	public static final boolean RFS_IS_RUNNING = true ;
 	

@@ -495,13 +495,22 @@ public interface RoutingPackage extends EPackage {
 	int ITINERARY__LAST_TRIP = 3;
 
 	/**
+	 * The feature id for the '<em><b>Walking Distance</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITINERARY__WALKING_DISTANCE = 4;
+
+	/**
 	 * The number of structural features of the '<em>Itinerary</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY_FEATURE_COUNT = 4;
+	int ITINERARY_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Itinerary</em>' class.
@@ -1045,6 +1054,17 @@ public interface RoutingPackage extends EPackage {
 	EAttribute getItinerary_LastTrip();
 
 	/**
+	 * Returns the meta object for the attribute '{@link routing.Itinerary#getWalkingDistance <em>Walking Distance</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Walking Distance</em>'.
+	 * @see routing.Itinerary#getWalkingDistance()
+	 * @see #getItinerary()
+	 * @generated
+	 */
+	EAttribute getItinerary_WalkingDistance();
+
+	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>String To Footpath Map</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1470,6 +1490,14 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ITINERARY__LAST_TRIP = eINSTANCE.getItinerary_LastTrip();
+
+		/**
+		 * The meta object literal for the '<em><b>Walking Distance</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ITINERARY__WALKING_DISTANCE = eINSTANCE.getItinerary_WalkingDistance();
 
 		/**
 		 * The meta object literal for the '{@link routing.impl.StringToFootpathMapImpl <em>String To Footpath Map</em>}' class.

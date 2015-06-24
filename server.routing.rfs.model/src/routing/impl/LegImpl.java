@@ -76,7 +76,7 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String ROUTE_ID_EDEFAULT = "";
+	protected static final String ROUTE_ID_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getRouteId() <em>Route Id</em>}' attribute.

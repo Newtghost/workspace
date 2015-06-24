@@ -21,7 +21,7 @@ import common.util.EmfUtil;
 public class MyRoutingFactory {
 	
 	public static final double SPEED = 1.2; /* meter per second */
-	public static final double NB_ITINERARIES = 3; /* Max nb of pareto-opt itineraries per StopPoint */
+	public static final double NB_ITINERARIES = 10; /* Max nb of pareto-opt itineraries per StopPoint */
 
 	public static Connection createConnection (String serviceId, String tripId, String routeId, String departureId, String arrivalId, 
 			long departureTime, long arrivalTime, int departureSeq, int arrivalSeq) {
@@ -123,14 +123,35 @@ public class MyRoutingFactory {
 
 	public static Itinerary createItinerary(Itinerary itdep, Leg l, long arrivalTime, int nbTransfers) {
 		Itinerary it = RoutingFactory.eINSTANCE.createItinerary() ;
+
+		/* Arrival time */
 		it.setArrivalTime(arrivalTime);
-		if (l!=null) it.setLastTrip(l.getRouteId());
-		else it.setLastTrip("");
+
+		/* Nb of transfers */
 		it.setNbTransfers(nbTransfers);
-		if (itdep!=null) {
+		
+		/* Last trip ID - "" correspond to a footpath */
+		if (l != null) {
+			it.setLastTrip(l.getRouteId());
+		} else {
+			it.setLastTrip("");
+		}
+
+		/* Path - list of legs */
+		if (itdep != null) {
 			it.getPath().addAll(itdep.getPath()) ;
 			it.getPath().add(l) ;
 		}
+
+		/* Walking distance */
+		if (l == null) {
+			it.setWalkingDistance(0.0);
+		} else if (l instanceof Footpath) {
+			it.setWalkingDistance(itdep.getWalkingDistance() + ((Footpath) l).getDistance());
+		} else {
+			it.setWalkingDistance(itdep.getWalkingDistance());
+		}
+		
 		return it;
 	}
 
