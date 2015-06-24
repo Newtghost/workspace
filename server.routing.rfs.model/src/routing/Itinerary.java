@@ -3,7 +3,6 @@
 package routing;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -15,9 +14,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link routing.Itinerary#getPath <em>Path</em>}</li>
+ *   <li>{@link routing.Itinerary#getLastTrip <em>Last Trip</em>}</li>
+ *   <li>{@link routing.Itinerary#getDepartureTime <em>Departure Time</em>}</li>
  *   <li>{@link routing.Itinerary#getArrivalTime <em>Arrival Time</em>}</li>
  *   <li>{@link routing.Itinerary#getNbTransfers <em>Nb Transfers</em>}</li>
- *   <li>{@link routing.Itinerary#getLastTrip <em>Last Trip</em>}</li>
  *   <li>{@link routing.Itinerary#getWalkingDistance <em>Walking Distance</em>}</li>
  * </ul>
  * </p>
@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Itinerary extends EObject {
+public interface Itinerary extends EObject, Comparable<Itinerary> {
 	/**
 	 * Returns the value of the '<em><b>Path</b></em>' reference list.
 	 * The list contents are of type {@link routing.Leg}.
@@ -122,6 +122,32 @@ public interface Itinerary extends EObject {
 	void setLastTrip(String value);
 	
 	/**
+	 * Returns the value of the '<em><b>Departure Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Departure Time</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Departure Time</em>' attribute.
+	 * @see #setDepartureTime(long)
+	 * @see routing.RoutingPackage#getItinerary_DepartureTime()
+	 * @model
+	 * @generated
+	 */
+	long getDepartureTime();
+
+	/**
+	 * Sets the value of the '{@link routing.Itinerary#getDepartureTime <em>Departure Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Departure Time</em>' attribute.
+	 * @see #getDepartureTime()
+	 * @generated
+	 */
+	void setDepartureTime(long value);
+
+	/**
 	 * Returns the value of the '<em><b>Walking Distance</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -130,12 +156,12 @@ public interface Itinerary extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Walking Distance</em>' attribute.
-	 * @see #setWalkingDistance(Double)
+	 * @see #setWalkingDistance(double)
 	 * @see routing.RoutingPackage#getItinerary_WalkingDistance()
 	 * @model
 	 * @generated
 	 */
-	Double getWalkingDistance();
+	double getWalkingDistance();
 
 	/**
 	 * Sets the value of the '{@link routing.Itinerary#getWalkingDistance <em>Walking Distance</em>}' attribute.
@@ -145,9 +171,11 @@ public interface Itinerary extends EObject {
 	 * @see #getWalkingDistance()
 	 * @generated
 	 */
-	void setWalkingDistance(Double value);
+	void setWalkingDistance(double value);
 
-	public int isDominated (long arrivalTime, int nbTransfers, double walkingDistance) ;
+	public int isDominated (long duration, int nbTransfers, double walkingDistance) ;
+
+	long getDuration();
 
 	
 } // Itinerary

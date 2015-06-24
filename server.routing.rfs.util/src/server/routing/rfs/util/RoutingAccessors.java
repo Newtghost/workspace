@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+import org.eclipse.emf.common.util.ECollections;
+
 import routing.Connection;
 import routing.Footpath;
 import routing.Itinerary;
@@ -67,6 +69,10 @@ public class RoutingAccessors {
 
 	public static List<Itinerary> getJourneys(StopPoint dep) {
 		return dep.getBestJourneys();
+	}
+
+	public static void sortJourneys(StopPoint arr) {
+		ECollections.sort(arr.getBestJourneys()); 
 	}
 	
 }

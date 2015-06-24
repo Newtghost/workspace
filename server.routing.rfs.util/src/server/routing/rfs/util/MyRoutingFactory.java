@@ -121,8 +121,11 @@ public class MyRoutingFactory {
 		}
 	}
 
-	public static Itinerary createItinerary(Itinerary itdep, Leg l, long arrivalTime, int nbTransfers) {
+	public static Itinerary createItinerary(Itinerary itdep, Leg l, long departureTime, long arrivalTime, int nbTransfers) {
 		Itinerary it = RoutingFactory.eINSTANCE.createItinerary() ;
+
+		/* Departure time */
+		it.setDepartureTime(departureTime);
 
 		/* Arrival time */
 		it.setArrivalTime(arrivalTime);
@@ -151,7 +154,7 @@ public class MyRoutingFactory {
 		} else {
 			it.setWalkingDistance(itdep.getWalkingDistance());
 		}
-		
+
 		return it;
 	}
 

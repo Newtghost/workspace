@@ -468,13 +468,31 @@ public interface RoutingPackage extends EPackage {
 	int ITINERARY__PATH = 0;
 
 	/**
+	 * The feature id for the '<em><b>Last Trip</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITINERARY__LAST_TRIP = 1;
+
+	/**
+	 * The feature id for the '<em><b>Departure Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITINERARY__DEPARTURE_TIME = 2;
+
+	/**
 	 * The feature id for the '<em><b>Arrival Time</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY__ARRIVAL_TIME = 1;
+	int ITINERARY__ARRIVAL_TIME = 3;
 
 	/**
 	 * The feature id for the '<em><b>Nb Transfers</b></em>' attribute.
@@ -483,16 +501,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY__NB_TRANSFERS = 2;
-
-	/**
-	 * The feature id for the '<em><b>Last Trip</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ITINERARY__LAST_TRIP = 3;
+	int ITINERARY__NB_TRANSFERS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Walking Distance</b></em>' attribute.
@@ -501,7 +510,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY__WALKING_DISTANCE = 4;
+	int ITINERARY__WALKING_DISTANCE = 5;
 
 	/**
 	 * The number of structural features of the '<em>Itinerary</em>' class.
@@ -510,7 +519,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY_FEATURE_COUNT = 5;
+	int ITINERARY_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Itinerary</em>' class.
@@ -1054,6 +1063,17 @@ public interface RoutingPackage extends EPackage {
 	EAttribute getItinerary_LastTrip();
 
 	/**
+	 * Returns the meta object for the attribute '{@link routing.Itinerary#getDepartureTime <em>Departure Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Departure Time</em>'.
+	 * @see routing.Itinerary#getDepartureTime()
+	 * @see #getItinerary()
+	 * @generated
+	 */
+	EAttribute getItinerary_DepartureTime();
+
+	/**
 	 * Returns the meta object for the attribute '{@link routing.Itinerary#getWalkingDistance <em>Walking Distance</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1490,6 +1510,14 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ITINERARY__LAST_TRIP = eINSTANCE.getItinerary_LastTrip();
+
+		/**
+		 * The meta object literal for the '<em><b>Departure Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ITINERARY__DEPARTURE_TIME = eINSTANCE.getItinerary_DepartureTime();
 
 		/**
 		 * The meta object literal for the '<em><b>Walking Distance</b></em>' attribute feature.

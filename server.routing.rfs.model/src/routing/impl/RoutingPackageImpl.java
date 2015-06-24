@@ -425,24 +425,6 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * @generated
 	 */
 	public EAttribute getItinerary_ArrivalTime() {
-		return (EAttribute)itineraryEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getItinerary_NbTransfers() {
-		return (EAttribute)itineraryEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getItinerary_LastTrip() {
 		return (EAttribute)itineraryEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -451,8 +433,35 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getItinerary_WalkingDistance() {
+	public EAttribute getItinerary_NbTransfers() {
 		return (EAttribute)itineraryEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getItinerary_LastTrip() {
+		return (EAttribute)itineraryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getItinerary_DepartureTime() {
+		return (EAttribute)itineraryEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getItinerary_WalkingDistance() {
+		return (EAttribute)itineraryEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -625,9 +634,10 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 
 		itineraryEClass = createEClass(ITINERARY);
 		createEReference(itineraryEClass, ITINERARY__PATH);
+		createEAttribute(itineraryEClass, ITINERARY__LAST_TRIP);
+		createEAttribute(itineraryEClass, ITINERARY__DEPARTURE_TIME);
 		createEAttribute(itineraryEClass, ITINERARY__ARRIVAL_TIME);
 		createEAttribute(itineraryEClass, ITINERARY__NB_TRANSFERS);
-		createEAttribute(itineraryEClass, ITINERARY__LAST_TRIP);
 		createEAttribute(itineraryEClass, ITINERARY__WALKING_DISTANCE);
 
 		stringToFootpathMapEClass = createEClass(STRING_TO_FOOTPATH_MAP);
@@ -713,10 +723,11 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 
 		initEClass(itineraryEClass, Itinerary.class, "Itinerary", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getItinerary_Path(), this.getLeg(), null, "path", null, 0, -1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getItinerary_LastTrip(), ecorePackage.getEString(), "lastTrip", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getItinerary_DepartureTime(), ecorePackage.getELong(), "departureTime", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getItinerary_ArrivalTime(), ecorePackage.getELong(), "arrivalTime", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getItinerary_NbTransfers(), ecorePackage.getEInt(), "nbTransfers", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getItinerary_LastTrip(), ecorePackage.getEString(), "lastTrip", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getItinerary_WalkingDistance(), ecorePackage.getEDoubleObject(), "walkingDistance", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getItinerary_WalkingDistance(), ecorePackage.getEDouble(), "walkingDistance", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stringToFootpathMapEClass, Map.Entry.class, "StringToFootpathMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringToFootpathMap_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
