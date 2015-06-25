@@ -26,7 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Itinerary extends EObject, Comparable<Itinerary> {
+public interface Itinerary extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Path</b></em>' reference list.
 	 * The list contents are of type {@link routing.Leg}.
@@ -173,7 +173,7 @@ public interface Itinerary extends EObject, Comparable<Itinerary> {
 	 */
 	void setWalkingDistance(double value);
 
-	public int isDominated (long duration, int nbTransfers, double walkingDistance) ;
+	public int isDominated (long time, int nbTransfers, double walkingDistance, boolean isTarget) ;
 
 	long getDuration();
 

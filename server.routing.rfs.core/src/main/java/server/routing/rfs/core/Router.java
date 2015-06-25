@@ -80,7 +80,7 @@ public class Router {
 		RoutingAccessors.getJourneys(sourceStop).add(it) ;
 		
 		for (Footpath f : RoutingAccessors.getFootpaths(space, sourceStop.getStopId())) {
-			updateStopPoint (sourceStop, RoutingAccessors.getStop(space, f.getArrivalId()), startTime, startTime + f.getDuration(), f, true) ;
+			updateStopPoint (sourceStop, RoutingAccessors.getStop(space, f.getArrivalId()), startTime, startTime + f.getDuration(), f, true, f.getArrivalId().equals(targetStop.getStopId())) ;
 		}
 
 		StopPoint cDepStop, cArrStop ;
@@ -90,31 +90,40 @@ public class Router {
 		for (Connection c : sorted_connections) {
 									
 			if (c.getDepartureTime() < startTime) continue ; /* Before the departure */
-			/* Break if we can't improve the best arrival time to the target*/
+			
+			/* Break if we can't improve the best arrival time to the target */
 			if (targetStop.getBestArrivalTime() <= c.getDepartureTime()) {
 				break ;
 			}			
 			
 			cDepStop = RoutingAccessors.getStop(space, c.getDepartureId()) ;
 			cArrStop = RoutingAccessors.getStop(space, c.getArrivalId()) ;
-			
+
 			if (cArrStop.getStopId().equals(sourceStop.getStopId())) continue ;
 			if (cDepStop.getStopId().equals(targetStop.getStopId())) continue ;
 						
 			if (cDepStop.getBestArrivalTime() + cDepStop.getMinimalConnectionTime() <= c.getDepartureTime() ||
 					(c.getPrevC() != null && c.getPrevC().isRelaxed())) {
 								
-//				if (c.getTripId().equals("5371180")) { 
-//					System.out.println("--- " + c.getDepStopSequence() + " : " + c.getArrivalTime() + " ; " + cArrStop.getStopId());
+//				if (c.getTripId().equals("5365846") && c.getArrStopSequence() == 68) { 
+//					System.out.println("Last of route --- 19 : " + c.getArrivalTime() + " ; " + cArrStop.getStopId());
+//				}
+//				
+//				if (c.getTripId().equals("5371180") && c.getDepStopSequence() == 18) { 
+//					System.out.println("First of route --- 77 : " + c.getArrivalTime() + " ; " + cArrStop.getStopId());
+//				}
+//
+//				if (c.getTripId().equals("5371180") && c.getDepStopSequence() > 18) { // 72
+//					System.out.println("Go on --- 77 : " + c.getArrivalTime() + " ; " + c.getArrStopSequence());
 //				}
 
-				updateStopPoint (cDepStop, cArrStop, c.getDepartureTime(), c.getArrivalTime(), c, cDepStop.getStopId().equals(sourceStop.getStopId())) ;
+				updateStopPoint (cDepStop, cArrStop, c.getDepartureTime(), c.getArrivalTime(), c, cDepStop.getStopId().equals(sourceStop.getStopId()), cArrStop.getStopId().equals(targetStop.getStopId())) ;
 
 				footpaths = RoutingAccessors.getFootpaths(space, cArrStop.getStopId()) ;
 				if (footpaths != null) { 
 					for (Footpath f : footpaths) {
 						updateStopPoint (RoutingAccessors.getStop(space, f.getDepartureId()), RoutingAccessors.getStop(space, f.getArrivalId()),
-								Long.MAX_VALUE, c.getArrivalTime() + cArrStop.getMinimalConnectionTime() + f.getDuration(), f, false) ;
+								c.getArrivalTime(), c.getArrivalTime() + cArrStop.getMinimalConnectionTime() + f.getDuration(), f, false, f.getArrivalId().equals(targetStop.getStopId())) ;
 					}
 				}
 				
@@ -129,7 +138,7 @@ public class Router {
 		if (App.DEBUG) printJourneys() ;		
 	}
 
-	public void updateStopPoint (StopPoint dep, StopPoint arr, long departureTime, long arrivalTime, Leg l, boolean fromSource) {
+	public void updateStopPoint (StopPoint dep, StopPoint arr, long departureTime, long arrivalTime, Leg l, boolean fromSource, boolean toTarget) {
 		List<Itinerary> depJourneys = RoutingAccessors.getJourneys(dep) ;
 		List<Itinerary> arrJourneys = RoutingAccessors.getJourneys(arr) ;
 				
@@ -144,30 +153,30 @@ public class Router {
 		}
 		else {
 			for (Itinerary itdep : depJourneys) {
-				boolean treated = false ;
+				boolean toBeAdded = true ;
 				if (itdep.getArrivalTime() + dep.getMinimalConnectionTime() > departureTime) continue ; /* In time for the transfer */
 				if (itdep.getLastTrip().equals("") && l.getRouteId().equals("")) continue ; /* Transitive footpath closure */
 				int nbTransfers = itdep.getNbTransfers() + (itdep.getLastTrip().equals(l.getRouteId())?0:1) ;
 				for (Itinerary itarr : new ArrayList<Itinerary>(arrJourneys)) { // Cloning to avoid stupid compilation error
-					int dom = itarr.isDominated(arrivalTime - (fromSource?departureTime:itdep.getDepartureTime()), nbTransfers, itdep.getWalkingDistance()) ;
+					long time = fromSource?departureTime:itdep.getDepartureTime() ; /* Departure time */
+					if (toTarget) time = arrivalTime - time ; /* Duration */
+					double walkingDistance = itdep.getWalkingDistance() ;
+					if (l instanceof Footpath) walkingDistance += ((Footpath) l).getDistance() ;
+					int dom = itarr.isDominated(time, nbTransfers, walkingDistance, toTarget) ; 
 					if (dom == 1) { // The new itinerary is dominated by an existing one.
-						treated = true ;
+						toBeAdded = false ;
 						break ; 
 					} else if (dom == -1) { // The new itinerary dominate an existing one.
 						arrJourneys.remove(itarr) ;
-						break ;
 					} 
 				}
 								
-				if (! treated && arrJourneys.size() < MyRoutingFactory.NB_ITINERARIES) {
+				if (toBeAdded) { // && arrJourneys.size() < MyRoutingFactory.NB_ITINERARIES
 					Itinerary it = MyRoutingFactory.createItinerary(itdep, l, fromSource?departureTime:itdep.getDepartureTime(), arrivalTime, fromSource?1:nbTransfers) ;
 					if (it != null) arrJourneys.add(it) ;
 				}
 			}
-		}
-		
-		RoutingAccessors.sortJourneys(arr) ;
-				
+		}		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -304,7 +313,7 @@ public class Router {
 		}
 		int i = 0 ;
 		for (Itinerary it : journeys) {
-			System.out.println("----------------------- Itinerary # " + (++i) + " of " + it.getDuration() + "s -----------------------") ;
+			System.out.println("----------------------- Itinerary # " + (++i) + " of " + it.getDuration() + "s with " + it.getNbTransfers() + " transfers and " + it.getWalkingDistance() + "m walking -----------------------") ;
 			Connection c_prev = null ;
 			for (Leg s : RoutingAccessors.getPath(it)) {
 				if (s instanceof Footpath) {

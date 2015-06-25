@@ -21,7 +21,6 @@ import common.util.EmfUtil;
 public class MyRoutingFactory {
 	
 	public static final double SPEED = 1.2; /* meter per second */
-	public static final double NB_ITINERARIES = 10; /* Max nb of pareto-opt itineraries per StopPoint */
 
 	public static Connection createConnection (String serviceId, String tripId, String routeId, String departureId, String arrivalId, 
 			long departureTime, long arrivalTime, int departureSeq, int arrivalSeq) {

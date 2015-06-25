@@ -413,57 +413,51 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		result.append(')');
 		return result.toString();
 	}
-
+ 
 	private static final int THRESHOLD_TRANSFERS = 0 ;
 	private static final int THRESHOLD_WALKING = 100 ; /* in meters */
-	private static final int THRESHOLD_DURATION = 300 ; /* in seconds */
+	private static final int THRESHOLD_DEPARTURE = 300 ; /* in seconds */
 
 	@Override
-	public int isDominated (long duration, int nbTransfers, double walkingDistance) {
+	/* Time is a departure time when the itinerary doesn't reach the target and a duration otherwise. */
+	public int isDominated (long time, int nbTransfers, double walkingDistance, boolean isTarget) {
+		int thisIsDominated = 0 ;
+		int thisDominates = 0 ;
 		
-		int nbDominated = 0 ;
-		int nbDominate = 0 ;
-		
-		if (this.getDuration() + THRESHOLD_DURATION < duration) {
-			nbDominate ++;
-		} else if (this.getDuration() > duration + THRESHOLD_DURATION) {
-			nbDominated ++;
+		if (!isTarget) {
+			if (this.departureTime + THRESHOLD_DEPARTURE < time) {
+				thisIsDominated ++;
+			} else if (this.departureTime > time + THRESHOLD_DEPARTURE) {
+				thisDominates ++;
+			}
+		}
+		else {
+			if (this.getDuration() + THRESHOLD_DEPARTURE < time) {
+				thisDominates ++;
+			} else if (this.getDuration() > time + THRESHOLD_DEPARTURE) {
+				thisIsDominated ++;
+			}
 		}
 
 		if (this.nbTransfers + THRESHOLD_TRANSFERS < nbTransfers) {
-			nbDominate ++;
+			thisDominates ++;
 		} else if (this.nbTransfers > nbTransfers + THRESHOLD_TRANSFERS) {
-			nbDominated ++ ;
+			thisIsDominated ++ ;
 		}
 		
 		if (this.walkingDistance + THRESHOLD_WALKING < walkingDistance) {
-			nbDominate ++;
+			thisDominates ++;
 		} else if (this.walkingDistance > walkingDistance + THRESHOLD_WALKING) {
-			nbDominated ++;
+			thisIsDominated ++;
 		}
 				
-		if ((nbDominated > 0 && nbDominate > 0) || (nbDominated == 0 && nbDominate == 0)) {
+		if ((thisIsDominated > 0 && thisDominates > 0) || (thisIsDominated == 0 && thisDominates == 0)) {
 			return 0; // Pareto Opt
-		} else if (nbDominated == 0) {
+		} else if (thisIsDominated == 0) {
 			return 1;
 		} else {
 			return -1;
 		}
-	}
-
-	@Override
-	public int compareTo(Itinerary o) {
-		int aux = isDominated(o.getDuration(), o.getNbTransfers(), o.getWalkingDistance()) ;
-		if (aux != 0) {
-			return aux ;
-		} else {
-			if (arrivalTime < o.getArrivalTime()) {
-				return -1 ;
-			} else if (arrivalTime > o.getArrivalTime()) {
-				return 1 ;
-			}
-		}
-		return 0;
 	}
 
 	@Override
