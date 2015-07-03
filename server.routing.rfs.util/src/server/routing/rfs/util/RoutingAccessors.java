@@ -63,6 +63,10 @@ public class RoutingAccessors {
 		return space.getCalendar().keySet() ;
 	}
 
+	public static Set<Date> getAllValidDates(Space space) {
+		return space.getCalendar().keySet() ;
+	}
+
 	public static List<String> getServicesIdForDate(Space space, Date d) {
 		return space.getCalendar().get(d) ;
 	}
@@ -73,6 +77,10 @@ public class RoutingAccessors {
 
 	public static void sortJourneys(StopPoint arr) {
 		ECollections.sort(arr.getBestJourneys()); 
+	}
+
+	public static List<String> getRoutesId(StopPoint targetStop) {
+		return targetStop.getRoutesId();
 	}
 	
 }

@@ -21,7 +21,7 @@ import routing.RoutingPackage;
  * <ul>
  *   <li>{@link routing.impl.LegImpl#getDepartureId <em>Departure Id</em>}</li>
  *   <li>{@link routing.impl.LegImpl#getArrivalId <em>Arrival Id</em>}</li>
- *   <li>{@link routing.impl.LegImpl#getRouteId <em>Route Id</em>}</li>
+ *   <li>{@link routing.impl.LegImpl#getTripId <em>Trip Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -69,24 +69,24 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	protected String arrivalId = ARRIVAL_ID_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getRouteId() <em>Route Id</em>}' attribute.
+	 * The default value of the '{@link #getTripId() <em>Trip Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRouteId()
+	 * @see #getTripId()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String ROUTE_ID_EDEFAULT = null;
+	protected static final String TRIP_ID_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getRouteId() <em>Route Id</em>}' attribute.
+	 * The cached value of the '{@link #getTripId() <em>Trip Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getRouteId()
+	 * @see #getTripId()
 	 * @generated
 	 * @ordered
 	 */
-	protected String routeId = ROUTE_ID_EDEFAULT;
+	protected String tripId = TRIP_ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -154,8 +154,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getRouteId() {
-		return routeId;
+	public String getTripId() {
+		return tripId;
 	}
 
 	/**
@@ -163,11 +163,11 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setRouteId(String newRouteId) {
-		String oldRouteId = routeId;
-		routeId = newRouteId;
+	public void setTripId(String newTripId) {
+		String oldTripId = tripId;
+		tripId = newTripId;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.LEG__ROUTE_ID, oldRouteId, routeId));
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.LEG__TRIP_ID, oldTripId, tripId));
 	}
 
 	/**
@@ -182,8 +182,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return getDepartureId();
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				return getArrivalId();
-			case RoutingPackage.LEG__ROUTE_ID:
-				return getRouteId();
+			case RoutingPackage.LEG__TRIP_ID:
+				return getTripId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -202,8 +202,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				setArrivalId((String)newValue);
 				return;
-			case RoutingPackage.LEG__ROUTE_ID:
-				setRouteId((String)newValue);
+			case RoutingPackage.LEG__TRIP_ID:
+				setTripId((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -223,8 +223,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				setArrivalId(ARRIVAL_ID_EDEFAULT);
 				return;
-			case RoutingPackage.LEG__ROUTE_ID:
-				setRouteId(ROUTE_ID_EDEFAULT);
+			case RoutingPackage.LEG__TRIP_ID:
+				setTripId(TRIP_ID_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -242,8 +242,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return DEPARTURE_ID_EDEFAULT == null ? departureId != null : !DEPARTURE_ID_EDEFAULT.equals(departureId);
 			case RoutingPackage.LEG__ARRIVAL_ID:
 				return ARRIVAL_ID_EDEFAULT == null ? arrivalId != null : !ARRIVAL_ID_EDEFAULT.equals(arrivalId);
-			case RoutingPackage.LEG__ROUTE_ID:
-				return ROUTE_ID_EDEFAULT == null ? routeId != null : !ROUTE_ID_EDEFAULT.equals(routeId);
+			case RoutingPackage.LEG__TRIP_ID:
+				return TRIP_ID_EDEFAULT == null ? tripId != null : !TRIP_ID_EDEFAULT.equals(tripId);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -262,8 +262,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 		result.append(departureId);
 		result.append(", arrivalId: ");
 		result.append(arrivalId);
-		result.append(", routeId: ");
-		result.append(routeId);
+		result.append(", tripId: ");
+		result.append(tripId);
 		result.append(')');
 		return result.toString();
 	}

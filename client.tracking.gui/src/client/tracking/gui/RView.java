@@ -45,7 +45,7 @@ public class RView extends ViewPart {
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.horizontalSpan = 3;
 		time.setLayoutData(gridData);
-		time.setText("10:20am") ;
+		time.setText("1:20pm") ;
 		
 		Label dateLabel = new Label(parent, SWT.NONE);
 		dateLabel.setText("Date : ");
@@ -54,7 +54,7 @@ public class RView extends ViewPart {
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.horizontalSpan = 3;
 		date.setLayoutData(gridData);
-		date.setText("05-29-2015") ;
+		date.setText("07-01-2015") ;
 
 		Label fromLabel = new Label(parent, SWT.NONE);
 		fromLabel.setText("Lat / Lon (stop ID) - FROM place : ");

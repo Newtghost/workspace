@@ -2,6 +2,7 @@ package server.routing.rfs.util;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -41,17 +42,18 @@ public class MyRoutingFactory {
 		Footpath f = RoutingFactory.eINSTANCE.createFootpath() ;
 		f.setDepartureId(departureId);
 		f.setArrivalId(arrivalId);
-		f.setRouteId("");
+		f.setTripId("");
 		f.setDistance(Util.gps2m(depLat, depLon, arrLat, arrLon)) ; /* Calcul de la distance */
 		f.setDuration((int) (f.getDistance()/SPEED));
 		return f ;
 	}
 	
-	public static StopPoint createStopPoint (String stopId, String name, int minimumConnectionTime) {
+	public static StopPoint createStopPoint (String stopId, String name, int minimumConnectionTime, Set<String> routesId) {
 		StopPoint s = RoutingFactory.eINSTANCE.createStopPoint() ;
 		s.setStopId(stopId);
 		s.setName(name);
 		s.setMinimalConnectionTime(minimumConnectionTime);
+		if (routesId != null) s.getRoutesId().addAll(routesId); /* Pas de routes qui passent par ce StopPoint */
 		return s ;
 	}
 
@@ -86,8 +88,8 @@ public class MyRoutingFactory {
 		}
 	}
 	
-	public static void addStopPoint (Space space, String stopId, String name, int minimumConnectionTime) {
-		StopPoint s = createStopPoint(stopId, name, minimumConnectionTime);
+	public static void addStopPoint (Space space, String stopId, String name, int minimumConnectionTime, Set<String> routesId) {
+		StopPoint s = createStopPoint(stopId, name, minimumConnectionTime, routesId);
 		space.getStops().put(stopId, s) ;
 	}
 
@@ -120,7 +122,7 @@ public class MyRoutingFactory {
 		}
 	}
 
-	public static Itinerary createItinerary(Itinerary itdep, Leg l, long departureTime, long arrivalTime, int nbTransfers) {
+	public static Itinerary createItinerary(Itinerary prevIt, Leg l, String tripId, long departureTime, long arrivalTime, int nbTransfers, double walkingDistance, boolean isOnRightWay) {
 		Itinerary it = RoutingFactory.eINSTANCE.createItinerary() ;
 
 		/* Departure time */
@@ -132,28 +134,19 @@ public class MyRoutingFactory {
 		/* Nb of transfers */
 		it.setNbTransfers(nbTransfers);
 		
-		/* Last trip ID - "" correspond to a footpath */
-		if (l != null) {
-			it.setLastTrip(l.getRouteId());
-		} else {
-			it.setLastTrip("");
-		}
+		/* Last trip ID : "" correspond to a footpath */
+		it.setLastTrip(tripId);
 
-		/* Path - list of legs */
-		if (itdep != null) {
-			it.getPath().addAll(itdep.getPath()) ;
-			it.getPath().add(l) ;
-		}
+		/* Extend the previous itinerary */
+		if (prevIt != null) it.getPath().addAll(prevIt.getPath()) ;		
+		if (l != null) it.getPath().add(l) ;
 
 		/* Walking distance */
-		if (l == null) {
-			it.setWalkingDistance(0.0);
-		} else if (l instanceof Footpath) {
-			it.setWalkingDistance(itdep.getWalkingDistance() + ((Footpath) l).getDistance());
-		} else {
-			it.setWalkingDistance(itdep.getWalkingDistance());
-		}
-
+		it.setWalkingDistance(walkingDistance);
+		
+		/* Right way */
+		it.setIsOnRightWay(isOnRightWay);
+		
 		return it;
 	}
 

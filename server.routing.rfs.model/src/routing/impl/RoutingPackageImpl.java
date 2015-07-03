@@ -244,7 +244,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLeg_RouteId() {
+	public EAttribute getLeg_TripId() {
 		return (EAttribute)legEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -271,7 +271,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_TripId() {
+	public EAttribute getConnection_RouteId() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -406,6 +406,15 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getStopPoint_RoutesId() {
+		return (EAttribute)stopPointEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getItinerary() {
 		return itineraryEClass;
 	}
@@ -462,6 +471,15 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 */
 	public EAttribute getItinerary_WalkingDistance() {
 		return (EAttribute)itineraryEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getItinerary_IsOnRightWay() {
+		return (EAttribute)itineraryEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -610,11 +628,11 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		legEClass = createEClass(LEG);
 		createEAttribute(legEClass, LEG__DEPARTURE_ID);
 		createEAttribute(legEClass, LEG__ARRIVAL_ID);
-		createEAttribute(legEClass, LEG__ROUTE_ID);
+		createEAttribute(legEClass, LEG__TRIP_ID);
 
 		connectionEClass = createEClass(CONNECTION);
 		createEAttribute(connectionEClass, CONNECTION__SERVICE_ID);
-		createEAttribute(connectionEClass, CONNECTION__TRIP_ID);
+		createEAttribute(connectionEClass, CONNECTION__ROUTE_ID);
 		createEAttribute(connectionEClass, CONNECTION__DEP_STOP_SEQUENCE);
 		createEAttribute(connectionEClass, CONNECTION__DEPARTURE_TIME);
 		createEAttribute(connectionEClass, CONNECTION__ARR_STOP_SEQUENCE);
@@ -631,6 +649,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		createEAttribute(stopPointEClass, STOP_POINT__NAME);
 		createEAttribute(stopPointEClass, STOP_POINT__MINIMAL_CONNECTION_TIME);
 		createEReference(stopPointEClass, STOP_POINT__BEST_JOURNEYS);
+		createEAttribute(stopPointEClass, STOP_POINT__ROUTES_ID);
 
 		itineraryEClass = createEClass(ITINERARY);
 		createEReference(itineraryEClass, ITINERARY__PATH);
@@ -639,6 +658,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		createEAttribute(itineraryEClass, ITINERARY__ARRIVAL_TIME);
 		createEAttribute(itineraryEClass, ITINERARY__NB_TRANSFERS);
 		createEAttribute(itineraryEClass, ITINERARY__WALKING_DISTANCE);
+		createEAttribute(itineraryEClass, ITINERARY__IS_ON_RIGHT_WAY);
 
 		stringToFootpathMapEClass = createEClass(STRING_TO_FOOTPATH_MAP);
 		createEAttribute(stringToFootpathMapEClass, STRING_TO_FOOTPATH_MAP__KEY);
@@ -699,11 +719,11 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		initEClass(legEClass, Leg.class, "Leg", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLeg_DepartureId(), ecorePackage.getEString(), "departureId", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLeg_ArrivalId(), ecorePackage.getEString(), "arrivalId", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLeg_RouteId(), ecorePackage.getEString(), "routeId", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLeg_TripId(), ecorePackage.getEString(), "tripId", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(connectionEClass, Connection.class, "Connection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getConnection_ServiceId(), ecorePackage.getEString(), "serviceId", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getConnection_TripId(), ecorePackage.getEString(), "tripId", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getConnection_RouteId(), ecorePackage.getEString(), "routeId", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnection_DepStopSequence(), ecorePackage.getEInt(), "depStopSequence", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnection_DepartureTime(), ecorePackage.getELong(), "departureTime", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnection_ArrStopSequence(), ecorePackage.getEInt(), "arrStopSequence", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -720,6 +740,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		initEAttribute(getStopPoint_Name(), ecorePackage.getEString(), "name", null, 0, 1, StopPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStopPoint_MinimalConnectionTime(), ecorePackage.getEInt(), "minimalConnectionTime", null, 0, 1, StopPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStopPoint_BestJourneys(), this.getItinerary(), null, "bestJourneys", null, 0, -1, StopPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStopPoint_RoutesId(), ecorePackage.getEString(), "routesId", null, 0, -1, StopPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(itineraryEClass, Itinerary.class, "Itinerary", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getItinerary_Path(), this.getLeg(), null, "path", null, 0, -1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -728,6 +749,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		initEAttribute(getItinerary_ArrivalTime(), ecorePackage.getELong(), "arrivalTime", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getItinerary_NbTransfers(), ecorePackage.getEInt(), "nbTransfers", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getItinerary_WalkingDistance(), ecorePackage.getEDouble(), "walkingDistance", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getItinerary_IsOnRightWay(), ecorePackage.getEBoolean(), "isOnRightWay", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stringToFootpathMapEClass, Map.Entry.class, "StringToFootpathMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringToFootpathMap_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -158,13 +158,13 @@ public interface RoutingPackage extends EPackage {
 	int LEG__ARRIVAL_ID = 1;
 
 	/**
-	 * The feature id for the '<em><b>Route Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Trip Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LEG__ROUTE_ID = 2;
+	int LEG__TRIP_ID = 2;
 
 	/**
 	 * The number of structural features of the '<em>Leg</em>' class.
@@ -213,13 +213,13 @@ public interface RoutingPackage extends EPackage {
 	int CONNECTION__ARRIVAL_ID = LEG__ARRIVAL_ID;
 
 	/**
-	 * The feature id for the '<em><b>Route Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Trip Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__ROUTE_ID = LEG__ROUTE_ID;
+	int CONNECTION__TRIP_ID = LEG__TRIP_ID;
 
 	/**
 	 * The feature id for the '<em><b>Service Id</b></em>' attribute.
@@ -231,13 +231,13 @@ public interface RoutingPackage extends EPackage {
 	int CONNECTION__SERVICE_ID = LEG_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Trip Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Route Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__TRIP_ID = LEG_FEATURE_COUNT + 1;
+	int CONNECTION__ROUTE_ID = LEG_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Dep Stop Sequence</b></em>' attribute.
@@ -340,13 +340,13 @@ public interface RoutingPackage extends EPackage {
 	int FOOTPATH__ARRIVAL_ID = LEG__ARRIVAL_ID;
 
 	/**
-	 * The feature id for the '<em><b>Route Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Trip Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOOTPATH__ROUTE_ID = LEG__ROUTE_ID;
+	int FOOTPATH__TRIP_ID = LEG__TRIP_ID;
 
 	/**
 	 * The feature id for the '<em><b>Distance</b></em>' attribute.
@@ -431,13 +431,22 @@ public interface RoutingPackage extends EPackage {
 	int STOP_POINT__BEST_JOURNEYS = 3;
 
 	/**
+	 * The feature id for the '<em><b>Routes Id</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STOP_POINT__ROUTES_ID = 4;
+
+	/**
 	 * The number of structural features of the '<em>Stop Point</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STOP_POINT_FEATURE_COUNT = 4;
+	int STOP_POINT_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Stop Point</em>' class.
@@ -513,13 +522,22 @@ public interface RoutingPackage extends EPackage {
 	int ITINERARY__WALKING_DISTANCE = 5;
 
 	/**
+	 * The feature id for the '<em><b>Is On Right Way</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITINERARY__IS_ON_RIGHT_WAY = 6;
+
+	/**
 	 * The number of structural features of the '<em>Itinerary</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY_FEATURE_COUNT = 6;
+	int ITINERARY_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Itinerary</em>' class.
@@ -814,15 +832,15 @@ public interface RoutingPackage extends EPackage {
 	EAttribute getLeg_ArrivalId();
 
 	/**
-	 * Returns the meta object for the attribute '{@link routing.Leg#getRouteId <em>Route Id</em>}'.
+	 * Returns the meta object for the attribute '{@link routing.Leg#getTripId <em>Trip Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Route Id</em>'.
-	 * @see routing.Leg#getRouteId()
+	 * @return the meta object for the attribute '<em>Trip Id</em>'.
+	 * @see routing.Leg#getTripId()
 	 * @see #getLeg()
 	 * @generated
 	 */
-	EAttribute getLeg_RouteId();
+	EAttribute getLeg_TripId();
 
 	/**
 	 * Returns the meta object for class '{@link routing.Connection <em>Connection</em>}'.
@@ -846,15 +864,15 @@ public interface RoutingPackage extends EPackage {
 	EAttribute getConnection_ServiceId();
 
 	/**
-	 * Returns the meta object for the attribute '{@link routing.Connection#getTripId <em>Trip Id</em>}'.
+	 * Returns the meta object for the attribute '{@link routing.Connection#getRouteId <em>Route Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Trip Id</em>'.
-	 * @see routing.Connection#getTripId()
+	 * @return the meta object for the attribute '<em>Route Id</em>'.
+	 * @see routing.Connection#getRouteId()
 	 * @see #getConnection()
 	 * @generated
 	 */
-	EAttribute getConnection_TripId();
+	EAttribute getConnection_RouteId();
 
 	/**
 	 * Returns the meta object for the attribute '{@link routing.Connection#getDepStopSequence <em>Dep Stop Sequence</em>}'.
@@ -1009,6 +1027,17 @@ public interface RoutingPackage extends EPackage {
 	EReference getStopPoint_BestJourneys();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link routing.StopPoint#getRoutesId <em>Routes Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Routes Id</em>'.
+	 * @see routing.StopPoint#getRoutesId()
+	 * @see #getStopPoint()
+	 * @generated
+	 */
+	EAttribute getStopPoint_RoutesId();
+
+	/**
 	 * Returns the meta object for class '{@link routing.Itinerary <em>Itinerary</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1083,6 +1112,17 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getItinerary_WalkingDistance();
+
+	/**
+	 * Returns the meta object for the attribute '{@link routing.Itinerary#isIsOnRightWay <em>Is On Right Way</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Is On Right Way</em>'.
+	 * @see routing.Itinerary#isIsOnRightWay()
+	 * @see #getItinerary()
+	 * @generated
+	 */
+	EAttribute getItinerary_IsOnRightWay();
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>String To Footpath Map</em>}'.
@@ -1320,12 +1360,12 @@ public interface RoutingPackage extends EPackage {
 		EAttribute LEG__ARRIVAL_ID = eINSTANCE.getLeg_ArrivalId();
 
 		/**
-		 * The meta object literal for the '<em><b>Route Id</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Trip Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LEG__ROUTE_ID = eINSTANCE.getLeg_RouteId();
+		EAttribute LEG__TRIP_ID = eINSTANCE.getLeg_TripId();
 
 		/**
 		 * The meta object literal for the '{@link routing.impl.ConnectionImpl <em>Connection</em>}' class.
@@ -1346,12 +1386,12 @@ public interface RoutingPackage extends EPackage {
 		EAttribute CONNECTION__SERVICE_ID = eINSTANCE.getConnection_ServiceId();
 
 		/**
-		 * The meta object literal for the '<em><b>Trip Id</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Route Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute CONNECTION__TRIP_ID = eINSTANCE.getConnection_TripId();
+		EAttribute CONNECTION__ROUTE_ID = eINSTANCE.getConnection_RouteId();
 
 		/**
 		 * The meta object literal for the '<em><b>Dep Stop Sequence</b></em>' attribute feature.
@@ -1470,6 +1510,14 @@ public interface RoutingPackage extends EPackage {
 		EReference STOP_POINT__BEST_JOURNEYS = eINSTANCE.getStopPoint_BestJourneys();
 
 		/**
+		 * The meta object literal for the '<em><b>Routes Id</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STOP_POINT__ROUTES_ID = eINSTANCE.getStopPoint_RoutesId();
+
+		/**
 		 * The meta object literal for the '{@link routing.impl.ItineraryImpl <em>Itinerary</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1526,6 +1574,14 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ITINERARY__WALKING_DISTANCE = eINSTANCE.getItinerary_WalkingDistance();
+
+		/**
+		 * The meta object literal for the '<em><b>Is On Right Way</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ITINERARY__IS_ON_RIGHT_WAY = eINSTANCE.getItinerary_IsOnRightWay();
 
 		/**
 		 * The meta object literal for the '{@link routing.impl.StringToFootpathMapImpl <em>String To Footpath Map</em>}' class.

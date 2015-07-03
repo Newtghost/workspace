@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 import routing.Itinerary;
@@ -26,6 +27,7 @@ import routing.StopPoint;
  *   <li>{@link routing.impl.StopPointImpl#getName <em>Name</em>}</li>
  *   <li>{@link routing.impl.StopPointImpl#getMinimalConnectionTime <em>Minimal Connection Time</em>}</li>
  *   <li>{@link routing.impl.StopPointImpl#getBestJourneys <em>Best Journeys</em>}</li>
+ *   <li>{@link routing.impl.StopPointImpl#getRoutesId <em>Routes Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -101,6 +103,16 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 	 * @ordered
 	 */
 	protected EList<Itinerary> bestJourneys;
+
+	/**
+	 * The cached value of the '{@link #getRoutesId() <em>Routes Id</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRoutesId()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> routesId;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -201,6 +213,18 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<String> getRoutesId() {
+		if (routesId == null) {
+			routesId = new EDataTypeUniqueEList<String>(String.class, this, RoutingPackage.STOP_POINT__ROUTES_ID);
+		}
+		return routesId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -212,6 +236,8 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 				return getMinimalConnectionTime();
 			case RoutingPackage.STOP_POINT__BEST_JOURNEYS:
 				return getBestJourneys();
+			case RoutingPackage.STOP_POINT__ROUTES_ID:
+				return getRoutesId();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -238,6 +264,10 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 				getBestJourneys().clear();
 				getBestJourneys().addAll((Collection<? extends Itinerary>)newValue);
 				return;
+			case RoutingPackage.STOP_POINT__ROUTES_ID:
+				getRoutesId().clear();
+				getRoutesId().addAll((Collection<? extends String>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -262,6 +292,9 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 			case RoutingPackage.STOP_POINT__BEST_JOURNEYS:
 				getBestJourneys().clear();
 				return;
+			case RoutingPackage.STOP_POINT__ROUTES_ID:
+				getRoutesId().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -282,6 +315,8 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 				return minimalConnectionTime != MINIMAL_CONNECTION_TIME_EDEFAULT;
 			case RoutingPackage.STOP_POINT__BEST_JOURNEYS:
 				return bestJourneys != null && !bestJourneys.isEmpty();
+			case RoutingPackage.STOP_POINT__ROUTES_ID:
+				return routesId != null && !routesId.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -302,6 +337,8 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 		result.append(name);
 		result.append(", minimalConnectionTime: ");
 		result.append(minimalConnectionTime);
+		result.append(", routesId: ");
+		result.append(routesId);
 		result.append(')');
 		return result.toString();
 	}

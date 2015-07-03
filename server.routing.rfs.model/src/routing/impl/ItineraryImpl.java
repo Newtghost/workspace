@@ -2,7 +2,9 @@
  */
 package routing.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
@@ -11,6 +13,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
+import routing.Connection;
 import routing.Itinerary;
 import routing.Leg;
 import routing.RoutingPackage;
@@ -28,6 +31,7 @@ import routing.RoutingPackage;
  *   <li>{@link routing.impl.ItineraryImpl#getArrivalTime <em>Arrival Time</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#getNbTransfers <em>Nb Transfers</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#getWalkingDistance <em>Walking Distance</em>}</li>
+ *   <li>{@link routing.impl.ItineraryImpl#isIsOnRightWay <em>Is On Right Way</em>}</li>
  * </ul>
  * </p>
  *
@@ -143,6 +147,26 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * @ordered
 	 */
 	protected double walkingDistance = WALKING_DISTANCE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isIsOnRightWay() <em>Is On Right Way</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsOnRightWay()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean IS_ON_RIGHT_WAY_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isIsOnRightWay() <em>Is On Right Way</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isIsOnRightWay()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean isOnRightWay = IS_ON_RIGHT_WAY_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -285,6 +309,27 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isIsOnRightWay() {
+		return isOnRightWay;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIsOnRightWay(boolean newIsOnRightWay) {
+		boolean oldIsOnRightWay = isOnRightWay;
+		isOnRightWay = newIsOnRightWay;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY, oldIsOnRightWay, isOnRightWay));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -300,6 +345,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				return getNbTransfers();
 			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
 				return getWalkingDistance();
+			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
+				return isIsOnRightWay();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -332,6 +379,9 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
 				setWalkingDistance((Double)newValue);
 				return;
+			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
+				setIsOnRightWay((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -362,6 +412,9 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
 				setWalkingDistance(WALKING_DISTANCE_EDEFAULT);
 				return;
+			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
+				setIsOnRightWay(IS_ON_RIGHT_WAY_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -386,6 +439,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				return nbTransfers != NB_TRANSFERS_EDEFAULT;
 			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
 				return walkingDistance != WALKING_DISTANCE_EDEFAULT;
+			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
+				return isOnRightWay != IS_ON_RIGHT_WAY_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -410,6 +465,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		result.append(nbTransfers);
 		result.append(", walkingDistance: ");
 		result.append(walkingDistance);
+		result.append(", isOnRightWay: ");
+		result.append(isOnRightWay);
 		result.append(')');
 		return result.toString();
 	}
@@ -419,8 +476,10 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	private static final int THRESHOLD_DEPARTURE = 300 ; /* in seconds */
 
 	@Override
-	/* Time is a departure time when the itinerary doesn't reach the target and a duration otherwise. */
-	public int isDominated (long time, int nbTransfers, double walkingDistance, boolean isTarget) {
+	/* Time is a departure time when the itinerary doesn't reach the target and a duration otherwise. 
+	 * The function return 1 if the current itinerary dominates the one passed in parameters,
+	 * 0 if they're pareto opt, -1 otherwise */
+	public int isDominated (long time, int nbTransfers, double walkingDistance, boolean isTarget, boolean goodWay) {
 		int thisIsDominated = 0 ;
 		int thisDominates = 0 ;
 		
@@ -439,9 +498,11 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			}
 		}
 
-		if (this.nbTransfers + THRESHOLD_TRANSFERS < nbTransfers) {
+		/* If we are not already on the right way (we are on a trip that go through the target stop) 
+		 * then it means that we need at least one more transfer */
+		if (this.nbTransfers + (isOnRightWay?0:1) + THRESHOLD_TRANSFERS < nbTransfers + (goodWay?0:1)) {
 			thisDominates ++;
-		} else if (this.nbTransfers > nbTransfers + THRESHOLD_TRANSFERS) {
+		} else if (this.nbTransfers + (isOnRightWay?0:1) > nbTransfers + (goodWay?0:1) + THRESHOLD_TRANSFERS) {
 			thisIsDominated ++ ;
 		}
 		
@@ -461,8 +522,52 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	}
 
 	@Override
+	/* Only used at the final step, when we have found all the itineraries, to delete useless itineraries */
+	public int compare(Itinerary it) {
+		/* In theory we don't need to check for domination at the final step */
+//		int res = this.isDominated(it.getDuration(), it.getNbTransfers(), it.getWalkingDistance(), true, true) ;
+//		if (res != 0) return res ;
+		
+		/* Both are pareto opt - check for some differences */
+		if (this.nbTransfers != it.getNbTransfers()) return 0 ;
+		if (this.departureTime != it.getDepartureTime()) return 0 ;
+		if (this.getDuration() != it.getDuration()) return 0 ;
+
+		/* Check how the routes are chained */
+		ArrayList<String> routes_this = getRoutesFromPath(path) ; 
+		ArrayList<String> routes_it = getRoutesFromPath(it.getPath()) ; 
+		if (routes_it.size() != routes_this.size()) return 0 ;
+		for (int i = 0 ; i < routes_it.size() ; i++) {
+			if (!routes_it.get(i).equals(routes_this.get(i))) return 0 ;
+		}
+
+		/* The walking distance is the only thing that differentiate both itineraries */
+		if (this.walkingDistance > it.getWalkingDistance()) {
+			return -1 ;
+		} else {
+			return 1 ;
+		}
+	}
+
+	private ArrayList<String> getRoutesFromPath(List<Leg> path) {
+		ArrayList<String> routes = new ArrayList<String>() ;
+		String prev = "" ;
+		for (Leg l : path) {
+			if (l instanceof Connection) {
+				String current = ((Connection) l).getRouteId() ;
+				if (!current.equals(prev)) {
+					prev = current ;
+					routes.add(current) ;
+				}
+			}
+		}
+		return routes;
+	}
+
+	@Override
 	public long getDuration() {
 		return arrivalTime - departureTime;
 	}
+
 
 } //ItineraryImpl

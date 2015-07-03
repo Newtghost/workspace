@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * <ul>
  *   <li>{@link routing.Leg#getDepartureId <em>Departure Id</em>}</li>
  *   <li>{@link routing.Leg#getArrivalId <em>Arrival Id</em>}</li>
- *   <li>{@link routing.Leg#getRouteId <em>Route Id</em>}</li>
+ *   <li>{@link routing.Leg#getTripId <em>Trip Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -76,29 +76,29 @@ public interface Leg extends EObject {
 	void setArrivalId(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Route Id</b></em>' attribute.
+	 * Returns the value of the '<em><b>Trip Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Route Id</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Trip Id</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Route Id</em>' attribute.
-	 * @see #setRouteId(String)
-	 * @see routing.RoutingPackage#getLeg_RouteId()
+	 * @return the value of the '<em>Trip Id</em>' attribute.
+	 * @see #setTripId(String)
+	 * @see routing.RoutingPackage#getLeg_TripId()
 	 * @model
 	 * @generated
 	 */
-	String getRouteId();
+	String getTripId();
 
 	/**
-	 * Sets the value of the '{@link routing.Leg#getRouteId <em>Route Id</em>}' attribute.
+	 * Sets the value of the '{@link routing.Leg#getTripId <em>Trip Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Route Id</em>' attribute.
-	 * @see #getRouteId()
+	 * @param value the new value of the '<em>Trip Id</em>' attribute.
+	 * @see #getTripId()
 	 * @generated
 	 */
-	void setRouteId(String value);
+	void setTripId(String value);
 
 } // Leg

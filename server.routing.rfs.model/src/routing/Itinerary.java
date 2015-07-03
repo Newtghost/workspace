@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.Itinerary#getArrivalTime <em>Arrival Time</em>}</li>
  *   <li>{@link routing.Itinerary#getNbTransfers <em>Nb Transfers</em>}</li>
  *   <li>{@link routing.Itinerary#getWalkingDistance <em>Walking Distance</em>}</li>
+ *   <li>{@link routing.Itinerary#isIsOnRightWay <em>Is On Right Way</em>}</li>
  * </ul>
  * </p>
  *
@@ -173,9 +174,38 @@ public interface Itinerary extends EObject {
 	 */
 	void setWalkingDistance(double value);
 
-	public int isDominated (long time, int nbTransfers, double walkingDistance, boolean isTarget) ;
+	/**
+	 * Returns the value of the '<em><b>Is On Right Way</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Is On Right Way</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Is On Right Way</em>' attribute.
+	 * @see #setIsOnRightWay(boolean)
+	 * @see routing.RoutingPackage#getItinerary_IsOnRightWay()
+	 * @model
+	 * @generated
+	 */
+	boolean isIsOnRightWay();
+
+	/**
+	 * Sets the value of the '{@link routing.Itinerary#isIsOnRightWay <em>Is On Right Way</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Is On Right Way</em>' attribute.
+	 * @see #isIsOnRightWay()
+	 * @generated
+	 */
+	void setIsOnRightWay(boolean value);
+
+	public int isDominated (long time, int nbTransfers, double walkingDistance, boolean isTarget, boolean goodWay) ;
+
+	public int compare (Itinerary itinerary);
 
 	long getDuration();
+
 
 	
 } // Itinerary

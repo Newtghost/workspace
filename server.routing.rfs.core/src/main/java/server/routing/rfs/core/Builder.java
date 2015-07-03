@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import routing.Connection;
 import routing.RoutingFactory;
@@ -25,19 +29,19 @@ import server.routing.rfs.util.Util;
 public class Builder {
 	
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
-	
-	private static final boolean REBUILD = false;  
+	   
+	private static final boolean REBUILD = false;    
 	private Router router ;   
 	private Space space ; 
 		 
 	public Builder (String path) throws IOException {  
-		 
+		  
 		if (REBUILD) { 
 	    	 
 			space = RoutingFactory.eINSTANCE.createSpace(); 
 			
-			/* TODO : est ce qu'on peut récupérer la Timezone du GTFS ? Oui dans le fichier agency.txt */
-			space.setTimezone("Portland");  
+			/* TODO Récupérer l'agence ID et la timezone depuis le GTFS : agency.txt */
+			space.setTimezone("Portland") ;  
 			 
 	    	// Read the GTFS
 			GtfsReader reader = new GtfsReader();
@@ -63,7 +67,8 @@ public class Builder {
 				
 			// Access entities through the store to create connections
 			StopTime prevST = null ;
-			Connection prevC = null, c = null ; 
+			Connection prevC = null, c = null ;  
+			Map<Stop, Set<String>> arrivalRoutesToStop = new HashMap<>() ;
 			for (StopTime st : stop_times) {
 				
 				// Initialization
@@ -87,6 +92,9 @@ public class Builder {
 				}
 	
 				prevST = st ;
+				
+				if (! arrivalRoutesToStop.containsKey(st.getStop())) arrivalRoutesToStop.put(st.getStop(), new HashSet<String>()) ;
+				arrivalRoutesToStop.get(st.getStop()).add(st.getTrip().getRoute().getId().getId());
 			}
 			
 	        LOG.info("List of connections created successfully.");
@@ -104,7 +112,7 @@ public class Builder {
 						MyRoutingFactory.addFootpath(space, s1.getId().getId(), s2.getId().getId(), s1.getLat(), s1.getLon(), s2.getLat(), s2.getLon());
 					}
 				}
-				MyRoutingFactory.addStopPoint(space, s1.getId().getId(), s1.getName(), 0);
+				MyRoutingFactory.addStopPoint(space, s1.getId().getId(), s1.getName(), 0, arrivalRoutesToStop.get(s1));
 			}
 	
 			LOG.info("List of footpaths created successfully.");

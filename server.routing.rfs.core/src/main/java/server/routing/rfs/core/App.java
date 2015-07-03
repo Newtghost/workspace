@@ -11,7 +11,7 @@ import common.Request;
 
 public class App {
 	
-    public static final boolean DEBUG = false ;
+    public static final boolean DEBUG = false ; 
     
     // Builder
 	Builder builder = null;
@@ -20,9 +20,7 @@ public class App {
     public static final String BASE_URI = "http://localhost:8079/myapp/";
 
 	public App (String path) {
-		
-		// TODO : pour améliorer les perfs, charger les trips qui correspondent à la date courante de base
-		
+				
     	try {
 			builder = new Builder (path);
 		} catch (IOException e) {
@@ -31,9 +29,11 @@ public class App {
 
     	/* Debug */
     	if (DEBUG) {
-	    	Request request = MyRoutingFactory.createRequest("3932", "2391", "10:20am", "06-24-2015") ;
+	        long currentTime = System.currentTimeMillis();
+	    	Request request = MyRoutingFactory.createRequest("3932", "2391", "1:30pm", "07-01-2015") ;
 			builder.getRouter().processNewRequest(request);
 			builder.getRouter().run_CSA();
+	        System.out.println("Temps d'éxécution : " + (System.currentTimeMillis()-currentTime) + "ms.");
     	}
 	}
 	

@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.StopPoint#getName <em>Name</em>}</li>
  *   <li>{@link routing.StopPoint#getMinimalConnectionTime <em>Minimal Connection Time</em>}</li>
  *   <li>{@link routing.StopPoint#getBestJourneys <em>Best Journeys</em>}</li>
+ *   <li>{@link routing.StopPoint#getRoutesId <em>Routes Id</em>}</li>
  * </ul>
  * </p>
  *
@@ -118,6 +119,22 @@ public interface StopPoint extends EObject {
 	 * @generated
 	 */
 	EList<Itinerary> getBestJourneys();
+
+	/**
+	 * Returns the value of the '<em><b>Routes Id</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Routes Id</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Routes Id</em>' attribute list.
+	 * @see routing.RoutingPackage#getStopPoint_RoutesId()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getRoutesId();
 
 	long getBestArrivalTime();
 
