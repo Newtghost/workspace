@@ -95,24 +95,18 @@ public class Router {
 		
 		/* Spread the first itinerary to all the neighbors */
 		for (Footpath f : RoutingAccessors.getFootpaths(space, sourceStop.getStopId())) {
-			if (f.getDepartureId().equals("3932") && f.getArrivalId().equals("6876")) { 
-				System.out.println("Ok Walk 1");
-			}
 			updateStopPoint (sourceStop, RoutingAccessors.getStop(space, f.getArrivalId()), f, true, f.getArrivalId().equals(targetStop.getStopId()), false) ;
 		}
 
 		/* Create the list of all recommended routes which allow to reach the target or a target's neighbor */
 		Set<String> recommendedRoutes = new HashSet<>() ;
 		recommendedRoutes.addAll(RoutingAccessors.getRoutesId(targetStop)) ;
-//		for (Footpath f : RoutingAccessors.getFootpaths(space, sourceStop.getStopId())) {
-//			recommendedRoutes.addAll(RoutingAccessors.getRoutesId(RoutingAccessors.getStop(space, f.getArrivalId()))) ;
-//		}
+		for (Footpath f : RoutingAccessors.getFootpaths(space, targetStop.getStopId())) {
+			recommendedRoutes.addAll(RoutingAccessors.getRoutesId(RoutingAccessors.getStop(space, f.getArrivalId()))) ;
+		}
+		System.out.println("Recommended routes : " + recommendedRoutes) ;
 		
-		/* TODO : La ligne 70 mène à la destination ??? Pourquoi est ce que l'on ne la prend pas directement alors ? BUG a corriger  */
-		System.out.println(recommendedRoutes) ;
-
 		StopPoint cDepStop, cArrStop ;
-		List<Footpath> footpaths ;
 		
 		/* Core of the algorithm */
 		for (Connection c : sorted_connections) {
@@ -153,7 +147,7 @@ public class Router {
 						cArrStop.getStopId().equals(targetStop.getStopId()), recommendedRoutes.contains(c.getRouteId())) ;
 				
 				/* TODO : la gestion des footpaths n'a rien à faire ici, il faut directement étendre les nouveaux itinéraires que l'on crée... */
-				footpaths = RoutingAccessors.getFootpaths(space, cArrStop.getStopId()) ;
+				List<Footpath> footpaths = RoutingAccessors.getFootpaths(space, cArrStop.getStopId()) ;
 				if (footpaths != null) { 
 					for (Footpath f : footpaths) {
 						boolean toTarget = f.getArrivalId().equals(targetStop.getStopId()) ;
@@ -385,19 +379,19 @@ public class Router {
 		int i = 0 ;
 		for (Itinerary it : journeys) {
 			System.out.println("----------------------- Itinerary # " + (++i) + " of " + it.getDuration() + "s with " + it.getNbTransfers() + " transfers and " + it.getWalkingDistance() + "m walking -----------------------") ;
-//			Connection c_prev = null ;
-//			for (Leg s : RoutingAccessors.getPath(it)) {
-//				if (s instanceof Footpath) {
-//					System.out.println("Footpath : " + s.getDepartureId() + " --> " + s.getArrivalId() + " (" + ((Footpath) s).getDuration() + ")");
-//				} else {
-//					Connection c = (Connection) s ;
-//					if (c_prev == null || ! c.getTripId().equals(c_prev.getTripId())) {
-//						System.out.println("Transit : " + c.getRouteId() + ", " + c.getTripId());
-//					}
-//					System.out.println("\t" + c.getDepartureId() + " (" + c.getDepartureTime() + "), " + c.getArrivalId() + " (" + c.getArrivalTime() + ")");
-//					c_prev = c ;
-//				}
-//			}		
+			Connection c_prev = null ;
+			for (Leg s : RoutingAccessors.getPath(it)) {
+				if (s instanceof Footpath) {
+					System.out.println("Footpath : " + s.getDepartureId() + " --> " + s.getArrivalId() + " (" + ((Footpath) s).getDuration() + ")");
+				} else {
+					Connection c = (Connection) s ;
+					if (c_prev == null || ! c.getTripId().equals(c_prev.getTripId())) {
+						System.out.println("Transit : " + c.getRouteId() + ", " + c.getTripId());
+					}
+					System.out.println("\t" + c.getDepartureId() + " (" + c.getDepartureTime() + "), " + c.getArrivalId() + " (" + c.getArrivalTime() + ")");
+					c_prev = c ;
+				}
+			}		
 		}
 	}
 
