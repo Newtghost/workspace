@@ -17,6 +17,8 @@ package routing;
  *   <li>{@link routing.Connection#getDepartureTime <em>Departure Time</em>}</li>
  *   <li>{@link routing.Connection#getArrStopSequence <em>Arr Stop Sequence</em>}</li>
  *   <li>{@link routing.Connection#getArrivalTime <em>Arrival Time</em>}</li>
+ *   <li>{@link routing.Connection#getDepartureDelay <em>Departure Delay</em>}</li>
+ *   <li>{@link routing.Connection#getArrivalDelay <em>Arrival Delay</em>}</li>
  *   <li>{@link routing.Connection#isRelaxed <em>Relaxed</em>}</li>
  *   <li>{@link routing.Connection#getPrevC <em>Prev C</em>}</li>
  * </ul>
@@ -182,6 +184,58 @@ public interface Connection extends Leg, Comparable<Connection> {
 	 * @generated
 	 */
 	void setArrivalTime(long value);
+
+	/**
+	 * Returns the value of the '<em><b>Departure Delay</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Departure Delay</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Departure Delay</em>' attribute.
+	 * @see #setDepartureDelay(int)
+	 * @see routing.RoutingPackage#getConnection_DepartureDelay()
+	 * @model
+	 * @generated
+	 */
+	int getDepartureDelay();
+
+	/**
+	 * Sets the value of the '{@link routing.Connection#getDepartureDelay <em>Departure Delay</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Departure Delay</em>' attribute.
+	 * @see #getDepartureDelay()
+	 * @generated
+	 */
+	void setDepartureDelay(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Arrival Delay</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Arrival Delay</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Arrival Delay</em>' attribute.
+	 * @see #setArrivalDelay(int)
+	 * @see routing.RoutingPackage#getConnection_ArrivalDelay()
+	 * @model
+	 * @generated
+	 */
+	int getArrivalDelay();
+
+	/**
+	 * Sets the value of the '{@link routing.Connection#getArrivalDelay <em>Arrival Delay</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Arrival Delay</em>' attribute.
+	 * @see #getArrivalDelay()
+	 * @generated
+	 */
+	void setArrivalDelay(int value);
 
 	/**
 	 * Returns the value of the '<em><b>Relaxed</b></em>' attribute.

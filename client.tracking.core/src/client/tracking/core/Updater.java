@@ -10,8 +10,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import tracking.Itinerary;
-import tracking.Leg;
+import routing.Connection;
+import routing.Footpath;
+import routing.Itinerary;
+import routing.Leg;
 
 import com.google.transit.realtime.GtfsRealtime.FeedEntity;
 import com.google.transit.realtime.GtfsRealtime.FeedMessage;
@@ -86,21 +88,23 @@ public class Updater {
 					TripDescriptor trip = update.getTrip() ;   
 					
 					for (Itinerary it : itineraries) {
-						for (Leg l : it.getLegs()) { 
+						for (Leg l : it.getPath()) { 
 							if (trip.getTripId().equals(l.getTripId())) {
 								for (StopTimeUpdate stu : update.getStopTimeUpdateList()) {
 									/* Propagation des retards */
-									if (stu.getStopSequence() > l.getToStopSequence() ) continue ; /* Le retard ne nous concerne pas */
-									if (stu.getStopSequence() < l.getFromStopSequence() ) {
+									if (l instanceof Footpath) continue ;
+									Connection c = (Connection) l ;
+									if (stu.getStopSequence() > c.getArrStopSequence()) continue ; /* Le retard ne nous concerne pas */
+									if (stu.getStopSequence() < c.getDepStopSequence()) {
 										/* Le bus est en retard et n'est pas encore la - retard hypothetique */
-										if (l.getDepartureDelay() != stu.getArrival().getDelay()) {
-											l.setDepartureDelay(stu.getArrival().getDelay()) ;
+										if (c.getDepartureDelay() != stu.getArrival().getDelay()) {
+											c.setDepartureDelay(stu.getArrival().getDelay()) ;
 											updated = true ;
 										}
 									}
 									/* Le bus est en retard et alors que l'on est dedans - retard constatÃ© */
-									if (l.getArrivalDelay() != stu.getArrival().getDelay()) {
-										l.setArrivalDelay(stu.getArrival().getDelay()) ;
+									if (c.getArrivalDelay() != stu.getArrival().getDelay()) {
+										c.setArrivalDelay(stu.getArrival().getDelay()) ;
 										updated = true ;
 									}
 								}								
@@ -136,28 +140,35 @@ public class Updater {
 			it.setDeprecated(false) ; /* Init */
 		
 			/* Check des correspondances */
-			List<Leg> legs = it.getLegs() ;
-			int delay = 0 ;
-			for (int i=0 ; i < legs.size()-1 ; i++) {
-				if (legs.get(i+1).getMode().equals("WALK")) { /* Un segment de type WALK doit être "adapté" au segment précédent */
-					delay = (int) (legs.get(i).getEndTime() + legs.get(i).getArrivalDelay() - legs.get(i+1).getStartTime()) ;
-					legs.get(i+1).setArrivalDelay(delay);
-					legs.get(i+1).setDepartureDelay(delay);
+			List<Leg> legs = it.getPath() ;
+			long earliestDepartureTime = 0 ;
+			for (int i=0 ; i < legs.size() ; i++) {
+				if (legs.get(i) instanceof Footpath) {
+					Footpath f = (Footpath) legs.get(i) ;
+					earliestDepartureTime += f.getDuration() ; 
 				}
-				else if (legs.get(i).getEndTime() + legs.get(i).getArrivalDelay() > legs.get(i+1).getStartTime() + legs.get(i+1).getDepartureDelay()) {
-					it.setDeprecated(true) ; /* Risque de rater une correspondance */
+				if (legs.get(i) instanceof Connection) { 
+					Connection c = (Connection) legs.get(i) ;
+					if (earliestDepartureTime > c.getDepartureTime() + c.getDepartureDelay()) {
+						it.setDeprecated(true) ; /* Risque de rater une correspondance */
+					}
+					earliestDepartureTime = c.getArrivalTime() + c.getArrivalDelay() ;
 				}
 			}
 
 			/* Retard global trop important : autre chemin probablement meilleur */
-			if (legs.get(legs.size()-1).getArrivalDelay() > DELAY_THRESHOLD) {
-				it.setDeprecated(true) ; 
-			}			
+			if (legs.get(legs.size()-1) instanceof Connection) { 
+				Connection c = (Connection) legs.get(legs.size()-1) ;
+				if (c.getArrivalDelay() > DELAY_THRESHOLD) {
+					it.setDeprecated(true) ; 
+				}	
+			}
 		}
 	}
 	
 	/* Return true if all itineraries are deprecated */
 	public boolean needToRecompute () {
+		/* TODO : il faudrait envisager de ne recalculer que les itineraires d'OTP par exemple ... sinon ils ne sont pas toujours tous deprecated (pour les deux) */
 		boolean aux = true ;
     	for (Itinerary it : itineraries) { 
     		aux = aux && it.isDeprecated() ;

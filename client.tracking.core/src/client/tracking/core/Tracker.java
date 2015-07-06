@@ -13,9 +13,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import tracking.TrackingFactory;
-import tracking.Itinerary;
-import tracking.Leg;
+import routing.Connection;
+import routing.Footpath;
+import routing.Itinerary;
+import routing.Leg;
+import routing.RoutingFactory;
 import common.Request;
 
 public class Tracker {
@@ -172,30 +174,36 @@ public class Tracker {
 				for (int i = 0; i < itineraries.size(); i++) {
 					itinerary = (JSONObject) itineraries.get(i) ;
 					legs = (JSONArray) itinerary.get("legs");
-					Itinerary it = TrackingFactory.eINSTANCE.createItinerary() ;
+					Itinerary it = RoutingFactory.eINSTANCE.createItinerary() ;
 		    		for (int j = 0; j < legs.size(); j++) {
 		    			JSONObject leg = (JSONObject) legs.get(j) ;
 		    			JSONObject from = (JSONObject) leg.get("from") ;
 		    			JSONObject to = (JSONObject) leg.get("to") ;
-		    			Leg l = TrackingFactory.eINSTANCE.createLeg() ;
-		    	 		l.setFrom((String) from.get("name")) ; 
-		    			l.setTo((String) to.get("name")) ;
-		    			departure_delay = ((Long)leg.get("departureDelay")).intValue();
-		    			arrival_delay = ((Long) leg.get("arrivalDelay")).intValue();
-		    			l.setStartTime(((Long)leg.get("startTime"))/1000 - departure_delay) ; // Time stamp en ms
-		    			l.setEndTime(((Long)leg.get("endTime"))/1000 - arrival_delay) ; // Time stamp en ms
-		    			l.setDepartureDelay(departure_delay) ;
-		    			l.setArrivalDelay(arrival_delay) ;
-		    			l.setDistance((double) leg.get("distance")) ;
-		    			l.setMode((String) leg.get("mode")) ; 
-		    			if (leg.containsKey("tripId")) { // Means we're in a transit segment
-			    			l.setRouteId((String) leg.get("routeId")) ;
-			    			l.setAgencyId((String) leg.get("agencyId")) ;
-			    			l.setTripId((String) leg.get("tripId")) ;
-			    			l.setToStopSequence(((Long) to.get("stopSequence")).intValue()) ;
-			    			l.setFromStopSequence(((Long) from.get("stopSequence")).intValue()) ;
+		    
+		    			Leg l ;
+		    			if (leg.get("mode").equals("WALK")) {
+		    				l = RoutingFactory.eINSTANCE.createFootpath() ;
+							l.setDepartureId((String) from.get("stopId")) ; 
+							l.setArrivalId((String) to.get("stopId")) ;
+							((Footpath) l).setDistance((double) leg.get("distance")) ;
+							((Footpath) l).setDuration((int) (((Long)leg.get("endTime"))-((Long)leg.get("startTime")))/1000) ;
+		    			} else {
+		    				l = RoutingFactory.eINSTANCE.createConnection() ;
+							l.setDepartureId((String) from.get("stopId")) ; 
+							l.setArrivalId((String) to.get("stopId")) ;
+							departure_delay = ((Long)leg.get("departureDelay")).intValue();
+							arrival_delay = ((Long) leg.get("arrivalDelay")).intValue();
+							((Connection) l).setDepartureTime(((Long)leg.get("startTime"))/1000 - departure_delay) ; // Time stamp en ms
+							((Connection) l).setArrivalTime(((Long)leg.get("endTime"))/1000 - arrival_delay) ; // Time stamp en ms
+							((Connection) l).setDepartureDelay(departure_delay) ;
+							((Connection) l).setArrivalDelay(arrival_delay) ;
+							((Connection) l).setRouteId((String) leg.get("routeId")) ;
+							((Connection) l).setTripId((String) leg.get("tripId")) ;
+							((Connection) l).setArrStopSequence(((Long) to.get("stopSequence")).intValue()) ;
+							((Connection) l).setDepStopSequence(((Long) from.get("stopSequence")).intValue()) ;
 		    			}
-		    			it.getLegs().add(l);
+		    				
+		    			it.getPath().add(l);
 		    		}
 		    		result.add(it) ;
 				}

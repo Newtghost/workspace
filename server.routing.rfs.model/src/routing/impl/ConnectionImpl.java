@@ -25,6 +25,8 @@ import routing.RoutingPackage;
  *   <li>{@link routing.impl.ConnectionImpl#getDepartureTime <em>Departure Time</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getArrStopSequence <em>Arr Stop Sequence</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getArrivalTime <em>Arrival Time</em>}</li>
+ *   <li>{@link routing.impl.ConnectionImpl#getDepartureDelay <em>Departure Delay</em>}</li>
+ *   <li>{@link routing.impl.ConnectionImpl#getArrivalDelay <em>Arrival Delay</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#isRelaxed <em>Relaxed</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getPrevC <em>Prev C</em>}</li>
  * </ul>
@@ -152,6 +154,46 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	 * @ordered
 	 */
 	protected long arrivalTime = ARRIVAL_TIME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDepartureDelay() <em>Departure Delay</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDepartureDelay()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int DEPARTURE_DELAY_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getDepartureDelay() <em>Departure Delay</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDepartureDelay()
+	 * @generated
+	 * @ordered
+	 */
+	protected int departureDelay = DEPARTURE_DELAY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getArrivalDelay() <em>Arrival Delay</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getArrivalDelay()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int ARRIVAL_DELAY_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getArrivalDelay() <em>Arrival Delay</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getArrivalDelay()
+	 * @generated
+	 * @ordered
+	 */
+	protected int arrivalDelay = ARRIVAL_DELAY_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #isRelaxed() <em>Relaxed</em>}' attribute.
@@ -333,6 +375,48 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getDepartureDelay() {
+		return departureDelay;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDepartureDelay(int newDepartureDelay) {
+		int oldDepartureDelay = departureDelay;
+		departureDelay = newDepartureDelay;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.CONNECTION__DEPARTURE_DELAY, oldDepartureDelay, departureDelay));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getArrivalDelay() {
+		return arrivalDelay;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setArrivalDelay(int newArrivalDelay) {
+		int oldArrivalDelay = arrivalDelay;
+		arrivalDelay = newArrivalDelay;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.CONNECTION__ARRIVAL_DELAY, oldArrivalDelay, arrivalDelay));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isRelaxed() {
 		return relaxed;
 	}
@@ -407,6 +491,10 @@ public class ConnectionImpl extends LegImpl implements Connection {
 				return getArrStopSequence();
 			case RoutingPackage.CONNECTION__ARRIVAL_TIME:
 				return getArrivalTime();
+			case RoutingPackage.CONNECTION__DEPARTURE_DELAY:
+				return getDepartureDelay();
+			case RoutingPackage.CONNECTION__ARRIVAL_DELAY:
+				return getArrivalDelay();
 			case RoutingPackage.CONNECTION__RELAXED:
 				return isRelaxed();
 			case RoutingPackage.CONNECTION__PREV_C:
@@ -441,6 +529,12 @@ public class ConnectionImpl extends LegImpl implements Connection {
 				return;
 			case RoutingPackage.CONNECTION__ARRIVAL_TIME:
 				setArrivalTime((Long)newValue);
+				return;
+			case RoutingPackage.CONNECTION__DEPARTURE_DELAY:
+				setDepartureDelay((Integer)newValue);
+				return;
+			case RoutingPackage.CONNECTION__ARRIVAL_DELAY:
+				setArrivalDelay((Integer)newValue);
 				return;
 			case RoutingPackage.CONNECTION__RELAXED:
 				setRelaxed((Boolean)newValue);
@@ -478,6 +572,12 @@ public class ConnectionImpl extends LegImpl implements Connection {
 			case RoutingPackage.CONNECTION__ARRIVAL_TIME:
 				setArrivalTime(ARRIVAL_TIME_EDEFAULT);
 				return;
+			case RoutingPackage.CONNECTION__DEPARTURE_DELAY:
+				setDepartureDelay(DEPARTURE_DELAY_EDEFAULT);
+				return;
+			case RoutingPackage.CONNECTION__ARRIVAL_DELAY:
+				setArrivalDelay(ARRIVAL_DELAY_EDEFAULT);
+				return;
 			case RoutingPackage.CONNECTION__RELAXED:
 				setRelaxed(RELAXED_EDEFAULT);
 				return;
@@ -508,6 +608,10 @@ public class ConnectionImpl extends LegImpl implements Connection {
 				return arrStopSequence != ARR_STOP_SEQUENCE_EDEFAULT;
 			case RoutingPackage.CONNECTION__ARRIVAL_TIME:
 				return arrivalTime != ARRIVAL_TIME_EDEFAULT;
+			case RoutingPackage.CONNECTION__DEPARTURE_DELAY:
+				return departureDelay != DEPARTURE_DELAY_EDEFAULT;
+			case RoutingPackage.CONNECTION__ARRIVAL_DELAY:
+				return arrivalDelay != ARRIVAL_DELAY_EDEFAULT;
 			case RoutingPackage.CONNECTION__RELAXED:
 				return relaxed != RELAXED_EDEFAULT;
 			case RoutingPackage.CONNECTION__PREV_C:
@@ -538,6 +642,10 @@ public class ConnectionImpl extends LegImpl implements Connection {
 		result.append(arrStopSequence);
 		result.append(", arrivalTime: ");
 		result.append(arrivalTime);
+		result.append(", departureDelay: ");
+		result.append(departureDelay);
+		result.append(", arrivalDelay: ");
+		result.append(arrivalDelay);
 		result.append(", relaxed: ");
 		result.append(relaxed);
 		result.append(')');

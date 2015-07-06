@@ -35,6 +35,8 @@ public class MyRoutingFactory {
 		c.setDepartureTime(departureTime) ;
 		c.setDepStopSequence(departureSeq) ;
 		c.setArrStopSequence(arrivalSeq) ;
+		c.setDepartureDelay(0);
+		c.setArrivalDelay(0);
 		return c ;
 	}
 	
@@ -146,6 +148,9 @@ public class MyRoutingFactory {
 		
 		/* Right way */
 		it.setIsOnRightWay(isOnRightWay);
+		
+		/* Deprecated */
+		it.setDeprecated(false);
 		
 		return it;
 	}

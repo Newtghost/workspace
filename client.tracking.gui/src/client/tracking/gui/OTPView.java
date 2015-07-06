@@ -2,12 +2,12 @@ package client.tracking.gui;
 
 import java.util.ArrayList;
 
-import tracking.Itinerary;
-
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.part.ViewPart;
+
+import routing.Itinerary;
 
 public class OTPView extends ViewPart {
 

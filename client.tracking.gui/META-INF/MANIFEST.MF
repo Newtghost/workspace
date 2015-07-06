@@ -8,7 +8,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  client.tracking.core;bundle-version="1.0.0",
  common.routing.model;bundle-version="0.1.0",
- client.tracking.model;bundle-version="0.1.0"
+ server.routing.rfs.model;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 

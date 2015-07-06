@@ -33,6 +33,8 @@ public class Router {
 	
     private static final Logger LOG = LoggerFactory.getLogger(Router.class);
 
+	private static final long ARRIVAL_MARGIN = 40*60; /* TODO : Peut-être ne pas le faire tout le temps - réduit largement les perfs ... */
+
 	private Request request ;
 	
 	Space space ;
@@ -109,10 +111,14 @@ public class Router {
 									
 			if (c.getDepartureTime() < startTime) continue ; /* Before the departure */
 			
-			/* Break if we can't improve the best arrival time to the target */
+			/* If we can't improve the best arrival time to the target then we will only try to complete running itineraries */
 			if (targetStop.getBestArrivalTime() <= c.getDepartureTime()) {
-				break ;
+				if (targetStop.getBestArrivalTime() + ARRIVAL_MARGIN <= c.getDepartureTime()) break ;
+				if (!recommendedRoutes.contains(c.getRouteId())) {
+					continue ;
+				}
 			}			
+
 			
 			cDepStop = RoutingAccessors.getStop(space, c.getDepartureId()) ;
 			cArrStop = RoutingAccessors.getStop(space, c.getArrivalId()) ;

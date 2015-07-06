@@ -276,13 +276,31 @@ public interface RoutingPackage extends EPackage {
 	int CONNECTION__ARRIVAL_TIME = LEG_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Departure Delay</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTION__DEPARTURE_DELAY = LEG_FEATURE_COUNT + 6;
+
+	/**
+	 * The feature id for the '<em><b>Arrival Delay</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTION__ARRIVAL_DELAY = LEG_FEATURE_COUNT + 7;
+
+	/**
 	 * The feature id for the '<em><b>Relaxed</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__RELAXED = LEG_FEATURE_COUNT + 6;
+	int CONNECTION__RELAXED = LEG_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Prev C</b></em>' reference.
@@ -291,7 +309,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__PREV_C = LEG_FEATURE_COUNT + 7;
+	int CONNECTION__PREV_C = LEG_FEATURE_COUNT + 9;
 
 	/**
 	 * The number of structural features of the '<em>Connection</em>' class.
@@ -300,7 +318,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION_FEATURE_COUNT = LEG_FEATURE_COUNT + 8;
+	int CONNECTION_FEATURE_COUNT = LEG_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of operations of the '<em>Connection</em>' class.
@@ -531,13 +549,22 @@ public interface RoutingPackage extends EPackage {
 	int ITINERARY__IS_ON_RIGHT_WAY = 6;
 
 	/**
+	 * The feature id for the '<em><b>Deprecated</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITINERARY__DEPRECATED = 7;
+
+	/**
 	 * The number of structural features of the '<em>Itinerary</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY_FEATURE_COUNT = 7;
+	int ITINERARY_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Itinerary</em>' class.
@@ -919,6 +946,28 @@ public interface RoutingPackage extends EPackage {
 	EAttribute getConnection_ArrivalTime();
 
 	/**
+	 * Returns the meta object for the attribute '{@link routing.Connection#getDepartureDelay <em>Departure Delay</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Departure Delay</em>'.
+	 * @see routing.Connection#getDepartureDelay()
+	 * @see #getConnection()
+	 * @generated
+	 */
+	EAttribute getConnection_DepartureDelay();
+
+	/**
+	 * Returns the meta object for the attribute '{@link routing.Connection#getArrivalDelay <em>Arrival Delay</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Arrival Delay</em>'.
+	 * @see routing.Connection#getArrivalDelay()
+	 * @see #getConnection()
+	 * @generated
+	 */
+	EAttribute getConnection_ArrivalDelay();
+
+	/**
 	 * Returns the meta object for the attribute '{@link routing.Connection#isRelaxed <em>Relaxed</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1123,6 +1172,17 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getItinerary_IsOnRightWay();
+
+	/**
+	 * Returns the meta object for the attribute '{@link routing.Itinerary#isDeprecated <em>Deprecated</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Deprecated</em>'.
+	 * @see routing.Itinerary#isDeprecated()
+	 * @see #getItinerary()
+	 * @generated
+	 */
+	EAttribute getItinerary_Deprecated();
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>String To Footpath Map</em>}'.
@@ -1426,6 +1486,22 @@ public interface RoutingPackage extends EPackage {
 		EAttribute CONNECTION__ARRIVAL_TIME = eINSTANCE.getConnection_ArrivalTime();
 
 		/**
+		 * The meta object literal for the '<em><b>Departure Delay</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTION__DEPARTURE_DELAY = eINSTANCE.getConnection_DepartureDelay();
+
+		/**
+		 * The meta object literal for the '<em><b>Arrival Delay</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTION__ARRIVAL_DELAY = eINSTANCE.getConnection_ArrivalDelay();
+
+		/**
 		 * The meta object literal for the '<em><b>Relaxed</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1582,6 +1658,14 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ITINERARY__IS_ON_RIGHT_WAY = eINSTANCE.getItinerary_IsOnRightWay();
+
+		/**
+		 * The meta object literal for the '<em><b>Deprecated</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ITINERARY__DEPRECATED = eINSTANCE.getItinerary_Deprecated();
 
 		/**
 		 * The meta object literal for the '{@link routing.impl.StringToFootpathMapImpl <em>String To Footpath Map</em>}' class.

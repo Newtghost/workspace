@@ -2,11 +2,13 @@ package client.tracking.gui;
 
 import java.util.Date;
 
-import tracking.Itinerary;
-import tracking.Leg;
-
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
+
+import routing.Connection;
+import routing.Footpath;
+import routing.Itinerary;
+import routing.Leg;
 
 
 public class ViewLabelProvider extends StyledCellLabelProvider {
@@ -28,20 +30,20 @@ public class ViewLabelProvider extends StyledCellLabelProvider {
 			
 			long tz = Main.JET_LAG ;
 			
-			if (le.getMode().equals("WALK")) {
-				dep = new Date((le.getStartTime() - tz + le.getDepartureDelay()) * 1000);
-				arr = new Date((le.getEndTime() - tz + le.getArrivalDelay()) * 1000);
-				dep2s = dep.toString() ; arr2s = arr.toString() ; 
-				cell.setText(dep2s + " - FROM " + le.getFrom() + " TO " + le.getTo() + " by WALK - " + arr2s);
+			if (le instanceof Footpath) {
+				Footpath f = (Footpath) le ;
+				cell.setText("Walking for " + f.getDuration() + "s on " + ((int) f.getDistance()) + "m from " + f.getDepartureId() + " to " + f.getArrivalId());
 			} else {
-				dep = new Date((le.getStartTime() - tz) * 1000);
-				arr = new Date((le.getEndTime() - tz) * 1000);
-				dep2s = dep.toString() ; arr2s = arr.toString() ; 
-				if (le.getDepartureDelay() > 0) 
-					dep2s +=  " (delayed of " + le.getDepartureDelay() + ")" ;
-				if (le.getArrivalDelay() > 0) 
-					arr2s +=  " (delayed of " + le.getArrivalDelay() + ")" ;
-				cell.setText(dep2s + " - FROM " + le.getFrom() + " TO " + le.getTo() + " by " + le.getRouteId() + ", " + le.getTripId() + " - " + arr2s);
+				Connection c = (Connection) le ;
+				dep = new Date((c.getDepartureTime() - tz) * 1000);
+				arr = new Date((c.getArrivalTime() - tz) * 1000);
+				dep2s = dep.getHours() + ":" + dep.getMinutes() ;
+				arr2s = arr.getHours() + ":" + arr.getMinutes() ;
+				if (c.getDepartureDelay() > 0) 
+					dep2s +=  " (delayed of " + c.getDepartureDelay() + ")" ;
+				if (c.getArrivalDelay() > 0) 
+					arr2s +=  " (delayed of " + c.getArrivalDelay() + ")" ;
+				cell.setText("Transit with route " + c.getRouteId() + " (" + c.getTripId() + ") from "+ c.getDepartureId() + " (" + dep2s + ") to " + c.getArrivalId() + " (" + arr2s + ")");
 			}
 		} else {
 			cell.setText(element.toString());

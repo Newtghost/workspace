@@ -32,6 +32,7 @@ import routing.RoutingPackage;
  *   <li>{@link routing.impl.ItineraryImpl#getNbTransfers <em>Nb Transfers</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#getWalkingDistance <em>Walking Distance</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#isIsOnRightWay <em>Is On Right Way</em>}</li>
+ *   <li>{@link routing.impl.ItineraryImpl#isDeprecated <em>Deprecated</em>}</li>
  * </ul>
  * </p>
  *
@@ -167,6 +168,26 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * @ordered
 	 */
 	protected boolean isOnRightWay = IS_ON_RIGHT_WAY_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isDeprecated() <em>Deprecated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isDeprecated()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean DEPRECATED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isDeprecated() <em>Deprecated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isDeprecated()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean deprecated = DEPRECATED_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -330,6 +351,27 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isDeprecated() {
+		return deprecated;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDeprecated(boolean newDeprecated) {
+		boolean oldDeprecated = deprecated;
+		deprecated = newDeprecated;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.ITINERARY__DEPRECATED, oldDeprecated, deprecated));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -347,6 +389,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				return getWalkingDistance();
 			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
 				return isIsOnRightWay();
+			case RoutingPackage.ITINERARY__DEPRECATED:
+				return isDeprecated();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -382,6 +426,9 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
 				setIsOnRightWay((Boolean)newValue);
 				return;
+			case RoutingPackage.ITINERARY__DEPRECATED:
+				setDeprecated((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -415,6 +462,9 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
 				setIsOnRightWay(IS_ON_RIGHT_WAY_EDEFAULT);
 				return;
+			case RoutingPackage.ITINERARY__DEPRECATED:
+				setDeprecated(DEPRECATED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -441,6 +491,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				return walkingDistance != WALKING_DISTANCE_EDEFAULT;
 			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
 				return isOnRightWay != IS_ON_RIGHT_WAY_EDEFAULT;
+			case RoutingPackage.ITINERARY__DEPRECATED:
+				return deprecated != DEPRECATED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -467,6 +519,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		result.append(walkingDistance);
 		result.append(", isOnRightWay: ");
 		result.append(isOnRightWay);
+		result.append(", deprecated: ");
+		result.append(deprecated);
 		result.append(')');
 		return result.toString();
 	}

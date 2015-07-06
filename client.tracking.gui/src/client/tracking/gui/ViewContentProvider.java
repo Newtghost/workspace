@@ -2,11 +2,11 @@ package client.tracking.gui;
 
 import java.util.ArrayList;
 
-import tracking.Itinerary;
-import tracking.Leg;
-
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+
+import routing.Itinerary;
+import routing.Leg;
 
 public class ViewContentProvider implements ITreeContentProvider {
 
@@ -29,7 +29,7 @@ public class ViewContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof Itinerary) {
-			return ((Itinerary) parentElement).getLegs().toArray();
+			return ((Itinerary) parentElement).getPath().toArray();
 		} else if (parentElement instanceof Leg) {
 			return ((Leg) parentElement).eContents().toArray();
 		}
