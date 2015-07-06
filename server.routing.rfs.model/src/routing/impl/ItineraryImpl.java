@@ -524,10 +524,6 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	@Override
 	/* Only used at the final step, when we have found all the itineraries, to delete useless itineraries */
 	public int compare(Itinerary it) {
-		/* In theory we don't need to check for domination at the final step */
-//		int res = this.isDominated(it.getDuration(), it.getNbTransfers(), it.getWalkingDistance(), true, true) ;
-//		if (res != 0) return res ;
-		
 		/* Both are pareto opt - check for some differences */
 		if (this.nbTransfers != it.getNbTransfers()) return 0 ;
 		if (this.departureTime != it.getDepartureTime()) return 0 ;
