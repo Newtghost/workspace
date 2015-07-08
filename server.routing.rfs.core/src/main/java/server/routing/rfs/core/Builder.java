@@ -32,6 +32,7 @@ public class Builder {
 	   
 	private static final boolean REBUILD = false;    
 	private Router router ;   
+	private Updater updater = null ;
 	private Space space ; 
 		 
 	public Builder (String path) throws IOException {  
@@ -41,7 +42,7 @@ public class Builder {
 			space = RoutingFactory.eINSTANCE.createSpace(); 
 			
 			/* TODO Récupérer l'agence ID et la timezone depuis le GTFS : agency.txt */
-			space.setTimezone("Portland") ;  
+			space.setTimezone("Portland") ;   
 			 
 	    	// Read the GTFS
 			GtfsReader reader = new GtfsReader();
@@ -128,8 +129,6 @@ public class Builder {
 			space = MyRoutingFactory.deserialize() ;
 	        if (space != null) LOG.info("De-serialization proceeded successfully.");
 		}
-		
-		router = new Router(space) ;
 	} 
 
 	/**
@@ -147,6 +146,18 @@ public class Builder {
             }
         };
     }
+
+ 	public Updater getUpdater() {
+		return updater;
+	}
+
+	public void createUpdater() {
+		updater = new Updater();
+	}
+
+	public void createRouter() {
+		router = new Router(space, updater) ;
+	}
 
 	public Router getRouter() {
 		return router;

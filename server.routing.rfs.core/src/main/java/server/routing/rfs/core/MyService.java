@@ -47,6 +47,8 @@ public class MyService {
 
 			builder.getRouter().processNewRequest(request);
 			builder.getRouter().run_CSA();
+			
+			/* TODO : Il faudrait lancer un thread de reinit (tous les delay) ou alors direct dans l'updater -- blocage / effet de bord */
 
 			try {
 				String json = builder.getRouter().journey2Json() ;

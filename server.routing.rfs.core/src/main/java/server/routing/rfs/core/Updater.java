@@ -77,24 +77,33 @@ public class Updater {
 						String tripId = trip.getTripId() ; /* Map indexée sur les trip ID : values = ensemble des connections de ce trip qui doivent être maj */
 						int arrivalDelay = stu.getArrival().getDelay() ;
 						int departureDelay = stu.getDeparture().getDelay() ;
-						if (arrivalDelay > 0) {
+						/* Aujourd'hui tel que c'est fait, on introduit un delay sur un stop, part d'un Trip.
+						 * Il convient donc de mettre à jour, pour ce trip, les deux connexions concernées.  */
+						if (arrivalDelay > 0) { /* Avoid useless updates */
 							/* We update the connection which arrives at this stop sequence */
 							Connection c = RoutingFactory.eINSTANCE.createConnection() ;
 							c.setArrStopSequence(stu.getStopSequence());
 							c.setArrivalDelay(arrivalDelay) ;
 							addUpdatedConnection(tripId, c) ;
+							c = RoutingFactory.eINSTANCE.createConnection() ;
+							c.setDepStopSequence(stu.getStopSequence());
+							c.setDepartureDelay(arrivalDelay);
+							addUpdatedConnection(tripId, c) ;
 						}
 						if (departureDelay > 0) {
 							/* We update the connection which start from this stop sequence */
-							Connection c = RoutingFactory.eINSTANCE.createConnection() ;
-							c.setDepStopSequence(stu.getStopSequence());
-							c.setDepartureDelay(departureDelay) ;
-							addUpdatedConnection(tripId, c) ;
+//							Connection c = RoutingFactory.eINSTANCE.createConnection() ;
+//							c.setDepStopSequence(stu.getStopSequence());
+//							c.setDepartureDelay(departureDelay) ;
+//							addUpdatedConnection(tripId, c) ;
+							System.err.println("Departure delay aren't take into account yet.") ;
 						}
 					}								
 				}
 			}			
 		}
+		
+		System.out.println("Updates proceed.") ;
 	}
 
 	private void addUpdatedConnection(String tripId, Connection c) {

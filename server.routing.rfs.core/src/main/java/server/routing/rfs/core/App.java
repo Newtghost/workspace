@@ -14,7 +14,6 @@ public class App {
     public static final boolean DEBUG = false ; 
     
 	Builder builder = null;
-	Updater updater = null;
 
 	// Base URI the Grizzly HTTP server will listen on
     public static final String BASE_URI = "http://localhost:8079/myapp/";
@@ -27,21 +26,27 @@ public class App {
 			e.printStackTrace();
 		}
 
-    	/* Debug */
     	if (DEBUG) {
+    		builder.createRouter();
 	        long currentTime = System.currentTimeMillis();
 	    	Request request = MyRoutingFactory.createRequest("3932", "2391", "1:30pm", "07-01-2015") ;
 			builder.getRouter().processNewRequest(request);
 			builder.getRouter().run_CSA();
 	        System.out.println("Temps d'éxécution : " + (System.currentTimeMillis()-currentTime) + "ms.");
+    	} else {
+    		builder.createUpdater();
+    		builder.createRouter();
+    		builder.getUpdater().start();
+    		startServer() ;
     	}
+    	
 	}
 	
     /**
      * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
      * @return Grizzly HTTP server.
      */
-    public void startServer() {
+    private void startServer() {
 		// create a resource config that scans for JAX-RS resources and providers
         // in com.example.simple_service package
         final ResourceConfig rc = new ResourceConfig().packages("server.routing.rfs.core");
@@ -52,21 +57,13 @@ public class App {
         GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 
-	public void startUpdater() {
-		updater = new Updater() ;
-		updater.start();
-	}
-
 	public static void main(String[] args) throws IOException {
     	if (args.length != 1) {
 			System.err.println("usage: gtfs_feed_path");
 			System.exit(-1);
 		}	
-    	App myapp = new App (args[0]) ;
-    	if (!DEBUG) {
-    		myapp.startServer();
-    		myapp.startUpdater();
-    	}
+    	
+    	new App (args[0]) ;
     }
     
 }

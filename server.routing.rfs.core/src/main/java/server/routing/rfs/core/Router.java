@@ -38,12 +38,15 @@ public class Router {
 	private Request request ;
 	
 	Space space ;
+	Updater updater ;
 	private Map<Date, ArrayList<Connection>> sorted_connections_by_date ; 
+	private Map<String, List<Connection>> updated_connections = null; 
 	private ArrayList<Connection> sorted_connections ; 
 	private String currentDate = "" ;
 	
-	public Router (Space space) {
+	public Router (Space space, Updater updater) {
 		this.space = space ;
+		this.updater = updater ;
 		
 		sorted_connections_by_date = new HashMap<Date, ArrayList<Connection>>();
 		
@@ -88,6 +91,7 @@ public class Router {
 		
 		/* Initialization */
 		MyRoutingFactory.initialize(space) ;  
+		if (updater!=null) updated_connections = updater.getUpdatedConnections() ;
 
 		/* Creation of the initial empty itinerary from the source */
 		Itinerary it = MyRoutingFactory.createItinerary(null, null, "-1", startTime, startTime, 0, 0.0, false) ; /* Itinéraire qui domine tous les autres */
@@ -125,8 +129,23 @@ public class Router {
 
 			if (cArrStop.getStopId().equals(sourceStop.getStopId())) continue ;
 			if (cDepStop.getStopId().equals(targetStop.getStopId())) continue ;
-						
-			if (cDepStop.getBestArrivalTime() + cDepStop.getMinimalConnectionTime() <= c.getDepartureTime() ||
+			
+			/* Take into account real-time information : updating connections */
+			if (updater!=null && updated_connections.containsKey(c.getTripId())) {
+				for (Connection uc : updated_connections.get(c.getTripId())) {
+					if (uc.getArrivalDelay() > 0) { /* Arrival delay */
+						if (uc.getArrStopSequence() == c.getArrStopSequence()) {
+							c.setArrivalDelay(uc.getArrivalDelay());
+						}
+					} else { /* Otherwise */
+						if (uc.getDepStopSequence() == c.getDepStopSequence()) {
+							c.setDepartureDelay(uc.getDepartureDelay());
+						}
+					}
+				}
+			}
+			
+			if (cDepStop.getBestArrivalTime() + cDepStop.getMinimalConnectionTime() <= c.getDepartureTime() + c.getDepartureDelay() ||
 					(c.getPrevC() != null && c.getPrevC().isRelaxed())) {
 												
 				updateStopPoint (cDepStop, cArrStop, c, targetStop, cDepStop.getStopId().equals(sourceStop.getStopId()), 
@@ -166,14 +185,14 @@ public class Router {
 	public void updateStopPoint (StopPoint dep, StopPoint arr, Connection c, StopPoint target, boolean fromSource, boolean goodWay) {		
 		List<Itinerary> depJourneys = RoutingAccessors.getJourneys(dep) ;
 		for (Itinerary itdep : depJourneys) {
-			if (itdep.getArrivalTime() + dep.getMinimalConnectionTime() > c.getDepartureTime()) continue ; /* In time for the transfer */
+			if (itdep.getArrivalTime() + dep.getMinimalConnectionTime() > c.getDepartureTime() + c.getDepartureDelay()) continue ; /* In time for the transfer */
 			
 			/* Computing parameters of the new itinerary (itdep + l) */
 			int nbTransfers = itdep.getNbTransfers() ; 
 			if (!itdep.getLastTrip().equals(c.getTripId())) nbTransfers ++;
 
 			Itinerary it = MyRoutingFactory.createItinerary(itdep, c, c.getTripId(), fromSource?c.getDepartureTime():itdep.getDepartureTime(), 
-					c.getArrivalTime(), nbTransfers, itdep.getWalkingDistance(), goodWay) ;
+					c.getArrivalTime() + c.getArrivalDelay(), nbTransfers, itdep.getWalkingDistance(), goodWay) ;
 			if (it == null) continue ;
 							
 			/* Create and add the new itinerary if needed */

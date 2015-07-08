@@ -42,9 +42,9 @@ public class ViewLabelProvider extends StyledCellLabelProvider {
 				dep2s = DateUtils.hour2String(dep) ;
 				arr2s = DateUtils.hour2String(arr) ;
 				if (c.getDepartureDelay() > 0) 
-					dep2s +=  " (delayed of " + c.getDepartureDelay() + ")" ;
+					dep2s +=  " delayed of " + c.getDepartureDelay() + "s" ;
 				if (c.getArrivalDelay() > 0) 
-					arr2s +=  " (delayed of " + c.getArrivalDelay() + ")" ;
+					arr2s +=  " delayed of " + c.getArrivalDelay() + "s" ;
 				cell.setText("Transit with route " + c.getRouteId() + " (" + c.getTripId() + ") from "+ c.getDepartureId() + " (" + dep2s + ") to " + c.getArrivalId() + " (" + arr2s + ")");
 			}
 		} else {
