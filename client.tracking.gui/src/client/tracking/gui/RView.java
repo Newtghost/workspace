@@ -131,7 +131,7 @@ public class RView extends ViewPart {
 	}
 
 	public long getStartTime() {
-		return DateUtils.parseTimeD(time.getText());
+		return DateUtils.parseTime(time.getText());
 	}
 
 	public double getLatTo() {

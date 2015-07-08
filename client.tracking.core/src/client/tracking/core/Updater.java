@@ -168,7 +168,8 @@ public class Updater {
 	
 	/* Return true if all itineraries are deprecated */
 	public boolean needToRecompute () {
-		/* TODO : il faudrait envisager de ne recalculer que les itineraires d'OTP par exemple ... sinon ils ne sont pas toujours tous deprecated (pour les deux) */
+		/* TODO : aujourd'hui on ne recalcule les itinéraires que s'ils sont tous deprecated. 
+		 * Il faudrait différencier les itinéraires par calculateur (exemple ceux d'OTP). */
 		boolean aux = true ;
     	for (Itinerary it : itineraries) { 
     		aux = aux && it.isDeprecated() ;

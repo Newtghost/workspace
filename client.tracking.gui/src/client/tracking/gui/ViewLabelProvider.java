@@ -5,6 +5,8 @@ import java.util.Date;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 
+import common.util.DateUtils;
+
 import routing.Connection;
 import routing.Footpath;
 import routing.Itinerary;
@@ -37,8 +39,8 @@ public class ViewLabelProvider extends StyledCellLabelProvider {
 				Connection c = (Connection) le ;
 				dep = new Date((c.getDepartureTime() - tz) * 1000);
 				arr = new Date((c.getArrivalTime() - tz) * 1000);
-				dep2s = dep.getHours() + ":" + dep.getMinutes() ;
-				arr2s = arr.getHours() + ":" + arr.getMinutes() ;
+				dep2s = DateUtils.hour2String(dep) ;
+				arr2s = DateUtils.hour2String(arr) ;
 				if (c.getDepartureDelay() > 0) 
 					dep2s +=  " (delayed of " + c.getDepartureDelay() + ")" ;
 				if (c.getArrivalDelay() > 0) 

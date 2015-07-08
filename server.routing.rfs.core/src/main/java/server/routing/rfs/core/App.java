@@ -13,8 +13,8 @@ public class App {
 	
     public static final boolean DEBUG = false ; 
     
-    // Builder
 	Builder builder = null;
+	Updater updater = null;
 
 	// Base URI the Grizzly HTTP server will listen on
     public static final String BASE_URI = "http://localhost:8079/myapp/";
@@ -52,14 +52,21 @@ public class App {
         GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 
-    public static void main(String[] args) throws IOException {
+	public void startUpdater() {
+		updater = new Updater() ;
+		updater.start();
+	}
+
+	public static void main(String[] args) throws IOException {
     	if (args.length != 1) {
 			System.err.println("usage: gtfs_feed_path");
 			System.exit(-1);
 		}	
     	App myapp = new App (args[0]) ;
-    	if (!DEBUG) myapp.startServer();
+    	if (!DEBUG) {
+    		myapp.startServer();
+    		myapp.startUpdater();
+    	}
     }
-
     
 }

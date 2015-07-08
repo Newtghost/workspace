@@ -44,7 +44,7 @@ public class RoutingAccessors {
 	}
 
 	public static long getStartTime (Request r) {
-		return DateUtils.parseTimeD (r.getTime()) ;
+		return DateUtils.parseTime (r.getTime()) ;
 	}
 
 	public static Date getDate(Request request) {

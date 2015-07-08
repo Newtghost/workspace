@@ -23,9 +23,11 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
- * @author Frank Purcell (p u r c e l l f @ t r i m e t . o r g)
+ * @author Frank Purcell (TriMet)
+ * @author David Leydier
  * @date October 20, 2009
  */
+
 public class DateUtils {
 
     private static final List<String> DF_LIST = Collections.unmodifiableList(Arrays.asList(new String[] { 
@@ -40,113 +42,7 @@ public class DateUtils {
             Arrays.asList(new String[] { "M.d.yy", "yy.M.d", "h.mm a" }));
     private static final int SANITY_CHECK_CUTOFF_YEAR = 1000;
 
-    /**
-     * Returns a Date object based on input date & time parameters Defaults to today / now (when
-     * date / time are null)
-     * 
-     * @param date
-     * @param time
-     */
-    static public Date toDate(String date, String time, TimeZone tz) {
-        Date retVal = new Date();
-        if (date != null) {
-            Date d = parseDate(date, tz);
-            if (d == null) {
-                return null; //unparseable date
-            }
-            Calendar cal = new GregorianCalendar(tz);
-            cal.setTime(d);
-            boolean timed = false;
-            if (time != null) {
-                int[] hms = parseTime (time);
-                if (hms != null) {
-                    cal.set(Calendar.HOUR_OF_DAY, hms[0]);
-                    cal.set(Calendar.MINUTE, hms[1]);
-                    cal.set(Calendar.SECOND, hms[2]);
-                    cal.set(Calendar.MILLISECOND, 0);
-                    timed = true;
-                }
-            }
-            if (!timed) {
-                //assume t = now
-                Calendar today = new GregorianCalendar();
-                cal.set(Calendar.HOUR_OF_DAY, today.get(Calendar.HOUR_OF_DAY));
-                cal.set(Calendar.MINUTE, today.get(Calendar.MINUTE));
-                cal.set(Calendar.SECOND, today.get(Calendar.SECOND));
-                cal.set(Calendar.MILLISECOND, today.get(Calendar.MILLISECOND));
-            }
-            retVal = cal.getTime();
-        } else if (time != null) {
-            int[] hms = parseTime (time);
-            if (hms != null) {
-                Calendar cal = new GregorianCalendar(tz);
-
-                cal.set(Calendar.HOUR_OF_DAY, hms[0]);
-                cal.set(Calendar.MINUTE, hms[1]);
-                cal.set(Calendar.SECOND, hms[2]);
-                cal.set(Calendar.MILLISECOND, 0);
-                retVal = cal.getTime();
-            }
-        }
-        return retVal;
-    }
-
-    /**
-     * Returns H,M,S
-     * @param time
-     * @return
-     */
-    private static int[] parseTime(String time) {
-        int[] retVal = null;
-
-        boolean amPm = false;
-        int addHours = 0;
-        int hour = 0, min = 0, sec = 0;
-        try {
-            String[] hms = time.toUpperCase().split(":");
-
-            // if we don't have a colon sep string, assume string is int and represents seconds past
-            // midnight
-            if (hms.length < 2) {
-                int secondsPastMidnight = getIntegerFromString(time);
-                retVal = new int[] { secondsPastMidnight / 3600, (secondsPastMidnight % 3600) / 60, secondsPastMidnight % 60 };
-            }
-
-            if (hms[1].endsWith("PM") || hms[1].endsWith("AM")) {
-                amPm = true;
-
-                if (hms[1].contains("PM"))
-                    addHours = 12;
-
-                int suffex = hms[1].lastIndexOf(' ');
-                if (suffex < 1) {
-                    suffex = hms[1].lastIndexOf("AM");
-                    if (suffex < 1) {
-                        suffex = hms[1].lastIndexOf("PM");
-                    }
-                }
-                hms[1] = hms[1].substring(0, suffex);
-            }
-
-            int h = Integer.parseInt(trim(hms[0]));
-            if (amPm && h == 12)
-                h = 0;
-            hour = h + addHours;
-
-            min = Integer.parseInt(trim(hms[1]));
-            if (hms.length > 2) {
-                sec = Integer.parseInt(trim(hms[2]));
-            }
-
-            retVal = new int[] {hour, min, sec};
-        } catch (Exception e) {
-            retVal = null;
-        }
-
-        return retVal;
-    }
-
-    // TODO: could be replaced with Apache's DateFormat.parseDate ???
+    /* Return a Date */
     static public Date parseDate(String input, TimeZone tz) {
         Date retVal = null;
         try {
@@ -189,97 +85,7 @@ public class DateUtils {
         return retVal;
     }
 
-    public static int getIntegerFromString(String input) {
-        try {
-            return new Integer(input);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
-    /**
-     * Converts time in seconds to a <code>String</code> in the format h:mm.
-     * 
-     * @param time
-     *            the time in seconds.
-     * @return a <code>String</code> representing the time in the format h:mm
-     */
-    public static String secondsToString(int time) {
-        return secondsToString(time, false);
-    }
-
-    public static String secondsToString(int time, boolean withAmPm) {
-        if (time < 0)
-            return null;
-
-        String minutesStr = secondsToMinutes(time);
-        String hoursStr = secondsToHour(time);
-        String amPmStr = withAmPm ? getAmPm(time) : "";
-
-        return hoursStr + ":" + minutesStr + amPmStr;
-    }
-
-    public static String secondsToHour(int time) {
-        if (time < 0)
-            return null;
-        int hours = (time / 3600) % 12;
-        String hoursStr = hours == 0 ? "12" : hours + "";
-        return hoursStr;
-    }
-
-    public static String secondsToMinutes(int time) {
-        if (time < 0)
-            return null;
-
-        int minutes = (time / 60) % 60;
-        String minutesStr = (minutes < 10 ? "0" : "") + minutes;
-        return minutesStr;
-    }
-
-    public static String getAmPm(int time) {
-        return getAmPm(time, "AM", "PM");
-    }
-
-    public static String getAmPm(int time, String am, String pm) {
-        if (time % 86400 >= 43200)
-            return pm;
-        else
-            return am;
-    }
-
-    public static String trim(String str) {
-        String retVal = str;
-        try {
-            retVal = str.trim();
-            retVal = retVal.replaceAll("%20;", "");
-            retVal = retVal.replaceAll("%20", "");
-        } catch (Exception ex) {
-			ex.printStackTrace();
-        }
-        return retVal;
-    }
-
-    public static String formatDate(String sdfFormat, Date date, TimeZone tz) {
-        return formatDate(sdfFormat, date, null, tz);
-    }
-
-    public static String formatDate(String sdfFormat, Date date, String defValue, TimeZone tz) {
-        String retVal = defValue;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(sdfFormat);
-            sdf.setTimeZone(tz);
-            retVal = sdf.format(date);
-        } catch (Exception e) {
-            retVal = defValue;
-        }
-        return retVal;
-    }
-
-    public static Date parseDate(String sdf, String string) {
-        return parseDate(new SimpleDateFormat(sdf), string);
-    }
-
-    public synchronized static Date parseDate(SimpleDateFormat sdf, String string) {
+    public synchronized static Date parseDate (SimpleDateFormat sdf, String string) {
         sdf.setLenient(false);
         try {
             return sdf.parse(string);
@@ -287,18 +93,9 @@ public class DateUtils {
         }
         return null;
     }
-    
-    public static long absoluteTimeout(double relativeTimeoutSeconds) {
-        if (relativeTimeoutSeconds <= 0)
-            return Long.MAX_VALUE;
-        else
-            return System.currentTimeMillis() + (long)(relativeTimeoutSeconds * 1000.0);
-    }
-    
-	/* TODO : dupliqué, à unifier, modifier, faire une bibli propre pour la gestion des dates */
 
     /* Return a number of seconds */
-    public static long parseTimeD(String time) {
+    public static long parseTime(String time) {
     	int[] aux = null;
         boolean amPm = false;
         int addHours = 0;
@@ -345,5 +142,34 @@ public class DateUtils {
         return aux[0]*3600 + aux[1]*60 + aux[2];
     }
 
+    public static String trim (String str) {
+        String retVal = str;
+        try {
+            retVal = str.trim();
+            retVal = retVal.replaceAll("%20;", "");
+            retVal = retVal.replaceAll("%20", "");
+        } catch (Exception ex) {
+			ex.printStackTrace();
+        }
+        return retVal;
+    }
+    
+    @SuppressWarnings("deprecation")
+	public static String hour2String (Date d) {
+    	int hours = d.getHours() ;
+    	int minutes = d.getMinutes() ;
+    	int seconds = d.getSeconds() ;
+    	return  formatTime2String(hours) + ":" + formatTime2String(minutes) + ":" + formatTime2String(seconds);
+    }
+    
+    private static String formatTime2String (int i) {
+    	String res = "" ;
+    	if (i < 10) {
+    		res += "0" + i ;
+    	} else {
+    		res += i ;
+    	}
+    	return res ;
+    }
  
 }

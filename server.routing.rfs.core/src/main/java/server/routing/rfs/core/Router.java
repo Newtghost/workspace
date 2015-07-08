@@ -33,7 +33,7 @@ public class Router {
 	
     private static final Logger LOG = LoggerFactory.getLogger(Router.class);
 
-	private static final long ARRIVAL_MARGIN = 40*60; /* TODO : Peut-être ne pas le faire tout le temps - réduit largement les perfs ... */
+	private static final long ARRIVAL_MARGIN = 0 ;//40*60; /* TODO : Peut-être ne pas le faire tout le temps - réduit largement les perfs ... */
 
 	private Request request ;
 	
