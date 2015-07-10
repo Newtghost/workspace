@@ -30,9 +30,10 @@ public class Updater {
 	
 	private ScheduledExecutorService executor;
 	
-	private Map<String, List<Connection>> updatedConnections ;
+	private Map<String, List<Connection>> updatedConnections = null ;
 	
 	public Map<String, List<Connection>> getUpdatedConnections () {
+		if (updatedConnections == null) return null ;
 		return new HashMap<>(updatedConnections) ; /* Return a copy, avoid side effects */
 	}
 	
@@ -56,10 +57,19 @@ public class Updater {
 		}
 
 		URL obj = new URL(url);
-		HttpURLConnection entity = (HttpURLConnection) obj.openConnection(); 
+		HttpURLConnection entity;
+		entity = (HttpURLConnection) obj.openConnection();
 		entity.setRequestMethod("GET"); // optional default is GET
-		 
-		InputStream is = entity.getInputStream();
+		
+		InputStream is = null ;
+		try {
+			is = entity.getInputStream();
+		} catch (IOException e) {
+			System.err.println("Connection refused to the RT feed. Please check if the feed is working before to restart the server.");
+			this.stop();
+			return ;
+		} 
+
 		if (is != null) {
 			// Decode message
 			FeedMessage feedMessage = FeedMessage.parseFrom(is);
@@ -92,6 +102,7 @@ public class Updater {
 						}
 						if (departureDelay > 0) {
 							/* We update the connection which start from this stop sequence */
+							/* TODO add dep delay */
 //							Connection c = RoutingFactory.eINSTANCE.createConnection() ;
 //							c.setDepStopSequence(stu.getStopSequence());
 //							c.setDepartureDelay(departureDelay) ;

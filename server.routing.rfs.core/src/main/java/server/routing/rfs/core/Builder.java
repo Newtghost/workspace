@@ -30,9 +30,9 @@ public class Builder {
 	
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
 	   
-	private static final boolean REBUILD = false;    
+	private static final boolean REBUILD = false;      
 	private Router router ;   
-	private Updater updater = null ;
+	private Updater updater = null ; 
 	private Space space ; 
 		 
 	public Builder (String path) throws IOException {  
@@ -42,7 +42,7 @@ public class Builder {
 			space = RoutingFactory.eINSTANCE.createSpace(); 
 			
 			/* TODO Récupérer l'agence ID et la timezone depuis le GTFS : agency.txt */
-			space.setTimezone("Portland") ;   
+			space.setTimezone("Portland") ;
 			 
 	    	// Read the GTFS
 			GtfsReader reader = new GtfsReader();
@@ -113,7 +113,7 @@ public class Builder {
 						MyRoutingFactory.addFootpath(space, s1.getId().getId(), s2.getId().getId(), s1.getLat(), s1.getLon(), s2.getLat(), s2.getLon());
 					}
 				}
-				MyRoutingFactory.addStopPoint(space, s1.getId().getId(), s1.getName(), 0, arrivalRoutesToStop.get(s1));
+				MyRoutingFactory.addStopPoint(space, s1.getId().getId(), s1.getName(), 0, s1.getLat(), s1.getLon(), arrivalRoutesToStop.get(s1));
 			}
 	
 			LOG.info("List of footpaths created successfully.");

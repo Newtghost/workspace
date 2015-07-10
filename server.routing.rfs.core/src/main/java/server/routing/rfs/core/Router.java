@@ -85,8 +85,22 @@ public class Router {
 		LOG.info("Start computing solutions.");
 
 		StopPoint sourceStop, targetStop ;
-		sourceStop = RoutingAccessors.getStop(space, request.getFromStopId()) ;
-		targetStop = RoutingAccessors.getStop(space, request.getToStopId()) ;
+		
+		if (request.hasStopsId()) {
+			sourceStop = RoutingAccessors.getStopFromId(space, request.getFromStopId()) ;
+			targetStop = RoutingAccessors.getStopFromId(space, request.getToStopId()) ;
+		} else {
+			sourceStop = RoutingAccessors.getStopFromCoordinates(space, request.getFromLat(), request.getFromLon()) ;
+			targetStop = RoutingAccessors.getStopFromCoordinates(space, request.getToLat(), request.getToLon()) ;
+		}
+		
+		if (sourceStop == null || targetStop==null) {
+			System.err.print("Corresponding source and target stops not found.");
+			return ;
+		} else {
+			System.out.println(sourceStop.getStopId() + " --> " + targetStop.getStopId());
+		}
+		
 		long startTime = RoutingAccessors.getStartTime(request) ;
 		
 		/* Initialization */
@@ -104,7 +118,7 @@ public class Router {
 		Set<String> recommendedRoutes = new HashSet<>() ;
 		recommendedRoutes.addAll(RoutingAccessors.getRoutesId(targetStop)) ;
 		for (Footpath f : RoutingAccessors.getFootpaths(space, targetStop.getStopId())) {
-			recommendedRoutes.addAll(RoutingAccessors.getRoutesId(RoutingAccessors.getStop(space, f.getArrivalId()))) ;
+			recommendedRoutes.addAll(RoutingAccessors.getRoutesId(RoutingAccessors.getStopFromId(space, f.getArrivalId()))) ;
 		}
 		System.out.println("Recommended routes : " + recommendedRoutes) ;
 		
@@ -124,14 +138,14 @@ public class Router {
 			}			
 
 			
-			cDepStop = RoutingAccessors.getStop(space, c.getDepartureId()) ;
-			cArrStop = RoutingAccessors.getStop(space, c.getArrivalId()) ;
+			cDepStop = RoutingAccessors.getStopFromId(space, c.getDepartureId()) ;
+			cArrStop = RoutingAccessors.getStopFromId(space, c.getArrivalId()) ;
 
 			if (cArrStop.getStopId().equals(sourceStop.getStopId())) continue ;
 			if (cDepStop.getStopId().equals(targetStop.getStopId())) continue ;
 			
 			/* Take into account real-time information : updating connections */
-			if (updater!=null && updated_connections.containsKey(c.getTripId())) {
+			if (updated_connections!=null && updated_connections.containsKey(c.getTripId())) {
 				for (Connection uc : updated_connections.get(c.getTripId())) {
 					if (uc.getArrivalDelay() > 0) { /* Arrival delay */
 						if (uc.getArrStopSequence() == c.getArrStopSequence()) {
@@ -232,11 +246,10 @@ public class Router {
 				boolean toTarget = f.getArrivalId().equals(target.getStopId()) ;
 				Itinerary itP = MyRoutingFactory.createItinerary(it, f, f.getTripId(), it.getDepartureTime(), 
 						it.getArrivalTime() + arr.getMinimalConnectionTime() + f.getDuration(), it.getNbTransfers(), it.getWalkingDistance() + f.getDistance(), toTarget) ;
-				itineraryAdded (RoutingAccessors.getStop(space, f.getArrivalId()), itP, toTarget) ;
+				itineraryAdded (RoutingAccessors.getStopFromId(space, f.getArrivalId()), itP, toTarget) ;
 			}
 		}
 	}
-	
 	
 	@SuppressWarnings("unchecked")
 	public String journey2Json() throws IOException, JSONException {
@@ -258,7 +271,13 @@ public class Router {
 		long tz = RoutingAccessors.getJetlag(space) ; 
 		long date = DateUtils.parseDate(request.getDate(), TimeZone.getDefault()).getTime() / 1000 ;
 		
-		StopPoint targetStop = RoutingAccessors.getStop(space, request.getToStopId()) ;
+		StopPoint targetStop;
+		if (request.hasStopsId()) {
+			targetStop = RoutingAccessors.getStopFromId(space, request.getToStopId()) ;
+		} else {
+			targetStop = RoutingAccessors.getStopFromCoordinates(space, request.getToLat(), request.getToLon()) ;
+		}
+
 		for (Itinerary it : RoutingAccessors.getJourneys(targetStop)) {
 
 			prevEndTime = RoutingAccessors.getStartTime(request) ; 
@@ -271,7 +290,7 @@ public class Router {
 	
 					if (leg != null) { /* Signifie qu'on a changé de Leg et qu'on doit donc ajouter le segment précédent qui est terminé */	
 						JSONObject to = new JSONObject() ;
-						to.put("name", RoutingAccessors.getStop(space, prevC.getArrivalId()).getName()) ;
+						to.put("name", RoutingAccessors.getStopFromId(space, prevC.getArrivalId()).getName()) ;
 						to.put("stopId", prevC.getArrivalId()) ;
 						to.put("stopSequence", prevC.getArrStopSequence()) ;
 						leg.put("to", to) ;
@@ -286,9 +305,9 @@ public class Router {
 					leg = new JSONObject() ;
 					JSONObject from = new JSONObject() ;
 					JSONObject to = new JSONObject() ;
-					from.put("name", RoutingAccessors.getStop(space, s.getDepartureId()).getName()) ;
+					from.put("name", RoutingAccessors.getStopFromId(space, s.getDepartureId()).getName()) ;
 					from.put("stopId", s.getDepartureId()) ;
-					to.put("name", RoutingAccessors.getStop(space, s.getArrivalId()).getName()) ;
+					to.put("name", RoutingAccessors.getStopFromId(space, s.getArrivalId()).getName()) ;
 					to.put("stopId", s.getArrivalId()) ;
 					leg.put("from", from) ;
 					leg.put("to", to) ;
@@ -309,7 +328,7 @@ public class Router {
 					if (prevC == null || ! c.getTripId().equals(prevC.getTripId())) {
 						if (leg != null) { /* Signifie qu'on a changé de Leg et qu'on doit donc ajouter le segment précédent qui est terminé */	
 							JSONObject to = new JSONObject() ;
-							to.put("name", RoutingAccessors.getStop(space, prevC.getArrivalId()).getName()) ;
+							to.put("name", RoutingAccessors.getStopFromId(space, prevC.getArrivalId()).getName()) ;
 							to.put("stopId", prevC.getArrivalId()) ;
 							to.put("stopSequence", prevC.getArrStopSequence()) ;
 							leg.put("to", to) ;
@@ -323,7 +342,7 @@ public class Router {
 						/* Creation of a new transit path */
 						leg = new JSONObject() ;
 						JSONObject from = new JSONObject() ;
-						from.put("name", RoutingAccessors.getStop(space, c.getDepartureId()).getName()) ;
+						from.put("name", RoutingAccessors.getStopFromId(space, c.getDepartureId()).getName()) ;
 						from.put("stopId", c.getDepartureId()) ;
 						from.put("stopSequence", c.getDepStopSequence()) ;
 						leg.put("from", from) ;
@@ -343,7 +362,7 @@ public class Router {
 			
 			if (leg != null) { /* On doit ajouter le dernier segment (en cours) */	
 				JSONObject to = new JSONObject() ;
-				to.put("name", RoutingAccessors.getStop(space, prevC.getArrivalId()).getName()) ;
+				to.put("name", RoutingAccessors.getStopFromId(space, prevC.getArrivalId()).getName()) ;
 				to.put("stopId", prevC.getArrivalId()) ;
 				to.put("stopSequence", prevC.getArrStopSequence()) ;
 				leg.put("to", to) ;
@@ -365,7 +384,13 @@ public class Router {
 	}
 
 	public void printJourneys() {		
-		StopPoint targetStop = RoutingAccessors.getStop(space, request.getToStopId()) ;
+		StopPoint targetStop;
+		if (request.hasStopsId()) {
+			targetStop = RoutingAccessors.getStopFromId(space, request.getToStopId()) ;
+		} else {
+			targetStop = RoutingAccessors.getStopFromCoordinates(space, request.getToLat(), request.getToLon()) ;
+		}
+
 		List<Itinerary> journeys =  RoutingAccessors.getJourneys(targetStop) ;
 		if (journeys.size() <= 0) {
 			System.out.println("No solution found.") ;

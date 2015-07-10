@@ -32,38 +32,57 @@ public class MyService {
 
 		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
 		
-//    	for (String param : queryParams.keySet()) {
-//    		for (String value : queryParams.get(param)) {
-//    			System.out.println(param + " -> " + value) ;
-//    		}
-//    	}
+    	for (String param : queryParams.keySet()) {
+    		for (String value : queryParams.get(param)) {
+    			System.out.println(param + " -> " + value) ;
+    		}
+    	}
 
-		if (queryParams.containsKey("from") && queryParams.containsKey("to") && queryParams.containsKey("time") && queryParams.containsKey("date")) {
+    	System.out.println( "Request received -- start routing" );
+    	
+    	Request request ;
+    	String time, date ;
+    	
+    	if (queryParams.containsKey("time")) {
+    		time = queryParams.get("time").get(0) ;
+    	} else {
+    		return "RFS request error. Usage: from to start_time";    		
+    	}
 
-			System.out.println( "Correct request received -- start routing" );
+    	if (queryParams.containsKey("date")) {
+    		date = queryParams.get("date").get(0) ;
+    	} else {
+    		return "RFS request error. Usage: from to start_time";    		
+    	}
+    	
+    	/* Get the position of the departure and the arrival */
+    	if (queryParams.containsKey("from") && queryParams.containsKey("to")) {
+			request = MyRoutingFactory.createRequest(queryParams.get("from").get(0), queryParams.get("to").get(0), 
+					time, date) ;
+    	} else if (queryParams.containsKey("fromLat") && queryParams.containsKey("fromLon") && queryParams.containsKey("toLat") && queryParams.containsKey("toLon")) {
+			request = MyRoutingFactory.createRequest(queryParams.get("fromLat").get(0), queryParams.get("fromLon").get(0), 
+					queryParams.get("toLat").get(0), queryParams.get("toLon").get(0),time, date) ;
+    	} else {
+    		return "RFS request error. Usage: from to start_time";    		
+    	}
 
-			Request request = MyRoutingFactory.createRequest(queryParams.get("from").get(0), queryParams.get("to").get(0), 
-					queryParams.get("time").get(0), queryParams.get("date").get(0)) ;
+		builder.getRouter().processNewRequest(request);
+		builder.getRouter().run_CSA();
+		
+		/* TODO : Il faudrait lancer un thread de reinit (tous les delay) ou alors direct dans l'updater -- blocage / effet de bord */
 
-			builder.getRouter().processNewRequest(request);
-			builder.getRouter().run_CSA();
-			
-			/* TODO : Il faudrait lancer un thread de reinit (tous les delay) ou alors direct dans l'updater -- blocage / effet de bord */
-
-			try {
-				String json = builder.getRouter().journey2Json() ;
-				if (App.DEBUG) {
-		        	FileWriter writer = new FileWriter("DEBUG.json");
-		    		writer.write(json);
-		    		writer.close();
-				}
-				return json;
-			} catch (IOException | JSONException e) {
-				e.printStackTrace();
+		try {
+			String json = builder.getRouter().journey2Json() ;
+			if (App.DEBUG) {
+	        	FileWriter writer = new FileWriter("DEBUG.json");
+	    		writer.write(json);
+	    		writer.close();
 			}
-		} 
+			return json;
+		} catch (IOException | JSONException e) {
+			e.printStackTrace();
+		}
 
-		return "RFS request error. Usage: from to start_time";
-
+		return "RFS request error. Usage: from to start_time";    		
 	}
 }

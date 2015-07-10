@@ -458,13 +458,31 @@ public interface RoutingPackage extends EPackage {
 	int STOP_POINT__ROUTES_ID = 4;
 
 	/**
+	 * The feature id for the '<em><b>Latitude</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STOP_POINT__LATITUDE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Longitude</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STOP_POINT__LONGITUDE = 6;
+
+	/**
 	 * The number of structural features of the '<em>Stop Point</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int STOP_POINT_FEATURE_COUNT = 5;
+	int STOP_POINT_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Stop Point</em>' class.
@@ -1087,6 +1105,28 @@ public interface RoutingPackage extends EPackage {
 	EAttribute getStopPoint_RoutesId();
 
 	/**
+	 * Returns the meta object for the attribute '{@link routing.StopPoint#getLatitude <em>Latitude</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Latitude</em>'.
+	 * @see routing.StopPoint#getLatitude()
+	 * @see #getStopPoint()
+	 * @generated
+	 */
+	EAttribute getStopPoint_Latitude();
+
+	/**
+	 * Returns the meta object for the attribute '{@link routing.StopPoint#getLongitude <em>Longitude</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Longitude</em>'.
+	 * @see routing.StopPoint#getLongitude()
+	 * @see #getStopPoint()
+	 * @generated
+	 */
+	EAttribute getStopPoint_Longitude();
+
+	/**
 	 * Returns the meta object for class '{@link routing.Itinerary <em>Itinerary</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1592,6 +1632,22 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute STOP_POINT__ROUTES_ID = eINSTANCE.getStopPoint_RoutesId();
+
+		/**
+		 * The meta object literal for the '<em><b>Latitude</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STOP_POINT__LATITUDE = eINSTANCE.getStopPoint_Latitude();
+
+		/**
+		 * The meta object literal for the '<em><b>Longitude</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STOP_POINT__LONGITUDE = eINSTANCE.getStopPoint_Longitude();
 
 		/**
 		 * The meta object literal for the '{@link routing.impl.ItineraryImpl <em>Itinerary</em>}' class.

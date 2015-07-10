@@ -31,8 +31,24 @@ public class RoutingAccessors {
 		return space.getFootpaths().get(stopId) ;
 	}
 	
-	public static StopPoint getStop (Space space, String stopId) {
+	public static StopPoint getStopFromId (Space space, String stopId) {
 		return space.getStops().get(stopId) ;
+	}
+
+	/* This function returns the nearest stop of the position passed in parameters. */
+	public static StopPoint getStopFromCoordinates (Space space, double lat, double lon) {
+		StopPoint nearestStop = null ;
+		double shortestDistance = Double.MAX_VALUE; 
+		for (StopPoint stop : RoutingAccessors.getStops(space)) {
+			double aux = Util.gps2m(lat, lon, stop.getLatitude(), stop.getLongitude()) ;
+			if (aux < shortestDistance) {
+				shortestDistance = aux ;
+				nearestStop = stop ;
+			}
+		}
+		System.out.println("The distance to the position is " + shortestDistance + "m") ;
+		/* TODO : il faut envisager de rajouter un footpath avant le départ ou après l'arrivée donc renvoyer le couple avec la distance */
+		return nearestStop ;
 	}
 
 	public static Collection<StopPoint> getStops(Space space) {

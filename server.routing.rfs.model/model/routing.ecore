@@ -42,6 +42,8 @@
         eType="#//Itinerary"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="routesId" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="latitude" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="longitude" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Itinerary">
     <eStructuralFeatures xsi:type="ecore:EReference" name="path" upperBound="-1" eType="#//Leg"/>

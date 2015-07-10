@@ -137,8 +137,10 @@ public class Tracker {
 
         /* RFS routing request */
         if (Util.COMPUTE_WITH_RFS) {
-	        req = "http://localhost:8079/myapp/myservice?from=" + stop_from + "&to=" + stop_to + "&time=" + time + "&date=" + date ;        
-			System.out.println("Launch RFS routing request.") ;
+//	        req = "http://localhost:8079/myapp/myservice?from=" + stop_from + "&to=" + stop_to + "&time=" + time + "&date=" + date ;        
+	        req = "http://localhost:8079/myapp/myservice?toLat=" + lat_to +"&toLon=" + lon_to + "&fromLat=" + lat_from + 
+	        		"&fromLon=" + lon_from + "&time=" + time + "&date=" + date ;       
+	        System.out.println("Launch RFS routing request.") ;
 	        currentTime = System.currentTimeMillis();
 	        RFS_itineraries = processRequest(req, "RFS_itineraries") ;
 	        System.out.println("Temps d'éxécution : " + (System.currentTimeMillis()-currentTime) + "ms.");

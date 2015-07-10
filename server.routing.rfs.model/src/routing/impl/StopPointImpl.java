@@ -28,6 +28,8 @@ import routing.StopPoint;
  *   <li>{@link routing.impl.StopPointImpl#getMinimalConnectionTime <em>Minimal Connection Time</em>}</li>
  *   <li>{@link routing.impl.StopPointImpl#getBestJourneys <em>Best Journeys</em>}</li>
  *   <li>{@link routing.impl.StopPointImpl#getRoutesId <em>Routes Id</em>}</li>
+ *   <li>{@link routing.impl.StopPointImpl#getLatitude <em>Latitude</em>}</li>
+ *   <li>{@link routing.impl.StopPointImpl#getLongitude <em>Longitude</em>}</li>
  * </ul>
  * </p>
  *
@@ -113,6 +115,46 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 	 * @ordered
 	 */
 	protected EList<String> routesId;
+
+	/**
+	 * The default value of the '{@link #getLatitude() <em>Latitude</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLatitude()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double LATITUDE_EDEFAULT = 0.0;
+
+	/**
+	 * The cached value of the '{@link #getLatitude() <em>Latitude</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLatitude()
+	 * @generated
+	 * @ordered
+	 */
+	protected double latitude = LATITUDE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getLongitude() <em>Longitude</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLongitude()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double LONGITUDE_EDEFAULT = 0.0;
+
+	/**
+	 * The cached value of the '{@link #getLongitude() <em>Longitude</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLongitude()
+	 * @generated
+	 * @ordered
+	 */
+	protected double longitude = LONGITUDE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -225,6 +267,48 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public double getLatitude() {
+		return latitude;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLatitude(double newLatitude) {
+		double oldLatitude = latitude;
+		latitude = newLatitude;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.STOP_POINT__LATITUDE, oldLatitude, latitude));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public double getLongitude() {
+		return longitude;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLongitude(double newLongitude) {
+		double oldLongitude = longitude;
+		longitude = newLongitude;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.STOP_POINT__LONGITUDE, oldLongitude, longitude));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -238,6 +322,10 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 				return getBestJourneys();
 			case RoutingPackage.STOP_POINT__ROUTES_ID:
 				return getRoutesId();
+			case RoutingPackage.STOP_POINT__LATITUDE:
+				return getLatitude();
+			case RoutingPackage.STOP_POINT__LONGITUDE:
+				return getLongitude();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -268,6 +356,12 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 				getRoutesId().clear();
 				getRoutesId().addAll((Collection<? extends String>)newValue);
 				return;
+			case RoutingPackage.STOP_POINT__LATITUDE:
+				setLatitude((Double)newValue);
+				return;
+			case RoutingPackage.STOP_POINT__LONGITUDE:
+				setLongitude((Double)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -295,6 +389,12 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 			case RoutingPackage.STOP_POINT__ROUTES_ID:
 				getRoutesId().clear();
 				return;
+			case RoutingPackage.STOP_POINT__LATITUDE:
+				setLatitude(LATITUDE_EDEFAULT);
+				return;
+			case RoutingPackage.STOP_POINT__LONGITUDE:
+				setLongitude(LONGITUDE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -317,6 +417,10 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 				return bestJourneys != null && !bestJourneys.isEmpty();
 			case RoutingPackage.STOP_POINT__ROUTES_ID:
 				return routesId != null && !routesId.isEmpty();
+			case RoutingPackage.STOP_POINT__LATITUDE:
+				return latitude != LATITUDE_EDEFAULT;
+			case RoutingPackage.STOP_POINT__LONGITUDE:
+				return longitude != LONGITUDE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -339,6 +443,10 @@ public class StopPointImpl extends MinimalEObjectImpl.Container implements StopP
 		result.append(minimalConnectionTime);
 		result.append(", routesId: ");
 		result.append(routesId);
+		result.append(", latitude: ");
+		result.append(latitude);
+		result.append(", longitude: ");
+		result.append(longitude);
 		result.append(')');
 		return result.toString();
 	}

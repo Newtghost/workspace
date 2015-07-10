@@ -50,11 +50,13 @@ public class MyRoutingFactory {
 		return f ;
 	}
 	
-	public static StopPoint createStopPoint (String stopId, String name, int minimumConnectionTime, Set<String> routesId) {
+	public static StopPoint createStopPoint (String stopId, String name, int minimumConnectionTime, double latitude, double longitude, Set<String> routesId) {
 		StopPoint s = RoutingFactory.eINSTANCE.createStopPoint() ;
 		s.setStopId(stopId);
 		s.setName(name);
 		s.setMinimalConnectionTime(minimumConnectionTime);
+		s.setLatitude(latitude);
+		s.setLongitude(longitude);
 		if (routesId != null) s.getRoutesId().addAll(routesId); /* Pas de routes qui passent par ce StopPoint */
 		return s ;
 	}
@@ -63,6 +65,17 @@ public class MyRoutingFactory {
 		Request r = CommonFactory.eINSTANCE.createRequest() ;
 		r.setFromStopId(departureId);
 		r.setToStopId(arrivalId);		
+		r.setTime(time);
+		r.setDate(date);
+		return r ;
+	}
+
+	public static Request createRequest (String fromLat, String fromLon, String toLat, String toLon, String time, String date) {
+		Request r = CommonFactory.eINSTANCE.createRequest() ;
+		r.setFromLat(Double.parseDouble(fromLat));
+		r.setFromLon(Double.parseDouble(fromLon));		
+		r.setToLat(Double.parseDouble(toLat));
+		r.setToLon(Double.parseDouble(toLon));		
 		r.setTime(time);
 		r.setDate(date);
 		return r ;
@@ -90,8 +103,8 @@ public class MyRoutingFactory {
 		}
 	}
 	
-	public static void addStopPoint (Space space, String stopId, String name, int minimumConnectionTime, Set<String> routesId) {
-		StopPoint s = createStopPoint(stopId, name, minimumConnectionTime, routesId);
+	public static void addStopPoint (Space space, String stopId, String name, int minimumConnectionTime, double latitude, double longitude, Set<String> routesId) {
+		StopPoint s = createStopPoint(stopId, name, minimumConnectionTime, latitude, longitude, routesId);
 		space.getStops().put(stopId, s) ;
 	}
 

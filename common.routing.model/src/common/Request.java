@@ -263,4 +263,6 @@ public interface Request extends EObject {
 	 */
 	void setMaxWalkDistance(int value);
 
+	boolean hasStopsId();
+
 } // Request

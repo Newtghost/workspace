@@ -18,6 +18,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.StopPoint#getMinimalConnectionTime <em>Minimal Connection Time</em>}</li>
  *   <li>{@link routing.StopPoint#getBestJourneys <em>Best Journeys</em>}</li>
  *   <li>{@link routing.StopPoint#getRoutesId <em>Routes Id</em>}</li>
+ *   <li>{@link routing.StopPoint#getLatitude <em>Latitude</em>}</li>
+ *   <li>{@link routing.StopPoint#getLongitude <em>Longitude</em>}</li>
  * </ul>
  * </p>
  *
@@ -135,6 +137,58 @@ public interface StopPoint extends EObject {
 	 * @generated
 	 */
 	EList<String> getRoutesId();
+
+	/**
+	 * Returns the value of the '<em><b>Latitude</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Latitude</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Latitude</em>' attribute.
+	 * @see #setLatitude(double)
+	 * @see routing.RoutingPackage#getStopPoint_Latitude()
+	 * @model
+	 * @generated
+	 */
+	double getLatitude();
+
+	/**
+	 * Sets the value of the '{@link routing.StopPoint#getLatitude <em>Latitude</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Latitude</em>' attribute.
+	 * @see #getLatitude()
+	 * @generated
+	 */
+	void setLatitude(double value);
+
+	/**
+	 * Returns the value of the '<em><b>Longitude</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Longitude</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Longitude</em>' attribute.
+	 * @see #setLongitude(double)
+	 * @see routing.RoutingPackage#getStopPoint_Longitude()
+	 * @model
+	 * @generated
+	 */
+	double getLongitude();
+
+	/**
+	 * Sets the value of the '{@link routing.StopPoint#getLongitude <em>Longitude</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Longitude</em>' attribute.
+	 * @see #getLongitude()
+	 * @generated
+	 */
+	void setLongitude(double value);
 
 	long getBestArrivalTime();
 

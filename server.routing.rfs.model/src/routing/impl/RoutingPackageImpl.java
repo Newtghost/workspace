@@ -433,6 +433,24 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getStopPoint_Latitude() {
+		return (EAttribute)stopPointEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStopPoint_Longitude() {
+		return (EAttribute)stopPointEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getItinerary() {
 		return itineraryEClass;
 	}
@@ -679,6 +697,8 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		createEAttribute(stopPointEClass, STOP_POINT__MINIMAL_CONNECTION_TIME);
 		createEReference(stopPointEClass, STOP_POINT__BEST_JOURNEYS);
 		createEAttribute(stopPointEClass, STOP_POINT__ROUTES_ID);
+		createEAttribute(stopPointEClass, STOP_POINT__LATITUDE);
+		createEAttribute(stopPointEClass, STOP_POINT__LONGITUDE);
 
 		itineraryEClass = createEClass(ITINERARY);
 		createEReference(itineraryEClass, ITINERARY__PATH);
@@ -773,6 +793,8 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		initEAttribute(getStopPoint_MinimalConnectionTime(), ecorePackage.getEInt(), "minimalConnectionTime", null, 0, 1, StopPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getStopPoint_BestJourneys(), this.getItinerary(), null, "bestJourneys", null, 0, -1, StopPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getStopPoint_RoutesId(), ecorePackage.getEString(), "routesId", null, 0, -1, StopPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStopPoint_Latitude(), ecorePackage.getEDouble(), "latitude", null, 0, 1, StopPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStopPoint_Longitude(), ecorePackage.getEDouble(), "longitude", null, 0, 1, StopPoint.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(itineraryEClass, Itinerary.class, "Itinerary", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getItinerary_Path(), this.getLeg(), null, "path", null, 0, -1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
