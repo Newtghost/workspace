@@ -1,15 +1,14 @@
 package server.routing.rfs.core;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 import routing.Connection;
 import routing.Footpath;
@@ -18,7 +17,6 @@ import routing.Leg;
 import routing.Space;
 import routing.StopPoint;
 import common.Request;
-import common.util.DateUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,13 +31,14 @@ public class Router {
 	
     private static final Logger LOG = LoggerFactory.getLogger(Router.class);
 
-	private static final long ARRIVAL_MARGIN = 0 ;//40*60; /* TODO : Peut-être ne pas le faire tout le temps - réduit largement les perfs ... */
+    /* Useful to try to found more itineraries which could reach the target after the best one */
+	private static final long ARRIVAL_MARGIN = 0 ; // 10*60; // in seconds
 
 	private Request request ;
 	
 	Space space ;
 	Updater updater ;
-	private Map<Date, ArrayList<Connection>> sorted_connections_by_date ; 
+	private Map<String, ArrayList<Connection>> sorted_connections_by_date ; 
 	private Map<String, List<Connection>> updated_connections = null; 
 	private ArrayList<Connection> sorted_connections ; 
 	private String currentDate = "" ;
@@ -48,10 +47,10 @@ public class Router {
 		this.space = space ;
 		this.updater = updater ;
 		
-		sorted_connections_by_date = new HashMap<Date, ArrayList<Connection>>();
+		sorted_connections_by_date = new HashMap<String, ArrayList<Connection>>();
 		
 		/* Tri des connections par date */
-		for (Date date : RoutingAccessors.getAllValidDates(space)) {
+		for (String date : RoutingAccessors.getAllValidDates(space)) {
 			List<String> serviceIDs = RoutingAccessors.getServicesIdForDate(space, date) ;
 			/* Contains all connections that the user could take in order to perform its trip */
 			ArrayList<Connection> myList = new ArrayList<Connection>() ;
@@ -68,16 +67,20 @@ public class Router {
 		LOG.info("Lists of connections sorted by date created succesfully.");
 	}
 	
+    public static int sortByAge(Connection p1, Connection p2) {
+    	return 0 ;
+    }
+	
 	public void processNewRequest (Request request) {
 		this.request = request ;	
 		if (request.getDate().equals(currentDate)) return ; /* Pas besoin de changer la liste déjà uptodate */ 
-		Date date = RoutingAccessors.getDate(request) ;
-		if (!sorted_connections_by_date.containsKey(date)) {
+		//RoutingAccessors.getAllValidDates(space).forEach(date -> System.out.println(date)) ;
+		if (!sorted_connections_by_date.containsKey(request.getDate())) {
 			System.err.println("This date doesn't exist in the GTFS bundle.") ;
-			return ;
+			return ; /* TODO : il faut lever un exception pour arrêter le déroulement de l'algo - si on retourne ici on ne doit pas lancer l'algo */
 		}
 		currentDate = request.getDate() ;
-		sorted_connections = sorted_connections_by_date.get(RoutingAccessors.getDate(request)) ;
+		sorted_connections = sorted_connections_by_date.get(request.getDate()) ;
 	}
 	
 	public void run_CSA () {
@@ -175,6 +178,8 @@ public class Router {
 
 		/* Print itineraries */
 		printJourneys() ;		
+		
+		System.out.println("Fini") ;
 	}
 
 	/**
@@ -262,14 +267,15 @@ public class Router {
 		Connection prevC = null ;
 		long prevEndTime ; /* Utile pour calculer les start time et end time des footpaths */
 
-		/* Le calcul d'itinéraire se fait avec un horaire local.
-		 * Ce n'est qu'au moment de l'export json que l'on passe dans un référentiel global en 
-		 * prenant en compte la timezone et la date.
+		/* Le calcul d'itinéraire se fait avec un horaire local : LocalDate / LocalDateTime
+		 * Ce n'est qu'au moment de l'export json que l'on passe dans un référentiel "global" en 
+		 * prenant en compte la timezone.
 		 */
 
-		long tz = RoutingAccessors.getJetlag(space) ; 
-		long date = DateUtils.parseDate(request.getDate(), TimeZone.getDefault()).getTime() / 1000 ;
-		
+		long tz = RoutingAccessors.getJetlag(space) ; /* TODO : à changer... */
+		long date = LocalDate.parse("2015-07-01").toEpochDay() * 24 * 3600 * 1000 ; /* TODO : à changer...*/
+//		long date = Instant.parse(LocalDate.parse(request.getDate()).format(DateTimeFormatter.ISO_INSTANT)).toEpochMilli() ;
+				
 		StopPoint targetStop;
 		if (request.hasStopsId()) {
 			targetStop = RoutingAccessors.getStopFromId(space, request.getToStopId()) ;
@@ -279,7 +285,7 @@ public class Router {
 
 		for (Itinerary it : RoutingAccessors.getJourneys(targetStop)) {
 
-			prevEndTime = RoutingAccessors.getStartTime(request) ; 
+			prevEndTime = RoutingAccessors.getStartTime(request) * 1000 ; 
 			itinerary = new JSONObject();
 			legs = new JSONArray();
 			
@@ -293,8 +299,8 @@ public class Router {
 						to.put("stopId", prevC.getArrivalId()) ;
 						to.put("stopSequence", prevC.getArrStopSequence()) ;
 						leg.put("to", to) ;
-						prevEndTime = prevC.getArrivalTime() ;
-						leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
+						prevEndTime = prevC.getArrivalTime() * 1000 ;
+						leg.put("endTime", prevEndTime + date + tz) ;
 						leg.put("arrivalDelay", 0) ;
 						legs.add(leg) ;
 						leg = null ;
@@ -310,9 +316,9 @@ public class Router {
 					to.put("stopId", s.getArrivalId()) ;
 					leg.put("from", from) ;
 					leg.put("to", to) ;
-					leg.put("startTime", (prevEndTime+date+tz) * 1000) ;
-					prevEndTime += ((Footpath) s).getDuration() ;
-					leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
+					leg.put("startTime", prevEndTime + date + tz) ;
+					prevEndTime += ((Footpath) s).getDuration() * 1000;
+					leg.put("endTime", prevEndTime + date + tz) ;
 					leg.put("departureDelay", 0) ;
 					leg.put("arrivalDelay", 0) ;
 					leg.put("distance", ((Footpath) s).getDistance()) ;
@@ -331,8 +337,8 @@ public class Router {
 							to.put("stopId", prevC.getArrivalId()) ;
 							to.put("stopSequence", prevC.getArrStopSequence()) ;
 							leg.put("to", to) ;
-							prevEndTime = prevC.getArrivalTime() ;
-							leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
+							prevEndTime = prevC.getArrivalTime() * 1000;
+							leg.put("endTime", prevEndTime + date + tz) ;
 							leg.put("arrivalDelay", 0) ;
 							legs.add(leg) ;
 							leg = null ;
@@ -345,7 +351,7 @@ public class Router {
 						from.put("stopId", c.getDepartureId()) ;
 						from.put("stopSequence", c.getDepStopSequence()) ;
 						leg.put("from", from) ;
-						leg.put("startTime", (c.getDepartureTime()+date+tz) * 1000) ;
+						leg.put("startTime", c.getDepartureTime() * 1000 + date + tz) ;
 						leg.put("departureDelay", 0) ;
 						leg.put("distance", 0.1) ; /* Default value */
 						leg.put("mode", "TRANSIT") ;

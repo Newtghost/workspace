@@ -24,11 +24,11 @@ import routing.StopPoint;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link routing.impl.StringToStopPointMapImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link routing.impl.StringToStopPointMapImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

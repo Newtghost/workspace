@@ -1,7 +1,6 @@
 package server.routing.rfs.util;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -128,12 +127,16 @@ public class MyRoutingFactory {
 		}
 	}
 
-	public static void addDate(Space space, Date date, String id) {
-		if (space.getCalendar().containsKey(date)) {
-			space.getCalendar().get(date).add(id) ;
+	public static void addDate(Space space, String date, String id) {
+		/* TODO : formatter la date ici pour avoir un format ISO */
+//		LocalDate myDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE_TIME) ;
+//		String formatedDate = myDate.format(DateTimeFormatter.ISO_LOCAL_DATE).toString() ;
+		String formatedDate = date ;
+		if (space.getCalendar().containsKey(formatedDate)) {
+			space.getCalendar().get(formatedDate).add(id) ;
 		} else {
 			EList<String> list = new BasicEList<String>(Arrays.asList(id));
-			space.getCalendar().put(date, list) ;
+			space.getCalendar().put(formatedDate, list) ;
 		}
 	}
 

@@ -2,7 +2,6 @@
  */
 package routing.util;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -52,7 +51,7 @@ public class RoutingSwitch<T> extends Switch<T> {
 	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @parameter ePackage the package in question.
+	 * @param ePackage the package in question.
 	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
@@ -128,7 +127,7 @@ public class RoutingSwitch<T> extends Switch<T> {
 				return result;
 			}
 			case RoutingPackage.DATE_TO_STRING_MAP: {
-				@SuppressWarnings("unchecked") Map.Entry<Date, EList<String>> dateToStringMap = (Map.Entry<Date, EList<String>>)theEObject;
+				@SuppressWarnings("unchecked") Map.Entry<String, EList<String>> dateToStringMap = (Map.Entry<String, EList<String>>)theEObject;
 				T result = caseDateToStringMap(dateToStringMap);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -283,7 +282,7 @@ public class RoutingSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseDateToStringMap(Map.Entry<Date, EList<String>> object) {
+	public T caseDateToStringMap(Map.Entry<String, EList<String>> object) {
 		return null;
 	}
 

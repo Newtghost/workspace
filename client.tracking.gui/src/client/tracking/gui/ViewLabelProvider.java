@@ -1,11 +1,9 @@
 package client.tracking.gui;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
-
-import common.util.DateUtils;
 
 import routing.Connection;
 import routing.Footpath;
@@ -27,7 +25,7 @@ public class ViewLabelProvider extends StyledCellLabelProvider {
 			}
 		} else if (element instanceof Leg) {
 			Leg le = (Leg) element;
-			Date dep, arr ;
+			Instant dep, arr ;
 			String dep2s, arr2s ;
 			
 			long tz = Main.JET_LAG ;
@@ -37,10 +35,10 @@ public class ViewLabelProvider extends StyledCellLabelProvider {
 				cell.setText("Walking for " + f.getDuration() + "s on " + ((int) f.getDistance()) + "m from " + f.getDepartureId() + " to " + f.getArrivalId());
 			} else {
 				Connection c = (Connection) le ;
-				dep = new Date((c.getDepartureTime() - tz) * 1000);
-				arr = new Date((c.getArrivalTime() - tz) * 1000);
-				dep2s = DateUtils.hour2String(dep) ;
-				arr2s = DateUtils.hour2String(arr) ;
+				dep = Instant.ofEpochSecond(c.getDepartureTime() - tz) ;
+				arr = Instant.ofEpochSecond(c.getArrivalTime() - tz) ;
+				dep2s = dep.toString().substring(11, 18) ; /* TODO faire un truc un peu plus propre... on veut juste prendre l'heure et le format est ISO */
+				arr2s = arr.toString().substring(11, 18) ;
 				if (c.getDepartureDelay() > 0) 
 					dep2s +=  " delayed of " + c.getDepartureDelay() + "s" ;
 				if (c.getArrivalDelay() > 0) 

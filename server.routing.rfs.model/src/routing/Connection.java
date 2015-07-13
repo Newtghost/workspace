@@ -10,6 +10,7 @@ package routing;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link routing.Connection#getServiceId <em>Service Id</em>}</li>
  *   <li>{@link routing.Connection#getRouteId <em>Route Id</em>}</li>
@@ -22,7 +23,6 @@ package routing;
  *   <li>{@link routing.Connection#isRelaxed <em>Relaxed</em>}</li>
  *   <li>{@link routing.Connection#getPrevC <em>Prev C</em>}</li>
  * </ul>
- * </p>
  *
  * @see routing.RoutingPackage#getConnection()
  * @model

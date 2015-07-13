@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,9 +33,9 @@ public class Updater {
 	
 	private Map<String, List<Connection>> updatedConnections = null ;
 	
-	/*
-	 * TODO : Récupérer la date courante et ne mettre à jour que la liste des connections valides à cette date
-	 * */
+	/* We have to update only connections available for the current date 
+	 * there is no delay for a trip planned tomorrow */
+	LocalDate currentDate = LocalDate.now() ;
 	
 	public Map<String, List<Connection>> getUpdatedConnections () {
 		if (updatedConnections == null) return null ;
@@ -116,6 +117,12 @@ public class Updater {
 					}								
 				}
 			}			
+
+			/*
+			 * On a une liste de connections à mettre à jour,
+			 * TODO : A partir de la date courant ne mettre à jour que la liste des connections valides à cette date
+			 * */
+
 		}
 		
 		System.out.println("Updates proceed.") ;

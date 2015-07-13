@@ -2,7 +2,6 @@
  */
 package routing.util;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
@@ -109,7 +108,7 @@ public class RoutingAdapterFactory extends AdapterFactoryImpl {
 				return createStringToConnectionMapAdapter();
 			}
 			@Override
-			public Adapter caseDateToStringMap(Map.Entry<Date, EList<String>> object) {
+			public Adapter caseDateToStringMap(Map.Entry<String, EList<String>> object) {
 				return createDateToStringMapAdapter();
 			}
 			@Override

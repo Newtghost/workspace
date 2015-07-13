@@ -26,5 +26,7 @@ public class Util {
 	public static boolean isConnectionPossible (double lat_a, double lon_a, double lat_b, double lon_b) {
 		return gps2m(lat_a, lon_a, lat_b, lon_b) < CONNECTION_THRESHOLD ;
 	}
+	
+	/* TODO : Supprimer cette classe util en mettant les fonctions statiques dans l'interface leg */
 
 }

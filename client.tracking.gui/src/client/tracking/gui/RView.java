@@ -2,7 +2,6 @@ package client.tracking.gui;
 
 import common.CommonFactory;
 import common.Request;
-import common.util.DateUtils;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -45,7 +44,7 @@ public class RView extends ViewPart {
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.horizontalSpan = 3;
 		time.setLayoutData(gridData);
-		time.setText("1:20pm") ;
+		time.setText("13:20") ;
 		
 		Label dateLabel = new Label(parent, SWT.NONE);
 		dateLabel.setText("Date : ");
@@ -54,7 +53,7 @@ public class RView extends ViewPart {
 		gridData.horizontalAlignment = SWT.FILL;
 		gridData.horizontalSpan = 3;
 		date.setLayoutData(gridData);
-		date.setText("07-01-2015") ;
+		date.setText("2015-07-01") ;
 
 		Label fromLabel = new Label(parent, SWT.NONE);
 		fromLabel.setText("Lat / Lon (stop ID) - FROM place : ");
@@ -123,15 +122,12 @@ public class RView extends ViewPart {
 	}
 	
 	public String getTime() {
+		/* TODO : est ce qu'on modifie à cet endroit le format pour qu'ensuite il fit avec la norme ISO_TIME ?? Ca serait propre ... */
 		return time.getText();
 	}
 
 	public String getDate() {
 		return date.getText();
-	}
-
-	public long getStartTime() {
-		return DateUtils.parseTime(time.getText());
 	}
 
 	public double getLatTo() {

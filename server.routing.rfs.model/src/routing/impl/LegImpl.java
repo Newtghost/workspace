@@ -18,12 +18,12 @@ import routing.RoutingPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link routing.impl.LegImpl#getDepartureId <em>Departure Id</em>}</li>
  *   <li>{@link routing.impl.LegImpl#getArrivalId <em>Arrival Id</em>}</li>
  *   <li>{@link routing.impl.LegImpl#getTripId <em>Trip Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

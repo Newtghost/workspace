@@ -2,7 +2,6 @@
  */
 package routing.impl;
 
-import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -171,7 +170,7 @@ public class RoutingFactoryImpl extends EFactoryImpl implements RoutingFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<Date, EList<String>> createDateToStringMap() {
+	public Map.Entry<String, EList<String>> createDateToStringMap() {
 		DateToStringMapImpl dateToStringMap = new DateToStringMapImpl();
 		return dateToStringMap;
 	}

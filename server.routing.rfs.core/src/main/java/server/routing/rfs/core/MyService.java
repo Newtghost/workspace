@@ -73,6 +73,8 @@ public class MyService {
 
 		try {
 			String json = builder.getRouter().journey2Json() ;
+			System.out.println("OK") ;
+			System.out.println(json) ;
 			if (App.DEBUG) {
 	        	FileWriter writer = new FileWriter("DEBUG.json");
 	    		writer.write(json);
@@ -80,6 +82,7 @@ public class MyService {
 			}
 			return json;
 		} catch (IOException | JSONException e) {
+			System.out.println("KO") ;
 			e.printStackTrace();
 		}
 

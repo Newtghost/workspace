@@ -30,11 +30,11 @@ import routing.RoutingPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link routing.impl.StringToFootpathMapImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link routing.impl.StringToFootpathMapImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

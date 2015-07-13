@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link routing.Itinerary#getPath <em>Path</em>}</li>
  *   <li>{@link routing.Itinerary#getLastTrip <em>Last Trip</em>}</li>
@@ -22,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.Itinerary#isIsOnRightWay <em>Is On Right Way</em>}</li>
  *   <li>{@link routing.Itinerary#isDeprecated <em>Deprecated</em>}</li>
  * </ul>
- * </p>
  *
  * @see routing.RoutingPackage#getItinerary()
  * @model

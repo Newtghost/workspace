@@ -3,8 +3,6 @@
 package routing.impl;
 
 import java.util.Collection;
-import java.util.Date;
-
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.common.util.BasicEMap;
@@ -27,15 +25,15 @@ import routing.RoutingPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link routing.impl.DateToStringMapImpl#getTypedKey <em>Key</em>}</li>
  *   <li>{@link routing.impl.DateToStringMapImpl#getTypedValue <em>Value</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
-public class DateToStringMapImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<Date,EList<String>> {
+public class DateToStringMapImpl extends MinimalEObjectImpl.Container implements BasicEMap.Entry<String,EList<String>> {
 	/**
 	 * The default value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -44,7 +42,7 @@ public class DateToStringMapImpl extends MinimalEObjectImpl.Container implements
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Date KEY_EDEFAULT = null;
+	protected static final String KEY_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getTypedKey() <em>Key</em>}' attribute.
@@ -54,7 +52,7 @@ public class DateToStringMapImpl extends MinimalEObjectImpl.Container implements
 	 * @generated
 	 * @ordered
 	 */
-	protected Date key = KEY_EDEFAULT;
+	protected String key = KEY_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getTypedValue() <em>Value</em>}' attribute list.
@@ -90,7 +88,7 @@ public class DateToStringMapImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Date getTypedKey() {
+	public String getTypedKey() {
 		return key;
 	}
 
@@ -99,8 +97,8 @@ public class DateToStringMapImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTypedKey(Date newKey) {
-		Date oldKey = key;
+	public void setTypedKey(String newKey) {
+		String oldKey = key;
 		key = newKey;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.DATE_TO_STRING_MAP__KEY, oldKey, key));
@@ -144,7 +142,7 @@ public class DateToStringMapImpl extends MinimalEObjectImpl.Container implements
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case RoutingPackage.DATE_TO_STRING_MAP__KEY:
-				setTypedKey((Date)newValue);
+				setTypedKey((String)newValue);
 				return;
 			case RoutingPackage.DATE_TO_STRING_MAP__VALUE:
 				getTypedValue().clear();
@@ -240,7 +238,7 @@ public class DateToStringMapImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Date getKey() {
+	public String getKey() {
 		return getTypedKey();
 	}
 
@@ -249,7 +247,7 @@ public class DateToStringMapImpl extends MinimalEObjectImpl.Container implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setKey(Date key) {
+	public void setKey(String key) {
 		setTypedKey(key);
 	}
 
@@ -280,9 +278,9 @@ public class DateToStringMapImpl extends MinimalEObjectImpl.Container implements
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EMap<Date, EList<String>> getEMap() {
+	public EMap<String, EList<String>> getEMap() {
 		EObject container = eContainer();
-		return container == null ? null : (EMap<Date, EList<String>>)container.eGet(eContainmentFeature());
+		return container == null ? null : (EMap<String, EList<String>>)container.eGet(eContainmentFeature());
 	}
 
 } //DateToStringMapImpl

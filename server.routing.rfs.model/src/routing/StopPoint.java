@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link routing.StopPoint#getStopId <em>Stop Id</em>}</li>
  *   <li>{@link routing.StopPoint#getName <em>Name</em>}</li>
@@ -21,7 +22,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.StopPoint#getLatitude <em>Latitude</em>}</li>
  *   <li>{@link routing.StopPoint#getLongitude <em>Longitude</em>}</li>
  * </ul>
- * </p>
  *
  * @see routing.RoutingPackage#getStopPoint()
  * @model

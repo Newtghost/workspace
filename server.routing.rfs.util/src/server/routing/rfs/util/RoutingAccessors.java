@@ -1,10 +1,10 @@
 package server.routing.rfs.util;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 import org.eclipse.emf.common.util.ECollections;
 
@@ -15,7 +15,6 @@ import routing.Leg;
 import routing.Space;
 import routing.StopPoint;
 import common.Request;
-import common.util.DateUtils;
 
 public class RoutingAccessors {
 
@@ -59,32 +58,25 @@ public class RoutingAccessors {
 		return it.getPath() ;
 	}
 
-	public static long getStartTime (Request r) {
-		return DateUtils.parseTime (r.getTime()) ;
-	}
-
-	public static Date getDate(Request request) {
-		return DateUtils.parseDate(request.getDate(), TimeZone.getDefault()); 
+	/* Return the local start time in seconds */
+	public static long getStartTime (Request request) {
+		return LocalTime.parse(request.getTime(), DateTimeFormatter.ISO_TIME).toSecondOfDay() ;
 	}
 
 	public static long getJetlag (Space space) {
-		/* Depend de la Timezone - récupéré depuis le GTFS stocké dans le Space */
+		/* TODO : Depend de la Timezone - récupéré depuis le GTFS stocké dans le Space */
 		if (space.getTimezone().equals("Portland")) {
-			return 9 * 3600 ;
+			return 9 * 3600 * 1000 ; // Milliseconds
 		}
 		return 0 ;
 	}
 
-	public static Set<Date> getCalendarDates(Space space) {
+	public static Set<String> getAllValidDates(Space space) {
 		return space.getCalendar().keySet() ;
 	}
 
-	public static Set<Date> getAllValidDates(Space space) {
-		return space.getCalendar().keySet() ;
-	}
-
-	public static List<String> getServicesIdForDate(Space space, Date d) {
-		return space.getCalendar().get(d) ;
+	public static List<String> getServicesIdForDate(Space space, String date) {
+		return space.getCalendar().get(date) ;
 	}
 
 	public static List<Itinerary> getJourneys(StopPoint dep) {

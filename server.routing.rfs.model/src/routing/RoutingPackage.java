@@ -1332,7 +1332,7 @@ public interface RoutingPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Date To String Map</em>'.
 	 * @see java.util.Map.Entry
-	 * @model keyDataType="org.eclipse.emf.ecore.EDate"
+	 * @model keyDataType="org.eclipse.emf.ecore.EString"
 	 *        valueDataType="org.eclipse.emf.ecore.EString" valueMany="true"
 	 * @generated
 	 */

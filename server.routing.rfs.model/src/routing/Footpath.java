@@ -10,11 +10,11 @@ package routing;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link routing.Footpath#getDistance <em>Distance</em>}</li>
  *   <li>{@link routing.Footpath#getDuration <em>Duration</em>}</li>
  * </ul>
- * </p>
  *
  * @see routing.RoutingPackage#getFootpath()
  * @model

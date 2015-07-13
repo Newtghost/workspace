@@ -24,6 +24,7 @@ import routing.RoutingPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link routing.impl.ItineraryImpl#getPath <em>Path</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#getLastTrip <em>Last Trip</em>}</li>
@@ -34,7 +35,6 @@ import routing.RoutingPackage;
  *   <li>{@link routing.impl.ItineraryImpl#isIsOnRightWay <em>Is On Right Way</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#isDeprecated <em>Deprecated</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

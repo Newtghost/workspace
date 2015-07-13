@@ -30,7 +30,7 @@ public class Builder {
 	
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
 	   
-	private static final boolean REBUILD = false;      
+	private static final boolean REBUILD = false;       
 	private Router router ;   
 	private Updater updater = null ; 
 	private Space space ; 
@@ -102,7 +102,7 @@ public class Builder {
 			
 			// Create an hashmap indexed with the date that resume all the information contained in calendar.txt and calendar_dates.txt
 			for (ServiceCalendarDate cd : store.getAllCalendarDates()) {
-				MyRoutingFactory.addDate(space, cd.getDate().getAsDate(), cd.getServiceId().getId()) ;
+				MyRoutingFactory.addDate(space, cd.getDate().getAsString(), cd.getServiceId().getId()) ;
 			}
 			
 	        LOG.info("List of dates created successfully.");

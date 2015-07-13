@@ -20,7 +20,7 @@ public class App {
 
 	public App (String path) {
 				
-    	try {
+    	try { 
 			builder = new Builder (path);
 		} catch (IOException e) {
 			e.printStackTrace();

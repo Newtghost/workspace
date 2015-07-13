@@ -2,7 +2,6 @@
  */
 package routing.impl;
 
-import java.util.Date;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
@@ -26,6 +25,7 @@ import routing.StopPoint;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link routing.impl.SpaceImpl#getConnections <em>Connections</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getFootpaths <em>Footpaths</em>}</li>
@@ -33,7 +33,6 @@ import routing.StopPoint;
  *   <li>{@link routing.impl.SpaceImpl#getCalendar <em>Calendar</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getTimezone <em>Timezone</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -76,7 +75,7 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	 * @generated
 	 * @ordered
 	 */
-	protected EMap<Date, EList<String>> calendar;
+	protected EMap<String, EList<String>> calendar;
 
 	/**
 	 * The default value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
@@ -158,9 +157,9 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EMap<Date, EList<String>> getCalendar() {
+	public EMap<String, EList<String>> getCalendar() {
 		if (calendar == null) {
-			calendar = new EcoreEMap<Date,EList<String>>(RoutingPackage.Literals.DATE_TO_STRING_MAP, DateToStringMapImpl.class, this, RoutingPackage.SPACE__CALENDAR);
+			calendar = new EcoreEMap<String,EList<String>>(RoutingPackage.Literals.DATE_TO_STRING_MAP, DateToStringMapImpl.class, this, RoutingPackage.SPACE__CALENDAR);
 		}
 		return calendar;
 	}

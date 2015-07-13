@@ -22,6 +22,7 @@ import routing.StopPoint;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link routing.impl.StopPointImpl#getStopId <em>Stop Id</em>}</li>
  *   <li>{@link routing.impl.StopPointImpl#getName <em>Name</em>}</li>
@@ -31,7 +32,6 @@ import routing.StopPoint;
  *   <li>{@link routing.impl.StopPointImpl#getLatitude <em>Latitude</em>}</li>
  *   <li>{@link routing.impl.StopPointImpl#getLongitude <em>Longitude</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

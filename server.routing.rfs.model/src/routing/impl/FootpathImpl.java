@@ -17,11 +17,11 @@ import routing.RoutingPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link routing.impl.FootpathImpl#getDistance <em>Distance</em>}</li>
  *   <li>{@link routing.impl.FootpathImpl#getDuration <em>Duration</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -11,12 +11,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link routing.Leg#getDepartureId <em>Departure Id</em>}</li>
  *   <li>{@link routing.Leg#getArrivalId <em>Arrival Id</em>}</li>
  *   <li>{@link routing.Leg#getTripId <em>Trip Id</em>}</li>
  * </ul>
- * </p>
  *
  * @see routing.RoutingPackage#getLeg()
  * @model

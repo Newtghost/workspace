@@ -18,6 +18,7 @@ import routing.RoutingPackage;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link routing.impl.ConnectionImpl#getServiceId <em>Service Id</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getRouteId <em>Route Id</em>}</li>
@@ -30,7 +31,6 @@ import routing.RoutingPackage;
  *   <li>{@link routing.impl.ConnectionImpl#isRelaxed <em>Relaxed</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getPrevC <em>Prev C</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
