@@ -32,6 +32,10 @@ public class Updater {
 	
 	private Map<String, List<Connection>> updatedConnections = null ;
 	
+	/*
+	 * TODO : Récupérer la date courante et ne mettre à jour que la liste des connections valides à cette date
+	 * */
+	
 	public Map<String, List<Connection>> getUpdatedConnections () {
 		if (updatedConnections == null) return null ;
 		return new HashMap<>(updatedConnections) ; /* Return a copy, avoid side effects */

@@ -42,7 +42,7 @@ public class Builder {
 			space = RoutingFactory.eINSTANCE.createSpace(); 
 			
 			/* TODO Récupérer l'agence ID et la timezone depuis le GTFS : agency.txt */
-			space.setTimezone("Portland") ;
+			space.setTimezone("Portland") ; 
 			 
 	    	// Read the GTFS
 			GtfsReader reader = new GtfsReader();

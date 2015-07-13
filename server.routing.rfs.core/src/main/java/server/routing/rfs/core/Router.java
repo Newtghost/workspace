@@ -136,7 +136,6 @@ public class Router {
 					continue ;
 				}
 			}			
-
 			
 			cDepStop = RoutingAccessors.getStopFromId(space, c.getDepartureId()) ;
 			cArrStop = RoutingAccessors.getStopFromId(space, c.getArrivalId()) ;

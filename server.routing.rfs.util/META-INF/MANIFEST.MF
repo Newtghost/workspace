@@ -8,5 +8,5 @@ Require-Bundle: org.eclipse.core.runtime,
  server.routing.rfs.model;bundle-version="0.1.0",
  org.eclipse.emf.ecore.xmi;bundle-version="2.10.2",
  common.routing.model;bundle-version="0.1.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
