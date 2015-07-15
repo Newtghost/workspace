@@ -67,40 +67,13 @@ public interface RoutingPackage extends EPackage {
 	int SPACE = 0;
 
 	/**
-	 * The feature id for the '<em><b>Connections</b></em>' map.
+	 * The feature id for the '<em><b>Agency Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SPACE__CONNECTIONS = 0;
-
-	/**
-	 * The feature id for the '<em><b>Footpaths</b></em>' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPACE__FOOTPATHS = 1;
-
-	/**
-	 * The feature id for the '<em><b>Stops</b></em>' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPACE__STOPS = 2;
-
-	/**
-	 * The feature id for the '<em><b>Calendar</b></em>' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SPACE__CALENDAR = 3;
+	int SPACE__AGENCY_NAME = 0;
 
 	/**
 	 * The feature id for the '<em><b>Timezone</b></em>' attribute.
@@ -109,7 +82,43 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SPACE__TIMEZONE = 4;
+	int SPACE__TIMEZONE = 1;
+
+	/**
+	 * The feature id for the '<em><b>Connections</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPACE__CONNECTIONS = 2;
+
+	/**
+	 * The feature id for the '<em><b>Footpaths</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPACE__FOOTPATHS = 3;
+
+	/**
+	 * The feature id for the '<em><b>Stops</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPACE__STOPS = 4;
+
+	/**
+	 * The feature id for the '<em><b>Calendar</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SPACE__CALENDAR = 5;
 
 	/**
 	 * The number of structural features of the '<em>Space</em>' class.
@@ -118,7 +127,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SPACE_FEATURE_COUNT = 5;
+	int SPACE_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Space</em>' class.
@@ -167,13 +176,22 @@ public interface RoutingPackage extends EPackage {
 	int LEG__TRIP_ID = 2;
 
 	/**
+	 * The feature id for the '<em><b>Agency Time Zone Offset</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LEG__AGENCY_TIME_ZONE_OFFSET = 3;
+
+	/**
 	 * The number of structural features of the '<em>Leg</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LEG_FEATURE_COUNT = 3;
+	int LEG_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Leg</em>' class.
@@ -222,13 +240,31 @@ public interface RoutingPackage extends EPackage {
 	int CONNECTION__TRIP_ID = LEG__TRIP_ID;
 
 	/**
+	 * The feature id for the '<em><b>Agency Time Zone Offset</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTION__AGENCY_TIME_ZONE_OFFSET = LEG__AGENCY_TIME_ZONE_OFFSET;
+
+	/**
+	 * The feature id for the '<em><b>Agency Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTION__AGENCY_NAME = LEG_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Service Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__SERVICE_ID = LEG_FEATURE_COUNT + 0;
+	int CONNECTION__SERVICE_ID = LEG_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Route Id</b></em>' attribute.
@@ -237,7 +273,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__ROUTE_ID = LEG_FEATURE_COUNT + 1;
+	int CONNECTION__ROUTE_ID = LEG_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Dep Stop Sequence</b></em>' attribute.
@@ -246,7 +282,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__DEP_STOP_SEQUENCE = LEG_FEATURE_COUNT + 2;
+	int CONNECTION__DEP_STOP_SEQUENCE = LEG_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Departure Time</b></em>' attribute.
@@ -255,7 +291,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__DEPARTURE_TIME = LEG_FEATURE_COUNT + 3;
+	int CONNECTION__DEPARTURE_TIME = LEG_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Arr Stop Sequence</b></em>' attribute.
@@ -264,7 +300,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__ARR_STOP_SEQUENCE = LEG_FEATURE_COUNT + 4;
+	int CONNECTION__ARR_STOP_SEQUENCE = LEG_FEATURE_COUNT + 5;
 
 	/**
 	 * The feature id for the '<em><b>Arrival Time</b></em>' attribute.
@@ -273,7 +309,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__ARRIVAL_TIME = LEG_FEATURE_COUNT + 5;
+	int CONNECTION__ARRIVAL_TIME = LEG_FEATURE_COUNT + 6;
 
 	/**
 	 * The feature id for the '<em><b>Departure Delay</b></em>' attribute.
@@ -282,7 +318,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__DEPARTURE_DELAY = LEG_FEATURE_COUNT + 6;
+	int CONNECTION__DEPARTURE_DELAY = LEG_FEATURE_COUNT + 7;
 
 	/**
 	 * The feature id for the '<em><b>Arrival Delay</b></em>' attribute.
@@ -291,7 +327,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__ARRIVAL_DELAY = LEG_FEATURE_COUNT + 7;
+	int CONNECTION__ARRIVAL_DELAY = LEG_FEATURE_COUNT + 8;
 
 	/**
 	 * The feature id for the '<em><b>Relaxed</b></em>' attribute.
@@ -300,7 +336,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__RELAXED = LEG_FEATURE_COUNT + 8;
+	int CONNECTION__RELAXED = LEG_FEATURE_COUNT + 9;
 
 	/**
 	 * The feature id for the '<em><b>Prev C</b></em>' reference.
@@ -309,7 +345,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION__PREV_C = LEG_FEATURE_COUNT + 9;
+	int CONNECTION__PREV_C = LEG_FEATURE_COUNT + 10;
 
 	/**
 	 * The number of structural features of the '<em>Connection</em>' class.
@@ -318,7 +354,7 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTION_FEATURE_COUNT = LEG_FEATURE_COUNT + 10;
+	int CONNECTION_FEATURE_COUNT = LEG_FEATURE_COUNT + 11;
 
 	/**
 	 * The number of operations of the '<em>Connection</em>' class.
@@ -365,6 +401,15 @@ public interface RoutingPackage extends EPackage {
 	 * @ordered
 	 */
 	int FOOTPATH__TRIP_ID = LEG__TRIP_ID;
+
+	/**
+	 * The feature id for the '<em><b>Agency Time Zone Offset</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FOOTPATH__AGENCY_TIME_ZONE_OFFSET = LEG__AGENCY_TIME_ZONE_OFFSET;
 
 	/**
 	 * The feature id for the '<em><b>Distance</b></em>' attribute.
@@ -845,6 +890,17 @@ public interface RoutingPackage extends EPackage {
 	EAttribute getSpace_Timezone();
 
 	/**
+	 * Returns the meta object for the attribute '{@link routing.Space#getAgencyName <em>Agency Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Agency Name</em>'.
+	 * @see routing.Space#getAgencyName()
+	 * @see #getSpace()
+	 * @generated
+	 */
+	EAttribute getSpace_AgencyName();
+
+	/**
 	 * Returns the meta object for class '{@link routing.Leg <em>Leg</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -888,6 +944,17 @@ public interface RoutingPackage extends EPackage {
 	EAttribute getLeg_TripId();
 
 	/**
+	 * Returns the meta object for the attribute '{@link routing.Leg#getAgencyTimeZoneOffset <em>Agency Time Zone Offset</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Agency Time Zone Offset</em>'.
+	 * @see routing.Leg#getAgencyTimeZoneOffset()
+	 * @see #getLeg()
+	 * @generated
+	 */
+	EAttribute getLeg_AgencyTimeZoneOffset();
+
+	/**
 	 * Returns the meta object for class '{@link routing.Connection <em>Connection</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -896,6 +963,17 @@ public interface RoutingPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getConnection();
+
+	/**
+	 * Returns the meta object for the attribute '{@link routing.Connection#getAgencyName <em>Agency Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Agency Name</em>'.
+	 * @see routing.Connection#getAgencyName()
+	 * @see #getConnection()
+	 * @generated
+	 */
+	EAttribute getConnection_AgencyName();
 
 	/**
 	 * Returns the meta object for the attribute '{@link routing.Connection#getServiceId <em>Service Id</em>}'.
@@ -1434,6 +1512,14 @@ public interface RoutingPackage extends EPackage {
 		EAttribute SPACE__TIMEZONE = eINSTANCE.getSpace_Timezone();
 
 		/**
+		 * The meta object literal for the '<em><b>Agency Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SPACE__AGENCY_NAME = eINSTANCE.getSpace_AgencyName();
+
+		/**
 		 * The meta object literal for the '{@link routing.impl.LegImpl <em>Leg</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1468,6 +1554,14 @@ public interface RoutingPackage extends EPackage {
 		EAttribute LEG__TRIP_ID = eINSTANCE.getLeg_TripId();
 
 		/**
+		 * The meta object literal for the '<em><b>Agency Time Zone Offset</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LEG__AGENCY_TIME_ZONE_OFFSET = eINSTANCE.getLeg_AgencyTimeZoneOffset();
+
+		/**
 		 * The meta object literal for the '{@link routing.impl.ConnectionImpl <em>Connection</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1476,6 +1570,14 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EClass CONNECTION = eINSTANCE.getConnection();
+
+		/**
+		 * The meta object literal for the '<em><b>Agency Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CONNECTION__AGENCY_NAME = eINSTANCE.getConnection_AgencyName();
 
 		/**
 		 * The meta object literal for the '<em><b>Service Id</b></em>' attribute feature.

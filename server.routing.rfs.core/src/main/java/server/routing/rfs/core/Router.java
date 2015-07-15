@@ -1,7 +1,11 @@
 package server.routing.rfs.core;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -71,13 +75,11 @@ public class Router {
     	return 0 ;
     }
 	
-	public void processNewRequest (Request request) {
+	public void processNewRequest (Request request) throws DateException {
 		this.request = request ;	
 		if (request.getDate().equals(currentDate)) return ; /* Pas besoin de changer la liste déjà uptodate */ 
-		//RoutingAccessors.getAllValidDates(space).forEach(date -> System.out.println(date)) ;
 		if (!sorted_connections_by_date.containsKey(request.getDate())) {
-			System.err.println("This date doesn't exist in the GTFS bundle.") ;
-			return ; /* TODO : il faut lever un exception pour arrêter le déroulement de l'algo - si on retourne ici on ne doit pas lancer l'algo */
+			throw new DateException() ;
 		}
 		currentDate = request.getDate() ;
 		sorted_connections = sorted_connections_by_date.get(request.getDate()) ;
@@ -105,6 +107,7 @@ public class Router {
 		}
 		
 		long startTime = RoutingAccessors.getStartTime(request) ;
+		System.out.println("Start time : " + startTime) ;
 		
 		/* Initialization */
 		MyRoutingFactory.initialize(space) ;  
@@ -178,8 +181,6 @@ public class Router {
 
 		/* Print itineraries */
 		printJourneys() ;		
-		
-		System.out.println("Fini") ;
 	}
 
 	/**
@@ -269,12 +270,12 @@ public class Router {
 
 		/* Le calcul d'itinéraire se fait avec un horaire local : LocalDate / LocalDateTime
 		 * Ce n'est qu'au moment de l'export json que l'on passe dans un référentiel "global" en 
-		 * prenant en compte la timezone.
+		 * prenant en compte la date et la timezone.
 		 */
 
-		long tz = RoutingAccessors.getJetlag(space) ; /* TODO : à changer... */
-		long date = LocalDate.parse("2015-07-01").toEpochDay() * 24 * 3600 * 1000 ; /* TODO : à changer...*/
-//		long date = Instant.parse(LocalDate.parse(request.getDate()).format(DateTimeFormatter.ISO_INSTANT)).toEpochMilli() ;
+		final Instant instant = LocalTime.MIN.atDate(LocalDate.parse(request.getDate())).toInstant(ZoneOffset.UTC);
+		final long date = instant.toEpochMilli() ; // in millis
+		final long tzOffset = ZoneId.of(space.getTimezone()).getRules().getOffset(instant).getTotalSeconds() * 1000 ; // in millis
 				
 		StopPoint targetStop;
 		if (request.hasStopsId()) {
@@ -300,7 +301,7 @@ public class Router {
 						to.put("stopSequence", prevC.getArrStopSequence()) ;
 						leg.put("to", to) ;
 						prevEndTime = prevC.getArrivalTime() * 1000 ;
-						leg.put("endTime", prevEndTime + date + tz) ;
+						leg.put("endTime", prevEndTime + date - tzOffset) ;
 						leg.put("arrivalDelay", 0) ;
 						legs.add(leg) ;
 						leg = null ;
@@ -308,6 +309,8 @@ public class Router {
 	
 					/* New leg corresponding to a footpath */
 					leg = new JSONObject() ;
+					leg.put("agencyName", space.getAgencyName()) ;
+					leg.put("agencyTimeZoneOffset", tzOffset) ;
 					JSONObject from = new JSONObject() ;
 					JSONObject to = new JSONObject() ;
 					from.put("name", RoutingAccessors.getStopFromId(space, s.getDepartureId()).getName()) ;
@@ -316,9 +319,9 @@ public class Router {
 					to.put("stopId", s.getArrivalId()) ;
 					leg.put("from", from) ;
 					leg.put("to", to) ;
-					leg.put("startTime", prevEndTime + date + tz) ;
+					leg.put("startTime", prevEndTime + date - tzOffset) ;
 					prevEndTime += ((Footpath) s).getDuration() * 1000;
-					leg.put("endTime", prevEndTime + date + tz) ;
+					leg.put("endTime", prevEndTime + date - tzOffset) ;
 					leg.put("departureDelay", 0) ;
 					leg.put("arrivalDelay", 0) ;
 					leg.put("distance", ((Footpath) s).getDistance()) ;
@@ -338,7 +341,7 @@ public class Router {
 							to.put("stopSequence", prevC.getArrStopSequence()) ;
 							leg.put("to", to) ;
 							prevEndTime = prevC.getArrivalTime() * 1000;
-							leg.put("endTime", prevEndTime + date + tz) ;
+							leg.put("endTime", prevEndTime + date - tzOffset) ;
 							leg.put("arrivalDelay", 0) ;
 							legs.add(leg) ;
 							leg = null ;
@@ -346,12 +349,14 @@ public class Router {
 						
 						/* Creation of a new transit path */
 						leg = new JSONObject() ;
+						leg.put("agencyName", space.getAgencyName()) ;
+						leg.put("agencyTimeZoneOffset", tzOffset) ;
 						JSONObject from = new JSONObject() ;
 						from.put("name", RoutingAccessors.getStopFromId(space, c.getDepartureId()).getName()) ;
 						from.put("stopId", c.getDepartureId()) ;
 						from.put("stopSequence", c.getDepStopSequence()) ;
 						leg.put("from", from) ;
-						leg.put("startTime", c.getDepartureTime() * 1000 + date + tz) ;
+						leg.put("startTime", c.getDepartureTime() * 1000 + date - tzOffset) ;
 						leg.put("departureDelay", 0) ;
 						leg.put("distance", 0.1) ; /* Default value */
 						leg.put("mode", "TRANSIT") ;
@@ -371,8 +376,8 @@ public class Router {
 				to.put("stopId", prevC.getArrivalId()) ;
 				to.put("stopSequence", prevC.getArrStopSequence()) ;
 				leg.put("to", to) ;
-				prevEndTime = prevC.getArrivalTime() ;
-				leg.put("endTime", (prevEndTime+date+tz) * 1000) ;
+				prevEndTime = prevC.getArrivalTime() * 1000 ;
+				leg.put("endTime", prevEndTime + date - tzOffset) ;
 				leg.put("arrivalDelay", 0) ;
 				legs.add(leg) ;
 				leg = null ;

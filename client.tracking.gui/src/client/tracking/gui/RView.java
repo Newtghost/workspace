@@ -122,7 +122,6 @@ public class RView extends ViewPart {
 	}
 	
 	public String getTime() {
-		/* TODO : est ce qu'on modifie à cet endroit le format pour qu'ensuite il fit avec la norme ISO_TIME ?? Ca serait propre ... */
 		return time.getText();
 	}
 

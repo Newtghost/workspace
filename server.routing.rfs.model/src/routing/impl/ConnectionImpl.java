@@ -20,6 +20,7 @@ import routing.RoutingPackage;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link routing.impl.ConnectionImpl#getAgencyName <em>Agency Name</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getServiceId <em>Service Id</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getRouteId <em>Route Id</em>}</li>
  *   <li>{@link routing.impl.ConnectionImpl#getDepStopSequence <em>Dep Stop Sequence</em>}</li>
@@ -35,6 +36,26 @@ import routing.RoutingPackage;
  * @generated
  */
 public class ConnectionImpl extends LegImpl implements Connection {
+	/**
+	 * The default value of the '{@link #getAgencyName() <em>Agency Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAgencyName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String AGENCY_NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getAgencyName() <em>Agency Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAgencyName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String agencyName = AGENCY_NAME_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getServiceId() <em>Service Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -242,6 +263,27 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	@Override
 	protected EClass eStaticClass() {
 		return RoutingPackage.Literals.CONNECTION;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getAgencyName() {
+		return agencyName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAgencyName(String newAgencyName) {
+		String oldAgencyName = agencyName;
+		agencyName = newAgencyName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.CONNECTION__AGENCY_NAME, oldAgencyName, agencyName));
 	}
 
 	/**
@@ -479,6 +521,8 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case RoutingPackage.CONNECTION__AGENCY_NAME:
+				return getAgencyName();
 			case RoutingPackage.CONNECTION__SERVICE_ID:
 				return getServiceId();
 			case RoutingPackage.CONNECTION__ROUTE_ID:
@@ -512,6 +556,9 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case RoutingPackage.CONNECTION__AGENCY_NAME:
+				setAgencyName((String)newValue);
+				return;
 			case RoutingPackage.CONNECTION__SERVICE_ID:
 				setServiceId((String)newValue);
 				return;
@@ -554,6 +601,9 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case RoutingPackage.CONNECTION__AGENCY_NAME:
+				setAgencyName(AGENCY_NAME_EDEFAULT);
+				return;
 			case RoutingPackage.CONNECTION__SERVICE_ID:
 				setServiceId(SERVICE_ID_EDEFAULT);
 				return;
@@ -596,6 +646,8 @@ public class ConnectionImpl extends LegImpl implements Connection {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case RoutingPackage.CONNECTION__AGENCY_NAME:
+				return AGENCY_NAME_EDEFAULT == null ? agencyName != null : !AGENCY_NAME_EDEFAULT.equals(agencyName);
 			case RoutingPackage.CONNECTION__SERVICE_ID:
 				return SERVICE_ID_EDEFAULT == null ? serviceId != null : !SERVICE_ID_EDEFAULT.equals(serviceId);
 			case RoutingPackage.CONNECTION__ROUTE_ID:
@@ -630,7 +682,9 @@ public class ConnectionImpl extends LegImpl implements Connection {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (serviceId: ");
+		result.append(" (agencyName: ");
+		result.append(agencyName);
+		result.append(", serviceId: ");
 		result.append(serviceId);
 		result.append(", routeId: ");
 		result.append(routeId);

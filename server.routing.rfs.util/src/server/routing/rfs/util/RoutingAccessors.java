@@ -39,7 +39,7 @@ public class RoutingAccessors {
 		StopPoint nearestStop = null ;
 		double shortestDistance = Double.MAX_VALUE; 
 		for (StopPoint stop : RoutingAccessors.getStops(space)) {
-			double aux = Util.gps2m(lat, lon, stop.getLatitude(), stop.getLongitude()) ;
+			double aux = Leg.gps2m(lat, lon, stop.getLatitude(), stop.getLongitude()) ;
 			if (aux < shortestDistance) {
 				shortestDistance = aux ;
 				nearestStop = stop ;
@@ -61,14 +61,6 @@ public class RoutingAccessors {
 	/* Return the local start time in seconds */
 	public static long getStartTime (Request request) {
 		return LocalTime.parse(request.getTime(), DateTimeFormatter.ISO_TIME).toSecondOfDay() ;
-	}
-
-	public static long getJetlag (Space space) {
-		/* TODO : Depend de la Timezone - récupéré depuis le GTFS stocké dans le Space */
-		if (space.getTimezone().equals("Portland")) {
-			return 9 * 3600 * 1000 ; // Milliseconds
-		}
-		return 0 ;
 	}
 
 	public static Set<String> getAllValidDates(Space space) {

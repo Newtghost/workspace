@@ -38,21 +38,21 @@ public class MyService {
     		}
     	}
 
-    	System.out.println( "Request received -- start routing" );
+    	System.out.println( "Request received." );
     	
     	Request request ;
-    	String time, date ;
+    	String time = "", date = "" ;    	
     	
     	if (queryParams.containsKey("time")) {
     		time = queryParams.get("time").get(0) ;
     	} else {
-    		return "RFS request error. Usage: from to start_time";    		
+    		return "Request error : missing a time parameter" ;
     	}
 
     	if (queryParams.containsKey("date")) {
     		date = queryParams.get("date").get(0) ;
     	} else {
-    		return "RFS request error. Usage: from to start_time";    		
+    		return "Request error : missing a date parameter" ;
     	}
     	
     	/* Get the position of the departure and the arrival */
@@ -63,29 +63,28 @@ public class MyService {
 			request = MyRoutingFactory.createRequest(queryParams.get("fromLat").get(0), queryParams.get("fromLon").get(0), 
 					queryParams.get("toLat").get(0), queryParams.get("toLon").get(0),time, date) ;
     	} else {
-    		return "RFS request error. Usage: from to start_time";    		
-    	}
-
-		builder.getRouter().processNewRequest(request);
-		builder.getRouter().run_CSA();
+    		return "Request error : missing localisation parameters" ;
+    	} 
+    	
+    	System.out.println( "Request created -- start routing." );
 		
 		/* TODO : Il faudrait lancer un thread de reinit (tous les delay) ou alors direct dans l'updater -- blocage / effet de bord */
-
+    	
+    	String result = "RFS error... while routing";    	
 		try {
-			String json = builder.getRouter().journey2Json() ;
-			System.out.println("OK") ;
-			System.out.println(json) ;
+			builder.getRouter().processNewRequest(request);			
+			builder.getRouter().run_CSA();
+			result = builder.getRouter().journey2Json() ;
 			if (App.DEBUG) {
 	        	FileWriter writer = new FileWriter("DEBUG.json");
-	    		writer.write(json);
+	    		writer.write(result);
 	    		writer.close();
 			}
-			return json;
-		} catch (IOException | JSONException e) {
-			System.out.println("KO") ;
+			return result;
+		} catch (IOException | JSONException | DateException e) {
 			e.printStackTrace();
 		}
 
-		return "RFS request error. Usage: from to start_time";    		
+		return result;    		
 	}
 }

@@ -27,16 +27,57 @@ import routing.StopPoint;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link routing.impl.SpaceImpl#getAgencyName <em>Agency Name</em>}</li>
+ *   <li>{@link routing.impl.SpaceImpl#getTimezone <em>Timezone</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getConnections <em>Connections</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getFootpaths <em>Footpaths</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getStops <em>Stops</em>}</li>
  *   <li>{@link routing.impl.SpaceImpl#getCalendar <em>Calendar</em>}</li>
- *   <li>{@link routing.impl.SpaceImpl#getTimezone <em>Timezone</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
+	/**
+	 * The default value of the '{@link #getAgencyName() <em>Agency Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAgencyName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String AGENCY_NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getAgencyName() <em>Agency Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAgencyName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String agencyName = AGENCY_NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTimezone()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TIMEZONE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTimezone()
+	 * @generated
+	 * @ordered
+	 */
+	protected String timezone = TIMEZONE_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getConnections() <em>Connections</em>}' map.
 	 * <!-- begin-user-doc -->
@@ -76,26 +117,6 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	 * @ordered
 	 */
 	protected EMap<String, EList<String>> calendar;
-
-	/**
-	 * The default value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTimezone()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String TIMEZONE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getTimezone() <em>Timezone</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTimezone()
-	 * @generated
-	 * @ordered
-	 */
-	protected String timezone = TIMEZONE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -190,6 +211,27 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getAgencyName() {
+		return agencyName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAgencyName(String newAgencyName) {
+		String oldAgencyName = agencyName;
+		agencyName = newAgencyName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.SPACE__AGENCY_NAME, oldAgencyName, agencyName));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -213,6 +255,10 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case RoutingPackage.SPACE__AGENCY_NAME:
+				return getAgencyName();
+			case RoutingPackage.SPACE__TIMEZONE:
+				return getTimezone();
 			case RoutingPackage.SPACE__CONNECTIONS:
 				if (coreType) return getConnections();
 				else return getConnections().map();
@@ -225,8 +271,6 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 			case RoutingPackage.SPACE__CALENDAR:
 				if (coreType) return getCalendar();
 				else return getCalendar().map();
-			case RoutingPackage.SPACE__TIMEZONE:
-				return getTimezone();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -239,6 +283,12 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case RoutingPackage.SPACE__AGENCY_NAME:
+				setAgencyName((String)newValue);
+				return;
+			case RoutingPackage.SPACE__TIMEZONE:
+				setTimezone((String)newValue);
+				return;
 			case RoutingPackage.SPACE__CONNECTIONS:
 				((EStructuralFeature.Setting)getConnections()).set(newValue);
 				return;
@@ -250,9 +300,6 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 				return;
 			case RoutingPackage.SPACE__CALENDAR:
 				((EStructuralFeature.Setting)getCalendar()).set(newValue);
-				return;
-			case RoutingPackage.SPACE__TIMEZONE:
-				setTimezone((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -266,6 +313,12 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case RoutingPackage.SPACE__AGENCY_NAME:
+				setAgencyName(AGENCY_NAME_EDEFAULT);
+				return;
+			case RoutingPackage.SPACE__TIMEZONE:
+				setTimezone(TIMEZONE_EDEFAULT);
+				return;
 			case RoutingPackage.SPACE__CONNECTIONS:
 				getConnections().clear();
 				return;
@@ -277,9 +330,6 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 				return;
 			case RoutingPackage.SPACE__CALENDAR:
 				getCalendar().clear();
-				return;
-			case RoutingPackage.SPACE__TIMEZONE:
-				setTimezone(TIMEZONE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -293,6 +343,10 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case RoutingPackage.SPACE__AGENCY_NAME:
+				return AGENCY_NAME_EDEFAULT == null ? agencyName != null : !AGENCY_NAME_EDEFAULT.equals(agencyName);
+			case RoutingPackage.SPACE__TIMEZONE:
+				return TIMEZONE_EDEFAULT == null ? timezone != null : !TIMEZONE_EDEFAULT.equals(timezone);
 			case RoutingPackage.SPACE__CONNECTIONS:
 				return connections != null && !connections.isEmpty();
 			case RoutingPackage.SPACE__FOOTPATHS:
@@ -301,8 +355,6 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 				return stops != null && !stops.isEmpty();
 			case RoutingPackage.SPACE__CALENDAR:
 				return calendar != null && !calendar.isEmpty();
-			case RoutingPackage.SPACE__TIMEZONE:
-				return TIMEZONE_EDEFAULT == null ? timezone != null : !TIMEZONE_EDEFAULT.equals(timezone);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -317,7 +369,9 @@ public class SpaceImpl extends MinimalEObjectImpl.Container implements Space {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (timezone: ");
+		result.append(" (agencyName: ");
+		result.append(agencyName);
+		result.append(", timezone: ");
 		result.append(timezone);
 		result.append(')');
 		return result.toString();

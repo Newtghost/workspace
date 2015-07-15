@@ -2,6 +2,8 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="routing" nsURI="http://www.example.org/routing" nsPrefix="routing">
   <eClassifiers xsi:type="ecore:EClass" name="Space">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="agencyName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timezone" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="-1"
         eType="#//StringToConnectionMap" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="footpaths" upperBound="-1"
@@ -10,14 +12,15 @@
         eType="#//StringToStopPointMap" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="calendar" upperBound="-1"
         eType="#//DateToStringMap" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="timezone" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Leg">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="departureId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="arrivalId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="tripId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="agencyTimeZoneOffset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Connection" eSuperTypes="#//Leg">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="agencyName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="serviceId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="routeId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="depStopSequence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>

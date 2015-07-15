@@ -20,7 +20,8 @@ import common.util.EmfUtil;
 
 public class MyRoutingFactory {
 	
-	public static final double SPEED = 1.2; /* meter per second */
+	/* TODO : chemin en dur... */
+	private static final String PATH = "C:\\Users\\david.leydier\\workspace\\server.routing.rfs.core\\target\\"; 
 
 	public static Connection createConnection (String serviceId, String tripId, String routeId, String departureId, String arrivalId, 
 			long departureTime, long arrivalTime, int departureSeq, int arrivalSeq) {
@@ -44,8 +45,8 @@ public class MyRoutingFactory {
 		f.setDepartureId(departureId);
 		f.setArrivalId(arrivalId);
 		f.setTripId("");
-		f.setDistance(Util.gps2m(depLat, depLon, arrLat, arrLon)) ; /* Calcul de la distance */
-		f.setDuration((int) (f.getDistance()/SPEED));
+		f.setDistance(Leg.gps2m(depLat, depLon, arrLat, arrLon)) ; /* Calcul de la distance */
+		f.setDuration((int) (f.getDistance()/Leg.WALKING_SPEED));
 		return f ;
 	}
 	
@@ -108,11 +109,11 @@ public class MyRoutingFactory {
 	}
 
 	public static boolean serialize(Space space) {
-		return EmfUtil.doSaveBin(space, Util.PATH + "rfsMaps",".obj") ; 
+		return EmfUtil.doSaveBin(space, PATH + "rfsMaps",".obj") ; 
 	}
 
 	public static Space deserialize() {
-		return (Space) EmfUtil.doOpenBin(RoutingPackage.eINSTANCE, Util.PATH + "rfsMaps",".obj");
+		return (Space) EmfUtil.doOpenBin(RoutingPackage.eINSTANCE, PATH + "rfsMaps",".obj");
 	}
 
 	public static void initialize(Space space) {
@@ -127,16 +128,15 @@ public class MyRoutingFactory {
 		}
 	}
 
-	public static void addDate(Space space, String date, String id) {
-		/* TODO : formatter la date ici pour avoir un format ISO */
-//		LocalDate myDate = LocalDate.parse(date, DateTimeFormatter.ISO_DATE_TIME) ;
-//		String formatedDate = myDate.format(DateTimeFormatter.ISO_LOCAL_DATE).toString() ;
-		String formatedDate = date ;
-		if (space.getCalendar().containsKey(formatedDate)) {
-			space.getCalendar().get(formatedDate).add(id) ;
+	public static void addDate(Space space, String unformattedDate, String id) {
+		/* The format of the unformatted date is YYYYMMDD due to convention of Onebusaway,
+		 * we just reformat it into ISO_LOCAL_DATE format YYYY-MM-DD */
+		String date = unformattedDate.substring(0,4) + "-" + unformattedDate.substring(4,6) + "-" + unformattedDate.substring(6,8) ;
+		if (space.getCalendar().containsKey(date)) {
+			space.getCalendar().get(date).add(id) ;
 		} else {
 			EList<String> list = new BasicEList<String>(Arrays.asList(id));
-			space.getCalendar().put(formatedDate, list) ;
+			space.getCalendar().put(date, list) ;
 		}
 	}
 

@@ -185,12 +185,15 @@ public class Tracker {
 		    			Leg l ;
 		    			if (leg.get("mode").equals("WALK")) {
 		    				l = RoutingFactory.eINSTANCE.createFootpath() ;
+		    				l.setAgencyTimeZoneOffset((long) leg.get("agencyTimeZoneOffset"));
 							l.setDepartureId((String) from.get("stopId")) ; 
 							l.setArrivalId((String) to.get("stopId")) ;
 							((Footpath) l).setDistance((double) leg.get("distance")) ;
 							((Footpath) l).setDuration((int) (((Long)leg.get("endTime"))-((Long)leg.get("startTime")))/1000) ;
 		    			} else {
 		    				l = RoutingFactory.eINSTANCE.createConnection() ;
+							((Connection) l).setAgencyName((String) leg.get("agencyName"));
+		    				l.setAgencyTimeZoneOffset((long) leg.get("agencyTimeZoneOffset"));
 							l.setDepartureId((String) from.get("stopId")) ; 
 							l.setArrivalId((String) to.get("stopId")) ;
 							departure_delay = ((Long)leg.get("departureDelay")).intValue();

@@ -23,6 +23,7 @@ import routing.RoutingPackage;
  *   <li>{@link routing.impl.LegImpl#getDepartureId <em>Departure Id</em>}</li>
  *   <li>{@link routing.impl.LegImpl#getArrivalId <em>Arrival Id</em>}</li>
  *   <li>{@link routing.impl.LegImpl#getTripId <em>Trip Id</em>}</li>
+ *   <li>{@link routing.impl.LegImpl#getAgencyTimeZoneOffset <em>Agency Time Zone Offset</em>}</li>
  * </ul>
  *
  * @generated
@@ -87,6 +88,26 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * @ordered
 	 */
 	protected String tripId = TRIP_ID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getAgencyTimeZoneOffset() <em>Agency Time Zone Offset</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAgencyTimeZoneOffset()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final long AGENCY_TIME_ZONE_OFFSET_EDEFAULT = 0L;
+
+	/**
+	 * The cached value of the '{@link #getAgencyTimeZoneOffset() <em>Agency Time Zone Offset</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAgencyTimeZoneOffset()
+	 * @generated
+	 * @ordered
+	 */
+	protected long agencyTimeZoneOffset = AGENCY_TIME_ZONE_OFFSET_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -175,6 +196,27 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public long getAgencyTimeZoneOffset() {
+		return agencyTimeZoneOffset;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAgencyTimeZoneOffset(long newAgencyTimeZoneOffset) {
+		long oldAgencyTimeZoneOffset = agencyTimeZoneOffset;
+		agencyTimeZoneOffset = newAgencyTimeZoneOffset;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.LEG__AGENCY_TIME_ZONE_OFFSET, oldAgencyTimeZoneOffset, agencyTimeZoneOffset));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -184,6 +226,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return getArrivalId();
 			case RoutingPackage.LEG__TRIP_ID:
 				return getTripId();
+			case RoutingPackage.LEG__AGENCY_TIME_ZONE_OFFSET:
+				return getAgencyTimeZoneOffset();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -204,6 +248,9 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return;
 			case RoutingPackage.LEG__TRIP_ID:
 				setTripId((String)newValue);
+				return;
+			case RoutingPackage.LEG__AGENCY_TIME_ZONE_OFFSET:
+				setAgencyTimeZoneOffset((Long)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -226,6 +273,9 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 			case RoutingPackage.LEG__TRIP_ID:
 				setTripId(TRIP_ID_EDEFAULT);
 				return;
+			case RoutingPackage.LEG__AGENCY_TIME_ZONE_OFFSET:
+				setAgencyTimeZoneOffset(AGENCY_TIME_ZONE_OFFSET_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -244,6 +294,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 				return ARRIVAL_ID_EDEFAULT == null ? arrivalId != null : !ARRIVAL_ID_EDEFAULT.equals(arrivalId);
 			case RoutingPackage.LEG__TRIP_ID:
 				return TRIP_ID_EDEFAULT == null ? tripId != null : !TRIP_ID_EDEFAULT.equals(tripId);
+			case RoutingPackage.LEG__AGENCY_TIME_ZONE_OFFSET:
+				return agencyTimeZoneOffset != AGENCY_TIME_ZONE_OFFSET_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -264,6 +316,8 @@ public class LegImpl extends MinimalEObjectImpl.Container implements Leg {
 		result.append(arrivalId);
 		result.append(", tripId: ");
 		result.append(tripId);
+		result.append(", agencyTimeZoneOffset: ");
+		result.append(agencyTimeZoneOffset);
 		result.append(')');
 		return result.toString();
 	}

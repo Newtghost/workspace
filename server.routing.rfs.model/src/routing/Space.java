@@ -15,11 +15,12 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link routing.Space#getAgencyName <em>Agency Name</em>}</li>
+ *   <li>{@link routing.Space#getTimezone <em>Timezone</em>}</li>
  *   <li>{@link routing.Space#getConnections <em>Connections</em>}</li>
  *   <li>{@link routing.Space#getFootpaths <em>Footpaths</em>}</li>
  *   <li>{@link routing.Space#getStops <em>Stops</em>}</li>
  *   <li>{@link routing.Space#getCalendar <em>Calendar</em>}</li>
- *   <li>{@link routing.Space#getTimezone <em>Timezone</em>}</li>
  * </ul>
  *
  * @see routing.RoutingPackage#getSpace()
@@ -120,5 +121,31 @@ public interface Space extends EObject {
 	 * @generated
 	 */
 	void setTimezone(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Agency Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Agency Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Agency Name</em>' attribute.
+	 * @see #setAgencyName(String)
+	 * @see routing.RoutingPackage#getSpace_AgencyName()
+	 * @model
+	 * @generated
+	 */
+	String getAgencyName();
+
+	/**
+	 * Sets the value of the '{@link routing.Space#getAgencyName <em>Agency Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Agency Name</em>' attribute.
+	 * @see #getAgencyName()
+	 * @generated
+	 */
+	void setAgencyName(String value);
 
 } // Space

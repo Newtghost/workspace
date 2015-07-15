@@ -28,17 +28,17 @@ public class ViewLabelProvider extends StyledCellLabelProvider {
 			Instant dep, arr ;
 			String dep2s, arr2s ;
 			
-			long tz = Main.JET_LAG ;
+			long tzOffset = le.getAgencyTimeZoneOffset() / 1000 ;  // in seconds
 			
 			if (le instanceof Footpath) {
 				Footpath f = (Footpath) le ;
 				cell.setText("Walking for " + f.getDuration() + "s on " + ((int) f.getDistance()) + "m from " + f.getDepartureId() + " to " + f.getArrivalId());
 			} else {
 				Connection c = (Connection) le ;
-				dep = Instant.ofEpochSecond(c.getDepartureTime() - tz) ;
-				arr = Instant.ofEpochSecond(c.getArrivalTime() - tz) ;
-				dep2s = dep.toString().substring(11, 18) ; /* TODO faire un truc un peu plus propre... on veut juste prendre l'heure et le format est ISO */
-				arr2s = arr.toString().substring(11, 18) ;
+				dep = Instant.ofEpochSecond(c.getDepartureTime() + tzOffset) ;
+				arr = Instant.ofEpochSecond(c.getArrivalTime() + tzOffset) ;
+				dep2s = dep.toString().substring(11, 19) ; /* We just extract the date of this complete format */
+				arr2s = arr.toString().substring(11, 19) ; /* We just extract the date of this complete format */
 				if (c.getDepartureDelay() > 0) 
 					dep2s +=  " delayed of " + c.getDepartureDelay() + "s" ;
 				if (c.getArrivalDelay() > 0) 

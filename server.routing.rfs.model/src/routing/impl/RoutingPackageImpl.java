@@ -173,24 +173,6 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * @generated
 	 */
 	public EReference getSpace_Connections() {
-		return (EReference)spaceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSpace_Footpaths() {
-		return (EReference)spaceEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSpace_Stops() {
 		return (EReference)spaceEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -199,7 +181,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSpace_Calendar() {
+	public EReference getSpace_Footpaths() {
 		return (EReference)spaceEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -208,8 +190,35 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSpace_Stops() {
+		return (EReference)spaceEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSpace_Calendar() {
+		return (EReference)spaceEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EAttribute getSpace_Timezone() {
-		return (EAttribute)spaceEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)spaceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSpace_AgencyName() {
+		return (EAttribute)spaceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -253,6 +262,15 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getLeg_AgencyTimeZoneOffset() {
+		return (EAttribute)legEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getConnection() {
 		return connectionEClass;
 	}
@@ -262,7 +280,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_ServiceId() {
+	public EAttribute getConnection_AgencyName() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -271,7 +289,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_RouteId() {
+	public EAttribute getConnection_ServiceId() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -280,7 +298,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_DepStopSequence() {
+	public EAttribute getConnection_RouteId() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -289,7 +307,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_DepartureTime() {
+	public EAttribute getConnection_DepStopSequence() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -298,7 +316,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_ArrStopSequence() {
+	public EAttribute getConnection_DepartureTime() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -307,7 +325,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_ArrivalTime() {
+	public EAttribute getConnection_ArrStopSequence() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -316,7 +334,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_DepartureDelay() {
+	public EAttribute getConnection_ArrivalTime() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -325,7 +343,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_ArrivalDelay() {
+	public EAttribute getConnection_DepartureDelay() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -334,7 +352,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getConnection_Relaxed() {
+	public EAttribute getConnection_ArrivalDelay() {
 		return (EAttribute)connectionEClass.getEStructuralFeatures().get(8);
 	}
 
@@ -343,8 +361,17 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getConnection_Relaxed() {
+		return (EAttribute)connectionEClass.getEStructuralFeatures().get(9);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getConnection_PrevC() {
-		return (EReference)connectionEClass.getEStructuralFeatures().get(9);
+		return (EReference)connectionEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -664,18 +691,21 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 
 		// Create classes and their features
 		spaceEClass = createEClass(SPACE);
+		createEAttribute(spaceEClass, SPACE__AGENCY_NAME);
+		createEAttribute(spaceEClass, SPACE__TIMEZONE);
 		createEReference(spaceEClass, SPACE__CONNECTIONS);
 		createEReference(spaceEClass, SPACE__FOOTPATHS);
 		createEReference(spaceEClass, SPACE__STOPS);
 		createEReference(spaceEClass, SPACE__CALENDAR);
-		createEAttribute(spaceEClass, SPACE__TIMEZONE);
 
 		legEClass = createEClass(LEG);
 		createEAttribute(legEClass, LEG__DEPARTURE_ID);
 		createEAttribute(legEClass, LEG__ARRIVAL_ID);
 		createEAttribute(legEClass, LEG__TRIP_ID);
+		createEAttribute(legEClass, LEG__AGENCY_TIME_ZONE_OFFSET);
 
 		connectionEClass = createEClass(CONNECTION);
+		createEAttribute(connectionEClass, CONNECTION__AGENCY_NAME);
 		createEAttribute(connectionEClass, CONNECTION__SERVICE_ID);
 		createEAttribute(connectionEClass, CONNECTION__ROUTE_ID);
 		createEAttribute(connectionEClass, CONNECTION__DEP_STOP_SEQUENCE);
@@ -760,18 +790,21 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(spaceEClass, Space.class, "Space", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSpace_AgencyName(), ecorePackage.getEString(), "agencyName", null, 0, 1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSpace_Timezone(), ecorePackage.getEString(), "timezone", null, 0, 1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpace_Connections(), this.getStringToConnectionMap(), null, "connections", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpace_Footpaths(), this.getStringToFootpathMap(), null, "footpaths", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpace_Stops(), this.getStringToStopPointMap(), null, "stops", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSpace_Calendar(), this.getDateToStringMap(), null, "calendar", null, 0, -1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSpace_Timezone(), ecorePackage.getEString(), "timezone", null, 0, 1, Space.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(legEClass, Leg.class, "Leg", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLeg_DepartureId(), ecorePackage.getEString(), "departureId", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLeg_ArrivalId(), ecorePackage.getEString(), "arrivalId", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLeg_TripId(), ecorePackage.getEString(), "tripId", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLeg_AgencyTimeZoneOffset(), ecorePackage.getELong(), "agencyTimeZoneOffset", null, 0, 1, Leg.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(connectionEClass, Connection.class, "Connection", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getConnection_AgencyName(), ecorePackage.getEString(), "agencyName", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnection_ServiceId(), ecorePackage.getEString(), "serviceId", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnection_RouteId(), ecorePackage.getEString(), "routeId", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getConnection_DepStopSequence(), ecorePackage.getEInt(), "depStopSequence", null, 0, 1, Connection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

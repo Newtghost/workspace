@@ -12,6 +12,7 @@ package routing;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link routing.Connection#getAgencyName <em>Agency Name</em>}</li>
  *   <li>{@link routing.Connection#getServiceId <em>Service Id</em>}</li>
  *   <li>{@link routing.Connection#getRouteId <em>Route Id</em>}</li>
  *   <li>{@link routing.Connection#getDepStopSequence <em>Dep Stop Sequence</em>}</li>
@@ -29,6 +30,32 @@ package routing;
  * @generated
  */
 public interface Connection extends Leg, Comparable<Connection> {
+	/**
+	 * Returns the value of the '<em><b>Agency Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Agency Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Agency Name</em>' attribute.
+	 * @see #setAgencyName(String)
+	 * @see routing.RoutingPackage#getConnection_AgencyName()
+	 * @model
+	 * @generated
+	 */
+	String getAgencyName();
+
+	/**
+	 * Sets the value of the '{@link routing.Connection#getAgencyName <em>Agency Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Agency Name</em>' attribute.
+	 * @see #getAgencyName()
+	 * @generated
+	 */
+	void setAgencyName(String value);
+
 	/**
 	 * Returns the value of the '<em><b>Service Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->

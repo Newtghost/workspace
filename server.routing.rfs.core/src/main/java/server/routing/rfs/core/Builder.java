@@ -11,11 +11,13 @@ import java.util.Map;
 import java.util.Set;
 
 import routing.Connection;
+import routing.Leg;
 import routing.RoutingFactory;
 import routing.Space;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
+import org.onebusaway.gtfs.model.Agency;
 import org.onebusaway.gtfs.model.ServiceCalendarDate;
 import org.onebusaway.gtfs.model.Stop;
 import org.onebusaway.gtfs.model.StopTime;
@@ -24,13 +26,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import server.routing.rfs.util.MyRoutingFactory;
-import server.routing.rfs.util.Util;
 
 public class Builder {
 	
     private static final Logger LOG = LoggerFactory.getLogger(App.class);
 	   
-	private static final boolean REBUILD = false;       
+	private static final boolean REBUILD = false;        
 	private Router router ;   
 	private Updater updater = null ; 
 	private Space space ; 
@@ -41,9 +42,6 @@ public class Builder {
 	    	 
 			space = RoutingFactory.eINSTANCE.createSpace(); 
 			
-			/* TODO Récupérer l'agence ID et la timezone depuis le GTFS : agency.txt */
-			space.setTimezone("Portland") ; 
-			 
 	    	// Read the GTFS
 			GtfsReader reader = new GtfsReader();
 			reader.setInputLocation(new File(path));
@@ -52,6 +50,13 @@ public class Builder {
 			reader.setEntityStore(store);
 	
 			reader.run();
+
+			/* Treat only the case of a single agency */
+			for (Agency agency : store.getAllAgencies()) {
+				space.setAgencyName(agency.getName());
+				space.setTimezone(agency.getTimezone());
+				break ;
+			}
 			
 			// Get and sort the list of stop times to make easier the creation of all connections
 			ArrayList<StopTime> stop_times = new ArrayList<StopTime> (store.getAllStopTimes()) ;
@@ -109,7 +114,7 @@ public class Builder {
 	
 			for (Stop s1 : store.getAllStops()) {
 				for (Stop s2 : store.getAllStops()) {
-					if (!s1.getId().getId().equals(s2.getId().getId()) && Util.isConnectionPossible (s1.getLat(), s1.getLon(), s2.getLat(), s2.getLon())) {
+					if (!s1.getId().getId().equals(s2.getId().getId()) && Leg.isConnectionPossible (s1.getLat(), s1.getLon(), s2.getLat(), s2.getLon())) {
 						MyRoutingFactory.addFootpath(space, s1.getId().getId(), s2.getId().getId(), s1.getLat(), s1.getLon(), s2.getLat(), s2.getLon());
 					}
 				}
