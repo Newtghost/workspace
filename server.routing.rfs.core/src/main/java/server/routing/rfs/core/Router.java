@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import routing.Connection;
 import routing.Footpath;
@@ -41,16 +43,14 @@ public class Router {
 	private Request request ;
 	
 	Space space ;
-	Updater updater ;
-	private Map<String, ArrayList<Connection>> sorted_connections_by_date ; 
-	private Map<String, List<Connection>> updated_connections = null; 
+	public Map<String, ArrayList<Connection>> sorted_connections_by_date ; 
 	private ArrayList<Connection> sorted_connections ; 
+	public final Lock updateLock = new ReentrantLock() ;
 	private String currentDate = "" ;
 	
 	public Router (Space space, Updater updater) {
 		this.space = space ;
-		this.updater = updater ;
-		
+
 		sorted_connections_by_date = new HashMap<String, ArrayList<Connection>>();
 		
 		/* Tri des connections par date */
@@ -68,6 +68,11 @@ public class Router {
 			sorted_connections_by_date.put(date, myList) ;
 		}
 
+		/* We have to update only connections available for the current date 
+		 * there is no delay for a trip planned tomorrow */
+		LocalDate today = LocalDate.now() ;
+		updater.setConnectionsToUpdate(sorted_connections_by_date.get(today.toString()), updateLock);
+		
 		LOG.info("Lists of connections sorted by date created succesfully.");
 	}
 	
@@ -109,70 +114,60 @@ public class Router {
 		long startTime = RoutingAccessors.getStartTime(request) ;
 		System.out.println("Start time : " + startTime) ;
 		
-		/* Initialization */
-		MyRoutingFactory.initialize(space) ;  
-		if (updater!=null) updated_connections = updater.getUpdatedConnections() ;
-
-		/* Creation of the initial empty itinerary from the source */
-		Itinerary it = MyRoutingFactory.createItinerary(null, null, "-1", startTime, startTime, 0, 0.0, false) ; /* Itinéraire qui domine tous les autres */
-		RoutingAccessors.getJourneys(sourceStop).add(it) ;
-		
-		/* Extend the first itinerary to all the neighbors */
-		extendItineraryWithFootpaths(targetStop, it, sourceStop, sourceStop) ;
-
-		/* Create the list of all recommended routes which allow to reach the target or a target's neighbor */
-		Set<String> recommendedRoutes = new HashSet<>() ;
-		recommendedRoutes.addAll(RoutingAccessors.getRoutesId(targetStop)) ;
-		for (Footpath f : RoutingAccessors.getFootpaths(space, targetStop.getStopId())) {
-			recommendedRoutes.addAll(RoutingAccessors.getRoutesId(RoutingAccessors.getStopFromId(space, f.getArrivalId()))) ;
-		}
-		System.out.println("Recommended routes : " + recommendedRoutes) ;
-		
-		StopPoint cDepStop, cArrStop ;
-		
-		/* Core of the algorithm */
-		for (Connection c : sorted_connections) {
-									
-			if (c.getDepartureTime() < startTime) continue ; /* Before the departure */
+		updateLock.lock();
+		try {
+			/* Initialization */
+			MyRoutingFactory.initialize(space) ;  
+	
+			/* Creation of the initial empty itinerary from the source */
+			Itinerary it = MyRoutingFactory.createItinerary(null, null, "-1", startTime, startTime, 0, 0.0, false) ; /* Itinéraire qui domine tous les autres */
+			RoutingAccessors.getJourneys(sourceStop).add(it) ;
 			
-			/* If we can't improve the best arrival time to the target then we will only try to complete running itineraries */
-			if (targetStop.getBestArrivalTime() <= c.getDepartureTime()) {
-				if (targetStop.getBestArrivalTime() + ARRIVAL_MARGIN <= c.getDepartureTime()) break ;
-				if (!recommendedRoutes.contains(c.getRouteId())) {
-					continue ;
-				}
-			}			
+			/* Extend the first itinerary to all the neighbors */
+			extendItineraryWithFootpaths(targetStop, it, sourceStop, sourceStop) ;
+	
+			/* Create the list of all recommended routes which allow to reach the target or a target's neighbor */
+			Set<String> recommendedRoutes = new HashSet<>() ;
+			recommendedRoutes.addAll(RoutingAccessors.getRoutesId(targetStop)) ;
+			for (Footpath f : RoutingAccessors.getFootpaths(space, targetStop.getStopId())) {
+				recommendedRoutes.addAll(RoutingAccessors.getRoutesId(RoutingAccessors.getStopFromId(space, f.getArrivalId()))) ;
+			}
+			System.out.println("Recommended routes : " + recommendedRoutes) ;
 			
-			cDepStop = RoutingAccessors.getStopFromId(space, c.getDepartureId()) ;
-			cArrStop = RoutingAccessors.getStopFromId(space, c.getArrivalId()) ;
-
-			if (cArrStop.getStopId().equals(sourceStop.getStopId())) continue ;
-			if (cDepStop.getStopId().equals(targetStop.getStopId())) continue ;
+			StopPoint cDepStop, cArrStop ;
 			
-			/* Take into account real-time information : updating connections */
-			if (updated_connections!=null && updated_connections.containsKey(c.getTripId())) {
-				for (Connection uc : updated_connections.get(c.getTripId())) {
-					if (uc.getArrivalDelay() > 0) { /* Arrival delay */
-						if (uc.getArrStopSequence() == c.getArrStopSequence()) {
-							c.setArrivalDelay(uc.getArrivalDelay());
-						}
-					} else { /* Otherwise */
-						if (uc.getDepStopSequence() == c.getDepStopSequence()) {
-							c.setDepartureDelay(uc.getDepartureDelay());
-						}
+			/* Core of the algorithm */
+			for (Connection c : sorted_connections) {
+										
+				if (c.getDepartureTime() < startTime) continue ; /* Before the departure */
+				
+				/* If we can't improve the best arrival time to the target then we will only try to complete running itineraries */
+				if (targetStop.getBestArrivalTime() <= c.getDepartureTime()) {
+					if (targetStop.getBestArrivalTime() + ARRIVAL_MARGIN <= c.getDepartureTime()) break ;
+					if (!recommendedRoutes.contains(c.getRouteId())) {
+						continue ;
 					}
+				}			
+				
+				cDepStop = RoutingAccessors.getStopFromId(space, c.getDepartureId()) ;
+				cArrStop = RoutingAccessors.getStopFromId(space, c.getArrivalId()) ;
+	
+				if (cArrStop.getStopId().equals(sourceStop.getStopId())) continue ;
+				if (cDepStop.getStopId().equals(targetStop.getStopId())) continue ;
+							
+				if (cDepStop.getBestArrivalTime() + cDepStop.getMinimalConnectionTime() <= c.getDepartureTime() + c.getDepartureDelay() ||
+						(c.getPrevC() != null && c.getPrevC().isRelaxed())) {
+													
+					updateStopPoint (cDepStop, cArrStop, c, targetStop, cDepStop.getStopId().equals(sourceStop.getStopId()), 
+							recommendedRoutes.contains(c.getRouteId())) ;
+									
+					c.setRelaxed(true);
 				}
+	
 			}
-			
-			if (cDepStop.getBestArrivalTime() + cDepStop.getMinimalConnectionTime() <= c.getDepartureTime() + c.getDepartureDelay() ||
-					(c.getPrevC() != null && c.getPrevC().isRelaxed())) {
-												
-				updateStopPoint (cDepStop, cArrStop, c, targetStop, cDepStop.getStopId().equals(sourceStop.getStopId()), 
-						recommendedRoutes.contains(c.getRouteId())) ;
-								
-				c.setRelaxed(true);
-			}
-
+		}
+		finally {
+			updateLock.unlock();
 		}
 
 		cleanItineraries(RoutingAccessors.getJourneys(targetStop)) ;
@@ -258,6 +253,9 @@ public class Router {
 	
 	@SuppressWarnings("unchecked")
 	public String journey2Json() throws IOException, JSONException {
+		
+		/* TODO : refactorer cette fonction en plus compact.... moins de duplication */
+		
 		JSONObject obj = new JSONObject();
 		JSONObject plan = new JSONObject();
 		JSONArray itineraries = new JSONArray();
@@ -300,9 +298,9 @@ public class Router {
 						to.put("stopId", prevC.getArrivalId()) ;
 						to.put("stopSequence", prevC.getArrStopSequence()) ;
 						leg.put("to", to) ;
-						prevEndTime = prevC.getArrivalTime() * 1000 ;
+						prevEndTime = (prevC.getArrivalTime() +  prevC.getArrivalDelay()) * 1000 ;
 						leg.put("endTime", prevEndTime + date - tzOffset) ;
-						leg.put("arrivalDelay", 0) ;
+						leg.put("arrivalDelay", prevC.getArrivalDelay()) ;
 						legs.add(leg) ;
 						leg = null ;
 					}
@@ -340,9 +338,9 @@ public class Router {
 							to.put("stopId", prevC.getArrivalId()) ;
 							to.put("stopSequence", prevC.getArrStopSequence()) ;
 							leg.put("to", to) ;
-							prevEndTime = prevC.getArrivalTime() * 1000;
+							prevEndTime = (prevC.getArrivalTime() + prevC.getArrivalDelay()) * 1000 ;
 							leg.put("endTime", prevEndTime + date - tzOffset) ;
-							leg.put("arrivalDelay", 0) ;
+							leg.put("arrivalDelay", prevC.getArrivalDelay()) ;
 							legs.add(leg) ;
 							leg = null ;
 						}
@@ -356,8 +354,8 @@ public class Router {
 						from.put("stopId", c.getDepartureId()) ;
 						from.put("stopSequence", c.getDepStopSequence()) ;
 						leg.put("from", from) ;
-						leg.put("startTime", c.getDepartureTime() * 1000 + date - tzOffset) ;
-						leg.put("departureDelay", 0) ;
+						leg.put("startTime", (c.getDepartureTime() + c.getDepartureDelay()) * 1000 + date - tzOffset) ;
+						leg.put("departureDelay", c.getDepartureDelay()) ;
 						leg.put("distance", 0.1) ; /* Default value */
 						leg.put("mode", "TRANSIT") ;
 						leg.put("routeId", c.getRouteId()) ;
@@ -376,9 +374,9 @@ public class Router {
 				to.put("stopId", prevC.getArrivalId()) ;
 				to.put("stopSequence", prevC.getArrStopSequence()) ;
 				leg.put("to", to) ;
-				prevEndTime = prevC.getArrivalTime() * 1000 ;
+				prevEndTime = (prevC.getArrivalTime() + prevC.getArrivalDelay()) * 1000 ;
 				leg.put("endTime", prevEndTime + date - tzOffset) ;
-				leg.put("arrivalDelay", 0) ;
+				leg.put("arrivalDelay", prevC.getArrivalDelay()) ;
 				legs.add(leg) ;
 				leg = null ;
 			}

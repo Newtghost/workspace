@@ -68,8 +68,6 @@ public class MyService {
     	
     	System.out.println( "Request created -- start routing." );
 		
-		/* TODO : Il faudrait lancer un thread de reinit (tous les delay) ou alors direct dans l'updater -- blocage / effet de bord */
-    	
     	String result = "RFS error... while routing";    	
 		try {
 			builder.getRouter().processNewRequest(request);			

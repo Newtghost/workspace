@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 
 import routing.Connection;
 import routing.RoutingFactory;
@@ -32,14 +32,17 @@ public class Updater {
 	private ScheduledExecutorService executor;
 	
 	private Map<String, List<Connection>> updatedConnections = null ;
-	
-	/* We have to update only connections available for the current date 
-	 * there is no delay for a trip planned tomorrow */
-	LocalDate currentDate = LocalDate.now() ;
-	
+	private List<Connection> connectionsToUpdate = null ;
+	private Lock updateLock;
+		
 	public Map<String, List<Connection>> getUpdatedConnections () {
 		if (updatedConnections == null) return null ;
 		return new HashMap<>(updatedConnections) ; /* Return a copy, avoid side effects */
+	}
+
+	public void setConnectionsToUpdate (List<Connection> connectionsToUpdate, Lock updateLock) {
+		this.connectionsToUpdate = connectionsToUpdate ;
+		this.updateLock = updateLock ;
 	}
 	
 	public void start() {
@@ -53,6 +56,8 @@ public class Updater {
 
 	public void updateConnections () throws IOException {
 		
+		if (connectionsToUpdate == null) return ;
+
 		/* Read the TriMet GTFS-RT feed */
 		String url ;
 		if (LOCAL) {
@@ -70,8 +75,8 @@ public class Updater {
 		try {
 			is = entity.getInputStream();
 		} catch (IOException e) {
-			System.err.println("Connection refused to the RT feed. Please check if the feed is working before to restart the server.");
-			this.stop();
+			System.err.println("Connection refused to the RT feed. Please check if the feed is working.");
+			// this.stop();
 			return ;
 		} 
 
@@ -100,28 +105,47 @@ public class Updater {
 							c.setArrStopSequence(stu.getStopSequence());
 							c.setArrivalDelay(arrivalDelay) ;
 							addUpdatedConnection(tripId, c) ;
-							c = RoutingFactory.eINSTANCE.createConnection() ;
+							c = RoutingFactory.eINSTANCE.createConnection() ; 
 							c.setDepStopSequence(stu.getStopSequence());
 							c.setDepartureDelay(arrivalDelay);
 							addUpdatedConnection(tripId, c) ;
 						}
 						if (departureDelay > 0) {
 							/* We update the connection which start from this stop sequence */
-							/* TODO add dep delay */
-//							Connection c = RoutingFactory.eINSTANCE.createConnection() ;
-//							c.setDepStopSequence(stu.getStopSequence());
-//							c.setDepartureDelay(departureDelay) ;
-//							addUpdatedConnection(tripId, c) ;
-							System.err.println("Departure delay aren't take into account yet.") ;
+							Connection c = RoutingFactory.eINSTANCE.createConnection() ;
+							c.setDepStopSequence(stu.getStopSequence());
+							c.setDepartureDelay(departureDelay) ;
+							addUpdatedConnection(tripId, c) ;
 						}
 					}								
 				}
 			}			
 
-			/*
-			 * On a une liste de connections à mettre à jour,
-			 * TODO : A partir de la date courant ne mettre à jour que la liste des connections valides à cette date
-			 * */
+			updateLock.lock();
+			try {
+				for (Connection c : connectionsToUpdate) {
+					/* Initialization */
+					c.setArrivalDelay(0);
+					c.setDepartureDelay(0);
+					/* Update */
+					if (updatedConnections.containsKey(c.getTripId())) {
+						for (Connection uc : updatedConnections.get(c.getTripId())) {
+							if (uc.getArrivalDelay() > 0) { /* Arrival delay */
+								if (uc.getArrStopSequence() == c.getArrStopSequence()) {
+									c.setArrivalDelay(uc.getArrivalDelay());
+								}
+							} else { /* Otherwise */
+								if (uc.getDepStopSequence() == c.getDepStopSequence()) {
+									c.setDepartureDelay(uc.getDepartureDelay());
+								}
+							}
+						}
+					}
+				}
+			} 
+			finally {
+				updateLock.unlock();
+			}
 
 		}
 		
