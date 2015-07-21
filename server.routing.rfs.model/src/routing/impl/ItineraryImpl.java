@@ -525,7 +525,6 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		return result.toString();
 	}
  
-	private static final int THRESHOLD_TRANSFERS = 0 ;
 	private static final int THRESHOLD_WALKING = 100 ; /* in meters */
 	private static final int THRESHOLD_DEPARTURE = 300 ; /* in seconds */
 
@@ -551,14 +550,6 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				thisIsDominated ++;
 			}
 		}
-
-		/* If we are not already on the right way (we are on a trip that go through the target stop) 
-		 * then it means that we need at least one more transfer */
-		if (this.nbTransfers + (isOnRightWay?0:1) + THRESHOLD_TRANSFERS < nbTransfers + (goodWay?0:1)) {
-			thisDominates ++;
-		} else if (this.nbTransfers + (isOnRightWay?0:1) > nbTransfers + (goodWay?0:1) + THRESHOLD_TRANSFERS) {
-			thisIsDominated ++ ;
-		}
 		
 		if (this.walkingDistance + THRESHOLD_WALKING < walkingDistance) {
 			thisDominates ++;
@@ -566,13 +557,23 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			thisIsDominated ++;
 		}
 				
-		if ((thisIsDominated > 0 && thisDominates > 0) || (thisIsDominated == 0 && thisDominates == 0)) {
-			return 0; // Pareto Opt
-		} else if (thisIsDominated == 0) {
-			return 1;
-		} else {
-			return -1;
+		/* If we are not already on the right way (we are on a trip that go through the target stop) 
+		 * then it means that we need at least one more transfer */
+		if (this.nbTransfers + (isOnRightWay?0:1) < nbTransfers + (goodWay?0:1)) {
+			thisDominates ++;
+		} else if (this.nbTransfers + (isOnRightWay?0:1) > nbTransfers + (goodWay?0:1)) {
+			thisIsDominated ++ ;
 		}
+
+		/* Need a majority */
+		if (thisDominates >= 1 && thisIsDominated==0) {
+			return 1 ;
+		} else if (thisIsDominated >= 1 && thisDominates==0) {
+			return -1 ;
+		} else {
+			return 0; // Pareto Opt
+		}
+		
 	}
 
 	@Override

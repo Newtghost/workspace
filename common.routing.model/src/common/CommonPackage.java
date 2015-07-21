@@ -147,13 +147,22 @@ public interface CommonPackage extends EPackage {
 	int REQUEST__MAX_WALK_DISTANCE = 8;
 
 	/**
+	 * The feature id for the '<em><b>Banned Routes</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUEST__BANNED_ROUTES = 9;
+
+	/**
 	 * The number of structural features of the '<em>Request</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUEST_FEATURE_COUNT = 9;
+	int REQUEST_FEATURE_COUNT = 10;
 
 	/**
 	 * The number of operations of the '<em>Request</em>' class.
@@ -275,6 +284,17 @@ public interface CommonPackage extends EPackage {
 	EAttribute getRequest_MaxWalkDistance();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link common.Request#getBannedRoutes <em>Banned Routes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Banned Routes</em>'.
+	 * @see common.Request#getBannedRoutes()
+	 * @see #getRequest()
+	 * @generated
+	 */
+	EAttribute getRequest_BannedRoutes();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -378,6 +398,14 @@ public interface CommonPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute REQUEST__MAX_WALK_DISTANCE = eINSTANCE.getRequest_MaxWalkDistance();
+
+		/**
+		 * The meta object literal for the '<em><b>Banned Routes</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUEST__BANNED_ROUTES = eINSTANCE.getRequest_BannedRoutes();
 
 	}
 

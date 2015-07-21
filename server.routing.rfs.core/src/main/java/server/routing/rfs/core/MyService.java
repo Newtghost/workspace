@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import common.Request;
@@ -20,15 +21,9 @@ import server.routing.rfs.util.MyRoutingFactory;
 @Path("myservice")
 public class MyService {
 
-	/**
-	 * Method handling HTTP GET requests. The returned object will be sent
-	 * to the client as "text/plain" media type.
-	 *
-	 * @return String that will be returned as a text/plain response.
-	 */
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	public String getIt(@Context Builder builder, @Context UriInfo ui) {
+	@Produces({MediaType.APPLICATION_JSON})
+	public Response getIt(@Context Builder builder, @Context UriInfo ui) {
 
 		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
 		
@@ -41,34 +36,38 @@ public class MyService {
     	System.out.println( "Request received." );
     	
     	Request request ;
-    	String time = "", date = "" ;    	
+    	String time = "", date = "", bannedRoutes = "" ;    	
     	
     	if (queryParams.containsKey("time")) {
     		time = queryParams.get("time").get(0) ;
     	} else {
-    		return "Request error : missing a time parameter" ;
+    		return Response.status(404).build();
     	}
 
     	if (queryParams.containsKey("date")) {
     		date = queryParams.get("date").get(0) ;
     	} else {
-    		return "Request error : missing a date parameter" ;
+    		return Response.status(404).build();
+    	}
+
+    	if (queryParams.containsKey("bannedRoutes")) {
+    		bannedRoutes = queryParams.get("bannedRoutes").get(0) ;
     	}
     	
     	/* Get the position of the departure and the arrival */
     	if (queryParams.containsKey("from") && queryParams.containsKey("to")) {
 			request = MyRoutingFactory.createRequest(queryParams.get("from").get(0), queryParams.get("to").get(0), 
-					time, date) ;
+					time, date, bannedRoutes) ;
     	} else if (queryParams.containsKey("fromLat") && queryParams.containsKey("fromLon") && queryParams.containsKey("toLat") && queryParams.containsKey("toLon")) {
 			request = MyRoutingFactory.createRequest(queryParams.get("fromLat").get(0), queryParams.get("fromLon").get(0), 
-					queryParams.get("toLat").get(0), queryParams.get("toLon").get(0),time, date) ;
+					queryParams.get("toLat").get(0), queryParams.get("toLon").get(0),time, date, bannedRoutes) ;
     	} else {
-    		return "Request error : missing localisation parameters" ;
+    		return Response.serverError().build() ;
     	} 
     	
     	System.out.println( "Request created -- start routing." );
 		
-    	String result = "RFS error... while routing";    	
+    	String result = "";    	
 		try {
 			builder.getRouter().processNewRequest(request);			
 			builder.getRouter().run_CSA();
@@ -78,11 +77,13 @@ public class MyService {
 	    		writer.write(result);
 	    		writer.close();
 			}
-			return result;
+			
+			return Response.ok(result).build();
+			
 		} catch (IOException | JSONException | DateException e) {
 			e.printStackTrace();
 		}
 
-		return result;    		
+		return Response.status(404).build();    		
 	}
 }

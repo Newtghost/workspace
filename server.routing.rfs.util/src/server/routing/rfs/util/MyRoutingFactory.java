@@ -61,23 +61,29 @@ public class MyRoutingFactory {
 		return s ;
 	}
 
-	public static Request createRequest (String departureId, String arrivalId, String time, String date) {
-		Request r = CommonFactory.eINSTANCE.createRequest() ;
+	public static Request createRequest (String departureId, String arrivalId, String time, String date, String bannedRoutes) {
+		Request r = createRequest(time, date, bannedRoutes) ;
 		r.setFromStopId(departureId);
 		r.setToStopId(arrivalId);		
-		r.setTime(time);
-		r.setDate(date);
 		return r ;
 	}
 
-	public static Request createRequest (String fromLat, String fromLon, String toLat, String toLon, String time, String date) {
-		Request r = CommonFactory.eINSTANCE.createRequest() ;
+	public static Request createRequest (String fromLat, String fromLon, String toLat, String toLon, String time, String date, String bannedRoutes) {
+		Request r = createRequest(time, date, bannedRoutes) ;
 		r.setFromLat(Double.parseDouble(fromLat));
 		r.setFromLon(Double.parseDouble(fromLon));		
 		r.setToLat(Double.parseDouble(toLat));
 		r.setToLon(Double.parseDouble(toLon));		
+		return r ;
+	}
+	
+	private static Request createRequest (String time, String date, String bannedRoutes) {
+		Request r = CommonFactory.eINSTANCE.createRequest() ;
 		r.setTime(time);
 		r.setDate(date);
+		String[] routes = bannedRoutes.split(",");
+		for (int i = 0; i < routes.length ; i++)
+			r.getBannedRoutes().add(routes[i]);
 		return r ;
 	}
 	

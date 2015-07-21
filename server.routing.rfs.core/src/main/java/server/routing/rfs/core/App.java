@@ -29,7 +29,7 @@ public class App {
     	if (DEBUG) {
     		builder.createRouter();
 	        long currentTime = System.currentTimeMillis();
-	    	Request request = MyRoutingFactory.createRequest("3932", "2391", "1:30pm", "07-01-2015") ;
+	    	Request request = MyRoutingFactory.createRequest("3932", "2391", "1:30pm", "07-01-2015", "") ;
 			try {
 				builder.getRouter().processNewRequest(request);
 			} catch (DateException e) {
@@ -55,6 +55,7 @@ public class App {
         // in com.example.simple_service package
         final ResourceConfig rc = new ResourceConfig().packages("server.routing.rfs.core");
         rc.register(builder.makeBinder()) ;
+        rc.register(CORSResponseFilter.class) ;
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI

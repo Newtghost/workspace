@@ -2,6 +2,7 @@
  */
 package common;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -11,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link common.Request#getTime <em>Time</em>}</li>
  *   <li>{@link common.Request#getDate <em>Date</em>}</li>
@@ -21,8 +23,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link common.Request#getToLat <em>To Lat</em>}</li>
  *   <li>{@link common.Request#getToLon <em>To Lon</em>}</li>
  *   <li>{@link common.Request#getMaxWalkDistance <em>Max Walk Distance</em>}</li>
+ *   <li>{@link common.Request#getBannedRoutes <em>Banned Routes</em>}</li>
  * </ul>
- * </p>
  *
  * @see common.CommonPackage#getRequest()
  * @model
@@ -262,6 +264,22 @@ public interface Request extends EObject {
 	 * @generated
 	 */
 	void setMaxWalkDistance(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Banned Routes</b></em>' attribute list.
+	 * The list contents are of type {@link java.lang.String}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Banned Routes</em>' attribute list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Banned Routes</em>' attribute list.
+	 * @see common.CommonPackage#getRequest_BannedRoutes()
+	 * @model
+	 * @generated
+	 */
+	EList<String> getBannedRoutes();
 
 	boolean hasStopsId();
 

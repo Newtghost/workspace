@@ -38,7 +38,7 @@ public class Router {
     private static final Logger LOG = LoggerFactory.getLogger(Router.class);
 
     /* Useful to try to found more itineraries which could reach the target after the best one */
-	private static final long ARRIVAL_MARGIN = 0 ; // 10*60; // in seconds
+	private static final long ARRIVAL_MARGIN = 10*60; // in seconds
 
 	private Request request ;
 	
@@ -46,6 +46,7 @@ public class Router {
 	public Map<String, ArrayList<Connection>> sorted_connections_by_date ; 
 	private ArrayList<Connection> sorted_connections ; 
 	public final Lock updateLock = new ReentrantLock() ;
+	public List<String> banned_routes ;
 	private String currentDate = "" ;
 	
 	public Router (Space space, Updater updater) {
@@ -82,12 +83,18 @@ public class Router {
 	
 	public void processNewRequest (Request request) throws DateException {
 		this.request = request ;	
-		if (request.getDate().equals(currentDate)) return ; /* Pas besoin de changer la liste déjà uptodate */ 
-		if (!sorted_connections_by_date.containsKey(request.getDate())) {
-			throw new DateException() ;
+		
+		/* If the date isn't the same as before, then load the corresponding connections */
+		if (!request.getDate().equals(currentDate)) { 
+			if (!sorted_connections_by_date.containsKey(request.getDate())) {
+				throw new DateException() ;
+			}
+			currentDate = request.getDate() ;
+			sorted_connections = sorted_connections_by_date.get(request.getDate()) ;
 		}
-		currentDate = request.getDate() ;
-		sorted_connections = sorted_connections_by_date.get(request.getDate()) ;
+		
+		/* Update the list of the banned routes */
+		banned_routes = RoutingAccessors.getBannedRoutes(request) ;
 	}
 	
 	public void run_CSA () {
@@ -140,6 +147,7 @@ public class Router {
 			for (Connection c : sorted_connections) {
 										
 				if (c.getDepartureTime() < startTime) continue ; /* Before the departure */
+				if (banned_routes.contains(c.getRouteId())) continue ; /* Banned route */
 				
 				/* If we can't improve the best arrival time to the target then we will only try to complete running itineraries */
 				if (targetStop.getBestArrivalTime() <= c.getDepartureTime()) {
@@ -157,6 +165,29 @@ public class Router {
 							
 				if (cDepStop.getBestArrivalTime() + cDepStop.getMinimalConnectionTime() <= c.getDepartureTime() + c.getDepartureDelay() ||
 						(c.getPrevC() != null && c.getPrevC().isRelaxed())) {
+
+					/* Concernant l'horaire à 13h20,
+					 * La deuxième connexion est coupée à cause d'un itinéraire bien plus performant à ce moment là, mais
+					 * sur une moins bonne ligne... cependant on ne le sait pas à ce moment là.
+					 * Ecart de 200m et de 900s environs.
+					 * C'est "normal", à voir avec l'évolution de l'algorithme, etc. Le comportement est particulier,
+					 * un itinéraire peu etre pas terrible, fort coût d'entrée, mais peut se révéler très bien... comment ne pas le couper, etre tres laxiste ?
+					 * D'un autre côté si on ne coupe pas assez les itinéraires les performances explosent... exponentiel.
+					 * */
+					
+					/* Concernant l'horaire à 11h30,
+					 * Il ne trouve l'itinéraire de longueur 2 qui si l'on prolonge les bonnes lignes.
+					 * Pour cela cependant il faut que le time margin ne soit pas nul...
+					 * Attention risque de degrader les perfs avec un time-margin trop grand. 
+					 * Concernant les deux itinéraires plus rapides, on ne les trouve pas car il faudrait
+					 * envisager des footpaths de plus de 800m ce qui n'est pas le cas aujourd'hui... */
+					
+					if (c.getTripId().equals("5371182") && c.getDepartureId().equals("1612")) {
+						System.out.println("---------------- On commence ------------------") ;
+					}
+					if (c.getTripId().equals("5371182") && c.getArrivalId().equals("2391")) {
+						System.out.println("------------- Stop ---------------------") ;
+					}
 													
 					updateStopPoint (cDepStop, cArrStop, c, targetStop, cDepStop.getStopId().equals(sourceStop.getStopId()), 
 							recommendedRoutes.contains(c.getRouteId())) ;
@@ -199,6 +230,9 @@ public class Router {
 	public void updateStopPoint (StopPoint dep, StopPoint arr, Connection c, StopPoint target, boolean fromSource, boolean goodWay) {		
 		List<Itinerary> depJourneys = RoutingAccessors.getJourneys(dep) ;
 		for (Itinerary itdep : depJourneys) {
+//			if (c.getTripId().equals("5369641")) {
+//				System.out.println("Computing... ") ;
+//			}
 			if (itdep.getArrivalTime() + dep.getMinimalConnectionTime() > c.getDepartureTime() + c.getDepartureDelay()) continue ; /* In time for the transfer */
 			
 			/* Computing parameters of the new itinerary (itdep + l) */
@@ -209,6 +243,7 @@ public class Router {
 					c.getArrivalTime() + c.getArrivalDelay(), nbTransfers, itdep.getWalkingDistance(), goodWay) ;
 			if (it == null) continue ;
 							
+
 			/* Create and add the new itinerary if needed */
 			if (itineraryAdded (arr, it, arr.getStopId().equals(target.getStopId()))) {
 				extendItineraryWithFootpaths(target, it, dep, arr) ;

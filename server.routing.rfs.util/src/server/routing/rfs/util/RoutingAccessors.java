@@ -82,5 +82,9 @@ public class RoutingAccessors {
 	public static List<String> getRoutesId(StopPoint targetStop) {
 		return targetStop.getRoutesId();
 	}
+
+	public static List<String> getBannedRoutes(Request request) {
+		return request.getBannedRoutes();
+	}
 	
 }
