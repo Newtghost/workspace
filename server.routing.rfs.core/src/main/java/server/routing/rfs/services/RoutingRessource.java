@@ -1,4 +1,4 @@
-package server.routing.rfs.core;
+package server.routing.rfs.services;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,18 +12,20 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import common.Request;
-
 import org.json.JSONException;
+import org.springframework.stereotype.Component;
 
+import common.Request;
+import server.routing.rfs.core.DateException;
 import server.routing.rfs.util.MyRoutingFactory;
 
-@Path("myservice")
-public class MyService {
+@Path("routing")
+@Component
+public class RoutingRessource {
 
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
-	public Response getIt(@Context Builder builder, @Context UriInfo ui) {
+	public Response getIt(@Context UriInfo ui) {
 
 		MultivaluedMap<String, String> queryParams = ui.getQueryParameters();
 		
@@ -69,9 +71,9 @@ public class MyService {
 		
     	String result = "";    	
 		try {
-			builder.getRouter().processNewRequest(request);			
-			builder.getRouter().run_CSA();
-			result = builder.getRouter().journey2Json() ;
+			App.builder.getRouter().processNewRequest(request);			
+			App.builder.getRouter().run_CSA();
+			result = App.builder.getRouter().journey2Json() ;
 			if (App.DEBUG) {
 	        	FileWriter writer = new FileWriter("DEBUG.json");
 	    		writer.write(result);
@@ -86,4 +88,5 @@ public class MyService {
 
 		return Response.status(404).build();    		
 	}
+	
 }

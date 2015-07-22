@@ -15,7 +15,6 @@ import routing.Leg;
 import routing.RoutingFactory;
 import routing.Space;
 
-import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.onebusaway.gtfs.impl.GtfsDaoImpl;
 import org.onebusaway.gtfs.model.Agency;
 import org.onebusaway.gtfs.model.ServiceCalendarDate;
@@ -25,6 +24,7 @@ import org.onebusaway.gtfs.serialization.GtfsReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import server.routing.rfs.services.App;
 import server.routing.rfs.util.MyRoutingFactory;
 
 public class Builder {
@@ -97,7 +97,7 @@ public class Builder {
 					prevC = null ;
 				}
 	
-				prevST = st ;
+				prevST = st ; 
 				
 				if (! arrivalRoutesToStop.containsKey(st.getStop())) arrivalRoutesToStop.put(st.getStop(), new HashSet<String>()) ;
 				arrivalRoutesToStop.get(st.getStop()).add(st.getTrip().getRoute().getId().getId());
@@ -113,8 +113,8 @@ public class Builder {
 	        LOG.info("List of dates created successfully.");
 	
 			for (Stop s1 : store.getAllStops()) {
-				for (Stop s2 : store.getAllStops()) {
-					if (!s1.getId().getId().equals(s2.getId().getId()) && Leg.isConnectionPossible (s1.getLat(), s1.getLon(), s2.getLat(), s2.getLon())) {
+				for (Stop s2 : store.getAllStops()) { 
+					if (!s1.getId().getId().equals(s2.getId().getId()) && Leg.isConnectionPossible(s1.getLat(), s1.getLon(), s2.getLat(), s2.getLon())) { 
 						MyRoutingFactory.addFootpath(space, s1.getId().getId(), s2.getId().getId(), s1.getLat(), s1.getLon(), s2.getLat(), s2.getLon());
 					}
 				}
@@ -135,22 +135,6 @@ public class Builder {
 	        if (space != null) LOG.info("De-serialization proceeded successfully.");
 		}
 	} 
-
-	/**
-     * Return an HK2 Binder that injects this specific Builder instance into Jersey web resources.
-     * This should be registered in the ResourceConfig (Jersey). Jersey forces us to use injection 
-     * to get application context into HTTP method handlers.
-     * More on custom injection in Jersey 2:
-     * http://jersey.576304.n2.nabble.com/Custom-providers-in-Jersey-2-tp7580699p7580715.html
-     */
-     public AbstractBinder makeBinder() {
-        return new AbstractBinder() {
-            @Override
-            protected void configure() {
-                bind(Builder.this).to(Builder.class);
-            }
-        };
-    }
 
  	public Updater getUpdater() {
 		return updater;
