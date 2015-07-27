@@ -46,7 +46,6 @@ public class App {
 			} catch (DateException e) {
 				e.printStackTrace();
 			}
-			builder.getRouter().run_CSA();
 	        System.out.println("Temps d'éxécution : " + (System.currentTimeMillis()-currentTime) + "ms.");
     	} else {
     		builder.createUpdater();

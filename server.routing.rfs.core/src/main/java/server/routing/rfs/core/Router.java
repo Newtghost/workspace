@@ -1,6 +1,13 @@
+
+/**
+ * Core of the routing app with the implementation of the CSA algorithm.
+ * All the computation is achieved in Local Time : LocalDate / LocalDateTime
+ * We taking into account timezones when we export itineraries into Json.
+ * @author David Leydier
+ */
+
 package server.routing.rfs.core;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -82,7 +89,7 @@ public class Router {
     	return 0 ;
     }
 	
-	public void processNewRequest (Request request) throws DateException {
+	public String processNewRequest (Request request) throws DateException, JSONException {
 		this.request = request ;	
 		
 		/* If the date isn't the same as before, then load the corresponding connections */
@@ -96,9 +103,31 @@ public class Router {
 		
 		/* Update the list of the banned routes */
 		banned_routes = RoutingAccessors.getBannedRoutes(request) ;
+		
+		/* Run the algorithm */
+		run_CSA();
+		
+		/* Return the result */
+		return journey2Json() ;
 	}
 	
-	public void run_CSA () {
+	/* Concernant l'horaire à 13h20,
+	 * La deuxième connexion est coupée à cause d'un itinéraire bien plus performant à ce moment là, mais
+	 * sur une moins bonne ligne... cependant on ne le sait pas à ce moment là.
+	 * Ecart de 200m et de 900s environs.
+	 * C'est "normal", à voir avec l'évolution de l'algorithme, etc. Le comportement est particulier,
+	 * un itinéraire peu etre pas terrible, fort coût d'entrée, mais peut se révéler très bien... comment ne pas le couper, etre tres laxiste ?
+	 * D'un autre côté si on ne coupe pas assez les itinéraires les performances explosent... exponentiel.
+	 * */
+	
+	/* Concernant l'horaire à 11h30,
+	 * Il ne trouve l'itinéraire de longueur 2 qui si l'on prolonge les bonnes lignes.
+	 * Pour cela cependant il faut que le time margin ne soit pas nul...
+	 * Attention risque de degrader les perfs avec un time-margin trop grand. 
+	 * Concernant les deux itinéraires plus rapides, on ne les trouve pas car il faudrait
+	 * envisager des footpaths de plus de 800m ce qui n'est pas le cas aujourd'hui... */
+	
+	private void run_CSA () {
 
 		LOG.info("Start computing solutions.");
 
@@ -166,30 +195,7 @@ public class Router {
 							
 				if (cDepStop.getBestArrivalTime() + cDepStop.getMinimalConnectionTime() <= c.getDepartureTime() + c.getDepartureDelay() ||
 						(c.getPrevC() != null && c.getPrevC().isRelaxed())) {
-
-					/* Concernant l'horaire à 13h20,
-					 * La deuxième connexion est coupée à cause d'un itinéraire bien plus performant à ce moment là, mais
-					 * sur une moins bonne ligne... cependant on ne le sait pas à ce moment là.
-					 * Ecart de 200m et de 900s environs.
-					 * C'est "normal", à voir avec l'évolution de l'algorithme, etc. Le comportement est particulier,
-					 * un itinéraire peu etre pas terrible, fort coût d'entrée, mais peut se révéler très bien... comment ne pas le couper, etre tres laxiste ?
-					 * D'un autre côté si on ne coupe pas assez les itinéraires les performances explosent... exponentiel.
-					 * */
 					
-					/* Concernant l'horaire à 11h30,
-					 * Il ne trouve l'itinéraire de longueur 2 qui si l'on prolonge les bonnes lignes.
-					 * Pour cela cependant il faut que le time margin ne soit pas nul...
-					 * Attention risque de degrader les perfs avec un time-margin trop grand. 
-					 * Concernant les deux itinéraires plus rapides, on ne les trouve pas car il faudrait
-					 * envisager des footpaths de plus de 800m ce qui n'est pas le cas aujourd'hui... */
-					
-					if (c.getTripId().equals("5371182") && c.getDepartureId().equals("1612")) {
-						System.out.println("---------------- On commence ------------------") ;
-					}
-					if (c.getTripId().equals("5371182") && c.getArrivalId().equals("2391")) {
-						System.out.println("------------- Stop ---------------------") ;
-					}
-													
 					updateStopPoint (cDepStop, cArrStop, c, targetStop, cDepStop.getStopId().equals(sourceStop.getStopId()), 
 							recommendedRoutes.contains(c.getRouteId())) ;
 									
@@ -210,9 +216,6 @@ public class Router {
 		printJourneys() ;		
 	}
 
-	/**
-	 * @param itineraries
-	 */
 	private void cleanItineraries(List<Itinerary> itineraries) {
 		List<Itinerary> aux_itineraries =  new ArrayList<Itinerary> (itineraries) ;
 		for (int i=0 ; i<aux_itineraries.size() ; i++) {
@@ -231,9 +234,7 @@ public class Router {
 	public void updateStopPoint (StopPoint dep, StopPoint arr, Connection c, StopPoint target, boolean fromSource, boolean goodWay) {		
 		List<Itinerary> depJourneys = RoutingAccessors.getJourneys(dep) ;
 		for (Itinerary itdep : depJourneys) {
-//			if (c.getTripId().equals("5369641")) {
-//				System.out.println("Computing... ") ;
-//			}
+
 			if (itdep.getArrivalTime() + dep.getMinimalConnectionTime() > c.getDepartureTime() + c.getDepartureDelay()) continue ; /* In time for the transfer */
 			
 			/* Computing parameters of the new itinerary (itdep + l) */
@@ -288,35 +289,28 @@ public class Router {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public String journey2Json() throws IOException, JSONException {
+	private String journey2Json() throws JSONException {
+		final Instant instant = LocalTime.MIN.atDate(LocalDate.parse(request.getDate())).toInstant(ZoneOffset.UTC);
+		final long date = instant.toEpochMilli() ; // in millis
+		final long tzOffset = ZoneId.of(space.getTimezone()).getRules().getOffset(instant).getTotalSeconds() * 1000 ; // in millis
+
+		long prevEndTime ; /* Utile pour calculer les start time et end time des footpaths */
+		Connection prevC = null ;
 		
-		/* TODO : refactorer cette fonction en plus compact.... moins de duplication */
-		
+		StopPoint targetStop;
+
+		if (request.hasStopsId()) {
+			targetStop = RoutingAccessors.getStopFromId(space, request.getToStopId()) ;
+		} else {
+			targetStop = RoutingAccessors.getStopFromCoordinates(space, request.getToLat(), request.getToLon()) ;
+		}
+
 		JSONObject obj = new JSONObject();
 		JSONObject plan = new JSONObject();
 		JSONArray itineraries = new JSONArray();
 		JSONObject itinerary = null;
 		JSONArray legs = null;
 		JSONObject leg = null;
-
-		Connection prevC = null ;
-		long prevEndTime ; /* Utile pour calculer les start time et end time des footpaths */
-
-		/* Le calcul d'itinéraire se fait avec un horaire local : LocalDate / LocalDateTime
-		 * Ce n'est qu'au moment de l'export json que l'on passe dans un référentiel "global" en 
-		 * prenant en compte la date et la timezone.
-		 */
-
-		final Instant instant = LocalTime.MIN.atDate(LocalDate.parse(request.getDate())).toInstant(ZoneOffset.UTC);
-		final long date = instant.toEpochMilli() ; // in millis
-		final long tzOffset = ZoneId.of(space.getTimezone()).getRules().getOffset(instant).getTotalSeconds() * 1000 ; // in millis
-				
-		StopPoint targetStop;
-		if (request.hasStopsId()) {
-			targetStop = RoutingAccessors.getStopFromId(space, request.getToStopId()) ;
-		} else {
-			targetStop = RoutingAccessors.getStopFromCoordinates(space, request.getToLat(), request.getToLon()) ;
-		}
 
 		for (Itinerary it : RoutingAccessors.getJourneys(targetStop)) {
 
@@ -329,38 +323,15 @@ public class Router {
 				if (s instanceof Footpath) {
 	
 					if (leg != null) { /* Signifie qu'on a changé de Leg et qu'on doit donc ajouter le segment précédent qui est terminé */	
-						JSONObject to = new JSONObject() ;
-						to.put("name", RoutingAccessors.getStopFromId(space, prevC.getArrivalId()).getName()) ;
-						to.put("stopId", prevC.getArrivalId()) ;
-						to.put("stopSequence", prevC.getArrStopSequence()) ;
-						leg.put("to", to) ;
 						prevEndTime = (prevC.getArrivalTime() +  prevC.getArrivalDelay()) * 1000 ;
-						leg.put("endTime", prevEndTime + date - tzOffset) ;
-						leg.put("arrivalDelay", prevC.getArrivalDelay()) ;
-						legs.add(leg) ;
+						completeJsonLeg (legs, leg, date, prevEndTime, tzOffset, prevC) ;
 						leg = null ;
 					}
 	
 					/* New leg corresponding to a footpath */
 					leg = new JSONObject() ;
-					leg.put("agencyName", space.getAgencyName()) ;
-					leg.put("agencyTimeZoneOffset", tzOffset) ;
-					JSONObject from = new JSONObject() ;
-					JSONObject to = new JSONObject() ;
-					from.put("name", RoutingAccessors.getStopFromId(space, s.getDepartureId()).getName()) ;
-					from.put("stopId", s.getDepartureId()) ;
-					to.put("name", RoutingAccessors.getStopFromId(space, s.getArrivalId()).getName()) ;
-					to.put("stopId", s.getArrivalId()) ;
-					leg.put("from", from) ;
-					leg.put("to", to) ;
-					leg.put("startTime", prevEndTime + date - tzOffset) ;
-					prevEndTime += ((Footpath) s).getDuration() * 1000;
-					leg.put("endTime", prevEndTime + date - tzOffset) ;
-					leg.put("departureDelay", 0) ;
-					leg.put("arrivalDelay", 0) ;
-					leg.put("distance", ((Footpath) s).getDistance()) ;
-					leg.put("mode", "WALK") ;
-					legs.add(leg);
+					initJsonLeg (leg, date, prevEndTime, tzOffset, s) ;
+					completeJsonLeg (legs, leg, date, prevEndTime + ((Footpath) s).getDuration() * 1000, tzOffset, s) ;
 					leg = null ;
 	
 				} else {
@@ -369,34 +340,14 @@ public class Router {
 					
 					if (prevC == null || ! c.getTripId().equals(prevC.getTripId())) {
 						if (leg != null) { /* Signifie qu'on a changé de Leg et qu'on doit donc ajouter le segment précédent qui est terminé */	
-							JSONObject to = new JSONObject() ;
-							to.put("name", RoutingAccessors.getStopFromId(space, prevC.getArrivalId()).getName()) ;
-							to.put("stopId", prevC.getArrivalId()) ;
-							to.put("stopSequence", prevC.getArrStopSequence()) ;
-							leg.put("to", to) ;
 							prevEndTime = (prevC.getArrivalTime() + prevC.getArrivalDelay()) * 1000 ;
-							leg.put("endTime", prevEndTime + date - tzOffset) ;
-							leg.put("arrivalDelay", prevC.getArrivalDelay()) ;
-							legs.add(leg) ;
+							completeJsonLeg (legs, leg, date, prevEndTime, tzOffset, prevC) ;
 							leg = null ;
 						}
 						
 						/* Creation of a new transit path */
 						leg = new JSONObject() ;
-						leg.put("agencyName", space.getAgencyName()) ;
-						leg.put("agencyTimeZoneOffset", tzOffset) ;
-						JSONObject from = new JSONObject() ;
-						from.put("name", RoutingAccessors.getStopFromId(space, c.getDepartureId()).getName()) ;
-						from.put("stopId", c.getDepartureId()) ;
-						from.put("stopSequence", c.getDepStopSequence()) ;
-						leg.put("from", from) ;
-						leg.put("startTime", (c.getDepartureTime() + c.getDepartureDelay()) * 1000 + date - tzOffset) ;
-						leg.put("departureDelay", c.getDepartureDelay()) ;
-						leg.put("distance", 0.1) ; /* Default value */
-						leg.put("mode", "TRANSIT") ;
-						leg.put("routeId", c.getRouteId()) ;
-						leg.put("agencyId", "") ;
-						leg.put("tripId", c.getTripId()) ;
+						initJsonLeg (leg, date, (c.getDepartureTime() + c.getDepartureDelay()) * 1000, tzOffset, c) ;
 	
 					}
 					
@@ -405,15 +356,8 @@ public class Router {
 			}
 			
 			if (leg != null) { /* On doit ajouter le dernier segment (en cours) */	
-				JSONObject to = new JSONObject() ;
-				to.put("name", RoutingAccessors.getStopFromId(space, prevC.getArrivalId()).getName()) ;
-				to.put("stopId", prevC.getArrivalId()) ;
-				to.put("stopSequence", prevC.getArrStopSequence()) ;
-				leg.put("to", to) ;
 				prevEndTime = (prevC.getArrivalTime() + prevC.getArrivalDelay()) * 1000 ;
-				leg.put("endTime", prevEndTime + date - tzOffset) ;
-				leg.put("arrivalDelay", prevC.getArrivalDelay()) ;
-				legs.add(leg) ;
+				completeJsonLeg (legs, leg, date, prevEndTime, tzOffset, prevC) ;
 				leg = null ;
 			}
 			
@@ -425,6 +369,40 @@ public class Router {
 		obj.put("plan", plan) ;
 		
         return obj.toString();
+	}
+	
+	private void initJsonLeg (JSONObject leg, long date, long prevEndTime, long tzOffset, Leg l) throws JSONException {
+		leg.put("agencyName", space.getAgencyName()) ;
+		leg.put("agencyTimeZoneOffset", tzOffset) ;
+		JSONObject from = new JSONObject() ;
+		from.put("name", RoutingAccessors.getStopFromId(space, l.getDepartureId()).getName()) ;
+		from.put("stopId", l.getDepartureId()) ;
+		leg.put("startTime", prevEndTime + date - tzOffset) ;
+		leg.put("departureDelay", 0) ;
+		if (l instanceof Connection) {
+			from.put("stopSequence", ((Connection) l).getDepStopSequence()) ;
+			leg.put("mode", "TRANSIT") ;
+			leg.put("distance", 0.1) ; /* Default value */
+			leg.put("routeId", ((Connection) l).getRouteId()) ;
+			leg.put("agencyId", "") ;
+			leg.put("tripId", ((Connection) l).getTripId()) ;
+		} else {
+			leg.put("distance", ((Footpath) l).getDistance()) ;
+			leg.put("mode", "WALK") ;
+		}
+		leg.put("from", from) ;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void completeJsonLeg (JSONArray legs, JSONObject leg, long date, long prevEndTime, long tzOffset, Leg l) throws JSONException {
+		JSONObject to = new JSONObject() ;
+		to.put("name", RoutingAccessors.getStopFromId(space, l.getArrivalId()).getName()) ;
+		to.put("stopId", l.getArrivalId()) ;
+		if (l instanceof Connection) to.put("stopSequence", ((Connection) l).getArrStopSequence()) ;
+		leg.put("to", to) ;
+		leg.put("endTime", prevEndTime + date - tzOffset) ;
+		leg.put("arrivalDelay", 0) ;
+		legs.add(leg) ;
 	}
 
 	public void printJourneys() {		
