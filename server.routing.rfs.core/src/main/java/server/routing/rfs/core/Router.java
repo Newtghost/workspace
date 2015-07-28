@@ -142,14 +142,14 @@ public class Router {
 		}
 		
 		if (sourceStop == null || targetStop==null) {
-			System.err.print("Corresponding source and target stops not found.");
+			LOG.info("Corresponding source and target stops not found.");
 			return ;
 		} else {
-			System.out.println(sourceStop.getStopId() + " --> " + targetStop.getStopId());
+			LOG.info("Run CSA algorithm: " + sourceStop.getStopId() + " --> " + targetStop.getStopId());
 		}
 		
 		long startTime = RoutingAccessors.getStartTime(request) ;
-		System.out.println("Start time : " + startTime) ;
+		LOG.info("Start time: " + startTime);
 		
 		updateLock.lock();
 		try {
@@ -169,7 +169,7 @@ public class Router {
 			for (Footpath f : RoutingAccessors.getFootpaths(space, targetStop.getStopId())) {
 				recommendedRoutes.addAll(RoutingAccessors.getRoutesId(RoutingAccessors.getStopFromId(space, f.getArrivalId()))) ;
 			}
-			System.out.println("Recommended routes : " + recommendedRoutes) ;
+			LOG.info("Recommended routes : " + recommendedRoutes);
 			
 			StopPoint cDepStop, cArrStop ;
 			
@@ -415,7 +415,7 @@ public class Router {
 
 		List<Itinerary> journeys =  RoutingAccessors.getJourneys(targetStop) ;
 		if (journeys.size() <= 0) {
-			System.out.println("No solution found.") ;
+			LOG.info("No solution found.");
 		}
 		int i = 0 ;
 		for (Itinerary it : journeys) {

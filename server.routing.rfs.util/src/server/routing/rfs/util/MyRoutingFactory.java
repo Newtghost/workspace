@@ -20,9 +20,6 @@ import common.util.EmfUtil;
 
 public class MyRoutingFactory {
 	
-	/* TODO : chemin en dur... */
-	private static final String PATH = "C:\\Users\\david.leydier\\workspace\\server.routing.rfs.core\\target\\"; 
-
 	public static Connection createConnection (String serviceId, String tripId, String routeId, String departureId, String arrivalId, 
 			long departureTime, long arrivalTime, int departureSeq, int arrivalSeq) {
 		Connection c = RoutingFactory.eINSTANCE.createConnection() ;
@@ -114,12 +111,12 @@ public class MyRoutingFactory {
 		space.getStops().put(stopId, s) ;
 	}
 
-	public static boolean serialize(Space space) {
-		return EmfUtil.doSaveBin(space, PATH + "rfsMaps",".obj") ; 
+	public static boolean serialize(Space space, String path) {
+		return EmfUtil.doSaveBin(space, path + "\\rfsMaps",".obj") ; 
 	}
 
-	public static Space deserialize() {
-		return (Space) EmfUtil.doOpenBin(RoutingPackage.eINSTANCE, PATH + "rfsMaps",".obj");
+	public static Space deserialize(String path) {
+		return (Space) EmfUtil.doOpenBin(RoutingPackage.eINSTANCE, path + "\\rfsMaps",".obj");
 	}
 
 	public static void initialize(Space space) {

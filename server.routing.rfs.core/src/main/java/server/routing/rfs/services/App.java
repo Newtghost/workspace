@@ -2,6 +2,8 @@ package server.routing.rfs.services;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,20 +21,21 @@ import server.routing.rfs.util.MyRoutingFactory;
 @PropertySource(value = {"classpath:server.properties" })
 public class App {
 
-	public static final boolean DEBUG = false ;     
+    private static final Logger LOG = LoggerFactory.getLogger(App.class);
+
+    public static final boolean DEBUG = false ;     
 	public static Builder builder = null;
 	
 	public static void main(final String[] args) throws Exception {
 
-		if (args.length != 1) {
-			System.err.println("usage: gtfs_feed_path");
-			System.exit(-1);
+		if (args.length != 2) {
+			throw new WrongUsageException();
 		}	
-    	
-		/* TODO : harmoniser les traces .... debug ..... connections etc */
+
+		LOG.info("Correct usage, start deploying the server.");
 		
     	try { 
-			builder = new Builder (args[0]);
+			builder = new Builder (args[0], args[1]);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +49,7 @@ public class App {
 			} catch (DateException e) {
 				e.printStackTrace();
 			}
-	        System.out.println("Temps d'éxécution : " + (System.currentTimeMillis()-currentTime) + "ms.");
+			LOG.info("Temps d'éxécution : " + (System.currentTimeMillis()-currentTime) + "ms.");
     	} else {
     		builder.createUpdater();
     		builder.createRouter();

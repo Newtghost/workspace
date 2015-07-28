@@ -14,6 +14,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import routing.Connection;
 import routing.RoutingFactory;
 
@@ -25,6 +28,9 @@ import com.google.transit.realtime.GtfsRealtime.TripUpdate.StopTimeUpdate;
 
 /* This class maintain up-to-date a list of all connections delayed indexed with their trip ID */
 public class Updater {
+
+	private static final Logger LOG = LoggerFactory.getLogger(Router.class);
+	
 	private static final boolean LOCAL = true ;
 
 	public static final int REFRESH_INTERVAL = 10; 
@@ -75,8 +81,7 @@ public class Updater {
 		try {
 			is = entity.getInputStream();
 		} catch (IOException e) {
-			System.err.println("Connection refused to the RT feed. Please check if the feed is working.");
-			// this.stop();
+			LOG.info("Connection refused to the RT feed. Please check if the feed is working.");
 			return ;
 		} 
 
@@ -149,7 +154,7 @@ public class Updater {
 
 		}
 		
-		System.out.println("Updates proceed.") ;
+		// LOG.info("Updates proceed.");
 	}
 
 	private void addUpdatedConnection(String tripId, Connection c) {

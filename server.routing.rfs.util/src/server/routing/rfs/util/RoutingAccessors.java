@@ -45,7 +45,6 @@ public class RoutingAccessors {
 				nearestStop = stop ;
 			}
 		}
-		System.out.println("The distance to the position is " + shortestDistance + "m") ;
 		/* TODO : il faut envisager de rajouter un footpath avant le départ ou après l'arrivée donc renvoyer le couple avec la distance */
 		return nearestStop ;
 	}

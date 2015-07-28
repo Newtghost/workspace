@@ -24,19 +24,18 @@ import org.onebusaway.gtfs.serialization.GtfsReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import server.routing.rfs.services.App;
 import server.routing.rfs.util.MyRoutingFactory;
 
 public class Builder {
 	
-    private static final Logger LOG = LoggerFactory.getLogger(App.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Builder.class);
 	   
-	private static final boolean REBUILD = false;        
+	private static final boolean REBUILD = false;          
 	private Router router ;   
 	private Updater updater = null ; 
 	private Space space ; 
 		 
-	public Builder (String path) throws IOException {  
+	public Builder (String gtfsPath, String objPath) throws IOException {  
 		  
 		if (REBUILD) { 
 	    	 
@@ -44,7 +43,7 @@ public class Builder {
 			
 	    	// Read the GTFS
 			GtfsReader reader = new GtfsReader();
-			reader.setInputLocation(new File(path));
+			reader.setInputLocation(new File(gtfsPath));
 	
 			GtfsDaoImpl store = new GtfsDaoImpl();
 			reader.setEntityStore(store);
@@ -125,13 +124,13 @@ public class Builder {
 	        LOG.info("List of stops created successfully.");
 	
 	        // Serialization
-	        if (MyRoutingFactory.serialize(space)) {
+	        if (MyRoutingFactory.serialize(space, objPath)) {
 		        LOG.info("Serialization proceeded successfully.");
 	        }
 		}
 		else {
 			// Deserialization 
-			space = MyRoutingFactory.deserialize() ;
+			space = MyRoutingFactory.deserialize(objPath) ;
 	        if (space != null) LOG.info("De-serialization proceeded successfully.");
 		}
 	} 
