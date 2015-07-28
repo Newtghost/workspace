@@ -559,6 +559,15 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getItinerary_Trips() {
+		return (EAttribute)itineraryEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getStringToFootpathMap() {
 		return stringToFootpathMapEClass;
 	}
@@ -739,6 +748,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		createEAttribute(itineraryEClass, ITINERARY__WALKING_DISTANCE);
 		createEAttribute(itineraryEClass, ITINERARY__IS_ON_RIGHT_WAY);
 		createEAttribute(itineraryEClass, ITINERARY__DEPRECATED);
+		createEAttribute(itineraryEClass, ITINERARY__TRIPS);
 
 		stringToFootpathMapEClass = createEClass(STRING_TO_FOOTPATH_MAP);
 		createEAttribute(stringToFootpathMapEClass, STRING_TO_FOOTPATH_MAP__KEY);
@@ -838,6 +848,7 @@ public class RoutingPackageImpl extends EPackageImpl implements RoutingPackage {
 		initEAttribute(getItinerary_WalkingDistance(), ecorePackage.getEDouble(), "walkingDistance", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getItinerary_IsOnRightWay(), ecorePackage.getEBoolean(), "isOnRightWay", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getItinerary_Deprecated(), ecorePackage.getEBoolean(), "deprecated", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getItinerary_Trips(), ecorePackage.getEString(), "trips", null, 0, 1, Itinerary.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(stringToFootpathMapEClass, Map.Entry.class, "StringToFootpathMap", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getStringToFootpathMap_Key(), ecorePackage.getEString(), "key", null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

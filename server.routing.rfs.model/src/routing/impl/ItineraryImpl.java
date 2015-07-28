@@ -2,9 +2,7 @@
  */
 package routing.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
@@ -13,7 +11,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
-import routing.Connection;
 import routing.Itinerary;
 import routing.Leg;
 import routing.RoutingPackage;
@@ -34,6 +31,7 @@ import routing.RoutingPackage;
  *   <li>{@link routing.impl.ItineraryImpl#getWalkingDistance <em>Walking Distance</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#isIsOnRightWay <em>Is On Right Way</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#isDeprecated <em>Deprecated</em>}</li>
+ *   <li>{@link routing.impl.ItineraryImpl#getTrips <em>Trips</em>}</li>
  * </ul>
  *
  * @generated
@@ -188,6 +186,26 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * @ordered
 	 */
 	protected boolean deprecated = DEPRECATED_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTrips() <em>Trips</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTrips()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TRIPS_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTrips() <em>Trips</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTrips()
+	 * @generated
+	 * @ordered
+	 */
+	protected String trips = TRIPS_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -372,6 +390,27 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getTrips() {
+		return trips;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTrips(String newTrips) {
+		String oldTrips = trips;
+		trips = newTrips;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.ITINERARY__TRIPS, oldTrips, trips));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -391,6 +430,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				return isIsOnRightWay();
 			case RoutingPackage.ITINERARY__DEPRECATED:
 				return isDeprecated();
+			case RoutingPackage.ITINERARY__TRIPS:
+				return getTrips();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -429,6 +470,9 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			case RoutingPackage.ITINERARY__DEPRECATED:
 				setDeprecated((Boolean)newValue);
 				return;
+			case RoutingPackage.ITINERARY__TRIPS:
+				setTrips((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -465,6 +509,9 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			case RoutingPackage.ITINERARY__DEPRECATED:
 				setDeprecated(DEPRECATED_EDEFAULT);
 				return;
+			case RoutingPackage.ITINERARY__TRIPS:
+				setTrips(TRIPS_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -493,6 +540,8 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				return isOnRightWay != IS_ON_RIGHT_WAY_EDEFAULT;
 			case RoutingPackage.ITINERARY__DEPRECATED:
 				return deprecated != DEPRECATED_EDEFAULT;
+			case RoutingPackage.ITINERARY__TRIPS:
+				return TRIPS_EDEFAULT == null ? trips != null : !TRIPS_EDEFAULT.equals(trips);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -521,44 +570,64 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		result.append(isOnRightWay);
 		result.append(", deprecated: ");
 		result.append(deprecated);
+		result.append(", trips: ");
+		result.append(trips);
 		result.append(')');
 		return result.toString();
 	}
  
-	private static final int THRESHOLD_WALKING = 100 ; /* in meters */
-	private static final int THRESHOLD_DEPARTURE = 300 ; /* in seconds */
+	/* TODO : les thresholds ne doivent pas être statiques, dépendent de chaque utilisateur (requête??) */
+	
+	private static final int THRESHOLD_WALKING = 250 ; /* in meters */
+	private static final int THRESHOLD_DEPARTURE = 600 ; /* in seconds */
+	private static final int THRESHOLD_DURATION = 300 ; /* in seconds */
 
 	@Override
 	/* Time is a departure time when the itinerary doesn't reach the target and a duration otherwise. 
 	 * The function return 1 if the current itinerary dominates the one passed in parameters,
 	 * 0 if they're pareto opt, -1 otherwise */
-	public int isDominated (long time, int nbTransfers, double walkingDistance, boolean isTarget, boolean goodWay) {
+	public int isDominated (Itinerary it, boolean toTarget) {
+				
 		int thisIsDominated = 0 ;
 		int thisDominates = 0 ;
 		
-		if (!isTarget) {
-			if (this.departureTime + THRESHOLD_DEPARTURE < time) {
-				thisIsDominated ++;
-			} else if (this.departureTime > time + THRESHOLD_DEPARTURE) {
-				thisDominates ++;
-			}
-		}
-		else {
-			if (this.getDuration() + THRESHOLD_DEPARTURE < time) {
-				thisDominates ++;
-			} else if (this.getDuration() > time + THRESHOLD_DEPARTURE) {
-				thisIsDominated ++;
-			}
-		}
+		double walkingDistance = it.getWalkingDistance() ;
+		
+		String trips = it.getTrips() ;
+		if (this.trips.equals(trips)) {
+			/* Both the same */
+			if (this.walkingDistance <= walkingDistance) return 1;
+			else return -1 ;
+		} 
 		
 		if (this.walkingDistance + THRESHOLD_WALKING < walkingDistance) {
 			thisDominates ++;
 		} else if (this.walkingDistance > walkingDistance + THRESHOLD_WALKING) {
 			thisIsDominated ++;
 		}
+
+		long time ;
+		if (toTarget) {
+			time = it.getDuration() ;
+			if (this.getDuration() + THRESHOLD_DURATION < time) {
+				thisDominates ++;
+			} else if (this.getDuration() > time + THRESHOLD_DURATION) {
+				thisIsDominated ++;
+			}
+		}
+		else {
+			time = it.getDepartureTime() ;
+			if (this.departureTime + THRESHOLD_DEPARTURE < time) {
+				thisIsDominated ++;
+			} else if (this.departureTime > time + THRESHOLD_DEPARTURE) {
+				thisDominates ++;
+			}
+		}
 				
 		/* If we are not already on the right way (we are on a trip that go through the target stop) 
 		 * then it means that we need at least one more transfer */
+		int nbTransfers = it.getNbTransfers() ; 
+		boolean goodWay = it.isIsOnRightWay() ;
 		if (this.nbTransfers + (isOnRightWay?0:1) < nbTransfers + (goodWay?0:1)) {
 			thisDominates ++;
 		} else if (this.nbTransfers + (isOnRightWay?0:1) > nbTransfers + (goodWay?0:1)) {
@@ -574,45 +643,6 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			return 0; // Pareto Opt
 		}
 		
-	}
-
-	@Override
-	/* Only used at the final step, when we have found all the itineraries, to delete useless itineraries */
-	public int compare(Itinerary it) {
-		/* Both are pareto opt - check for some differences */
-		if (this.nbTransfers != it.getNbTransfers()) return 0 ;
-		if (this.departureTime != it.getDepartureTime()) return 0 ;
-		if (this.getDuration() != it.getDuration()) return 0 ;
-
-		/* Check how the routes are chained */
-		ArrayList<String> routes_this = getRoutesFromPath(path) ; 
-		ArrayList<String> routes_it = getRoutesFromPath(it.getPath()) ; 
-		if (routes_it.size() != routes_this.size()) return 0 ;
-		for (int i = 0 ; i < routes_it.size() ; i++) {
-			if (!routes_it.get(i).equals(routes_this.get(i))) return 0 ;
-		}
-
-		/* The walking distance is the only thing that differentiate both itineraries */
-		if (this.walkingDistance > it.getWalkingDistance()) {
-			return -1 ;
-		} else {
-			return 1 ;
-		}
-	}
-
-	private ArrayList<String> getRoutesFromPath(List<Leg> path) {
-		ArrayList<String> routes = new ArrayList<String>() ;
-		String prev = "" ;
-		for (Leg l : path) {
-			if (l instanceof Connection) {
-				String current = ((Connection) l).getRouteId() ;
-				if (!current.equals(prev)) {
-					prev = current ;
-					routes.add(current) ;
-				}
-			}
-		}
-		return routes;
 	}
 
 	@Override

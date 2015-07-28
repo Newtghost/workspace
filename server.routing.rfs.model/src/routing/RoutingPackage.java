@@ -621,13 +621,22 @@ public interface RoutingPackage extends EPackage {
 	int ITINERARY__DEPRECATED = 7;
 
 	/**
+	 * The feature id for the '<em><b>Trips</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITINERARY__TRIPS = 8;
+
+	/**
 	 * The number of structural features of the '<em>Itinerary</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY_FEATURE_COUNT = 8;
+	int ITINERARY_FEATURE_COUNT = 9;
 
 	/**
 	 * The number of operations of the '<em>Itinerary</em>' class.
@@ -1303,6 +1312,17 @@ public interface RoutingPackage extends EPackage {
 	EAttribute getItinerary_Deprecated();
 
 	/**
+	 * Returns the meta object for the attribute '{@link routing.Itinerary#getTrips <em>Trips</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Trips</em>'.
+	 * @see routing.Itinerary#getTrips()
+	 * @see #getItinerary()
+	 * @generated
+	 */
+	EAttribute getItinerary_Trips();
+
+	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>String To Footpath Map</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1824,6 +1844,14 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ITINERARY__DEPRECATED = eINSTANCE.getItinerary_Deprecated();
+
+		/**
+		 * The meta object literal for the '<em><b>Trips</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ITINERARY__TRIPS = eINSTANCE.getItinerary_Trips();
 
 		/**
 		 * The meta object literal for the '{@link routing.impl.StringToFootpathMapImpl <em>String To Footpath Map</em>}' class.

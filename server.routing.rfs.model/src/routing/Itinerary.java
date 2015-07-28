@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.Itinerary#getWalkingDistance <em>Walking Distance</em>}</li>
  *   <li>{@link routing.Itinerary#isIsOnRightWay <em>Is On Right Way</em>}</li>
  *   <li>{@link routing.Itinerary#isDeprecated <em>Deprecated</em>}</li>
+ *   <li>{@link routing.Itinerary#getTrips <em>Trips</em>}</li>
  * </ul>
  *
  * @see routing.RoutingPackage#getItinerary()
@@ -227,9 +228,33 @@ public interface Itinerary extends EObject {
 	 */
 	void setDeprecated(boolean value);
 
-	public int isDominated (long time, int nbTransfers, double walkingDistance, boolean isTarget, boolean goodWay) ;
+	/**
+	 * Returns the value of the '<em><b>Trips</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Trips</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Trips</em>' attribute.
+	 * @see #setTrips(String)
+	 * @see routing.RoutingPackage#getItinerary_Trips()
+	 * @model
+	 * @generated
+	 */
+	String getTrips();
 
-	public int compare (Itinerary itinerary);
+	/**
+	 * Sets the value of the '{@link routing.Itinerary#getTrips <em>Trips</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Trips</em>' attribute.
+	 * @see #getTrips()
+	 * @generated
+	 */
+	void setTrips(String value);
+
+	public int isDominated (Itinerary it, boolean isTarget) ;
 
 	long getDuration();
 

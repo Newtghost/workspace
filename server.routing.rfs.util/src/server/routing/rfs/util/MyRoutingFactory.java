@@ -143,7 +143,7 @@ public class MyRoutingFactory {
 		}
 	}
 
-	public static Itinerary createItinerary(Itinerary prevIt, Leg l, String tripId, long departureTime, long arrivalTime, int nbTransfers, double walkingDistance, boolean isOnRightWay) {
+	public static Itinerary createItinerary(Itinerary prevIt, Leg l, String tripId, long departureTime, long arrivalTime, int nbTransfers, double walkingDistance, boolean isOnRightWay, String trips) {
 		Itinerary it = RoutingFactory.eINSTANCE.createItinerary() ;
 
 		/* Departure time */
@@ -170,7 +170,10 @@ public class MyRoutingFactory {
 		
 		/* Deprecated */
 		it.setDeprecated(false);
-		
+
+		/* The order and which trips are taken by the itinerary */
+		it.setTrips(trips);
+
 		return it;
 	}
 

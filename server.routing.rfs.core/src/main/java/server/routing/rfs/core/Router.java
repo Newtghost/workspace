@@ -46,7 +46,7 @@ public class Router {
     private static final Logger LOG = LoggerFactory.getLogger(Router.class);
 
     /* Useful to try to found more itineraries which could reach the target after the best one */
-	private static final long ARRIVAL_MARGIN = 10*60; // in seconds
+	private static final long ARRIVAL_MARGIN = 31*60; // in seconds
 
 	private Request request ;
 	
@@ -122,7 +122,7 @@ public class Router {
 	
 	/* Concernant l'horaire à 11h30,
 	 * Il ne trouve l'itinéraire de longueur 2 qui si l'on prolonge les bonnes lignes.
-	 * Pour cela cependant il faut que le time margin ne soit pas nul...
+	 * Pour cela cependant il faut que le time margin soit au moins de 30 minutes.
 	 * Attention risque de degrader les perfs avec un time-margin trop grand. 
 	 * Concernant les deux itinéraires plus rapides, on ne les trouve pas car il faudrait
 	 * envisager des footpaths de plus de 800m ce qui n'est pas le cas aujourd'hui... */
@@ -157,7 +157,7 @@ public class Router {
 			MyRoutingFactory.initialize(space) ;  
 	
 			/* Creation of the initial empty itinerary from the source */
-			Itinerary it = MyRoutingFactory.createItinerary(null, null, "-1", startTime, startTime, 0, 0.0, false) ; /* Itinéraire qui domine tous les autres */
+			Itinerary it = MyRoutingFactory.createItinerary(null, null, "-1", startTime, startTime, 0, 0.0, false, "") ; /* Itinéraire qui domine tous les autres */
 			RoutingAccessors.getJourneys(sourceStop).add(it) ;
 			
 			/* Extend the first itinerary to all the neighbors */
@@ -207,27 +207,11 @@ public class Router {
 		finally {
 			updateLock.unlock();
 		}
-
-		cleanItineraries(RoutingAccessors.getJourneys(targetStop)) ;
 		
 		LOG.info("Computing succeed.");
 
 		/* Print itineraries */
 		printJourneys() ;		
-	}
-
-	private void cleanItineraries(List<Itinerary> itineraries) {
-		List<Itinerary> aux_itineraries =  new ArrayList<Itinerary> (itineraries) ;
-		for (int i=0 ; i<aux_itineraries.size() ; i++) {
-			for (int j=i+1 ; j<aux_itineraries.size() ; j++) {
-				int res = aux_itineraries.get(i).compare(aux_itineraries.get(j)) ;
-				if (res > 0) { /* We keed i and remove j */
-					itineraries.remove(aux_itineraries.get(j));
-				} else if (res < 0) { /* We keep j and remove i */
-					itineraries.remove(aux_itineraries.get(i));
-				}
-			}
-		}
 	}
 
 	/* Version avec un test de domination avant ajout */
@@ -239,12 +223,16 @@ public class Router {
 			
 			/* Computing parameters of the new itinerary (itdep + l) */
 			int nbTransfers = itdep.getNbTransfers() ; 
-			if (!itdep.getLastTrip().equals(c.getTripId())) nbTransfers ++;
+			String trips = itdep.getTrips() ; 
+			if (!itdep.getLastTrip().equals(c.getTripId())) {
+				nbTransfers ++;
+				trips += c.getTripId() + ";" ;
+			}
 
 			Itinerary it = MyRoutingFactory.createItinerary(itdep, c, c.getTripId(), fromSource?c.getDepartureTime():itdep.getDepartureTime(), 
-					c.getArrivalTime() + c.getArrivalDelay(), nbTransfers, itdep.getWalkingDistance(), goodWay) ;
-			if (it == null) continue ;
-							
+					c.getArrivalTime() + c.getArrivalDelay(), nbTransfers, itdep.getWalkingDistance(), goodWay, trips) ;
+			
+			if (it == null) continue ;			
 
 			/* Create and add the new itinerary if needed */
 			if (itineraryAdded (arr, it, arr.getStopId().equals(target.getStopId()))) {
@@ -260,8 +248,7 @@ public class Router {
 		boolean toBeAdded = true ;
 		if (arrJourneys.size() > 0) {
 			for (Itinerary itarr : new ArrayList<Itinerary>(arrJourneys)) { 
-				int dom = itarr.isDominated(toTarget?it.getDuration():it.getDepartureTime(), it.getNbTransfers(), 
-						it.getWalkingDistance(), toTarget, it.isIsOnRightWay()) ; 
+				int dom = itarr.isDominated(it, toTarget) ; 
 				if (dom == 1) { /* The new itinerary is dominated by an existing one */
 					toBeAdded = false ;
 					break ; 
@@ -282,7 +269,7 @@ public class Router {
 				if (f.getArrivalId().equals(dep.getStopId())) continue ;
 				boolean toTarget = f.getArrivalId().equals(target.getStopId()) ;
 				Itinerary itP = MyRoutingFactory.createItinerary(it, f, f.getTripId(), it.getDepartureTime(), 
-						it.getArrivalTime() + arr.getMinimalConnectionTime() + f.getDuration(), it.getNbTransfers(), it.getWalkingDistance() + f.getDistance(), toTarget) ;
+						it.getArrivalTime() + arr.getMinimalConnectionTime() + f.getDuration(), it.getNbTransfers(), it.getWalkingDistance() + f.getDistance(), toTarget, it.getTrips()) ;
 				itineraryAdded (RoutingAccessors.getStopFromId(space, f.getArrivalId()), itP, toTarget) ;
 			}
 		}
