@@ -117,7 +117,7 @@ public class Tracker {
         double lat_from = request.getFromLat() ; 
         double lon_from = request.getFromLon() ;
         String stop_from = request.getFromStopId() ; 
-        int maxWalkDistance = request.getMaxWalkDistance() ;
+        int maxWalkDistance = request.getMaximumWalk() ;
         
         String req ;
         

@@ -117,7 +117,7 @@ public class RView extends ViewPart {
 		r.setFromLat(getLatFrom());
 		r.setFromLon(getLonFrom());
 		r.setFromStopId(getStopFrom());
-		r.setMaxWalkDistance(getMaxWalkDistance()) ;
+		r.setMaximumWalk(getMaxWalkDistance()) ;
 		return r ;
 	}
 	

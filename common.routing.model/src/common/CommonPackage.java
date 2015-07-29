@@ -138,22 +138,58 @@ public interface CommonPackage extends EPackage {
 	int REQUEST__TO_LON = 7;
 
 	/**
-	 * The feature id for the '<em><b>Max Walk Distance</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int REQUEST__MAX_WALK_DISTANCE = 8;
-
-	/**
 	 * The feature id for the '<em><b>Banned Routes</b></em>' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUEST__BANNED_ROUTES = 9;
+	int REQUEST__BANNED_ROUTES = 8;
+
+	/**
+	 * The feature id for the '<em><b>Maximum Walk</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUEST__MAXIMUM_WALK = 9;
+
+	/**
+	 * The feature id for the '<em><b>Maximum Wait</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUEST__MAXIMUM_WAIT = 10;
+
+	/**
+	 * The feature id for the '<em><b>Significant Gap Walk</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUEST__SIGNIFICANT_GAP_WALK = 11;
+
+	/**
+	 * The feature id for the '<em><b>Significant Gap Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUEST__SIGNIFICANT_GAP_DURATION = 12;
+
+	/**
+	 * The feature id for the '<em><b>Significant Gap Departure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUEST__SIGNIFICANT_GAP_DEPARTURE = 13;
 
 	/**
 	 * The number of structural features of the '<em>Request</em>' class.
@@ -162,7 +198,7 @@ public interface CommonPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUEST_FEATURE_COUNT = 10;
+	int REQUEST_FEATURE_COUNT = 14;
 
 	/**
 	 * The number of operations of the '<em>Request</em>' class.
@@ -273,17 +309,6 @@ public interface CommonPackage extends EPackage {
 	EAttribute getRequest_ToLon();
 
 	/**
-	 * Returns the meta object for the attribute '{@link common.Request#getMaxWalkDistance <em>Max Walk Distance</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Max Walk Distance</em>'.
-	 * @see common.Request#getMaxWalkDistance()
-	 * @see #getRequest()
-	 * @generated
-	 */
-	EAttribute getRequest_MaxWalkDistance();
-
-	/**
 	 * Returns the meta object for the attribute list '{@link common.Request#getBannedRoutes <em>Banned Routes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -293,6 +318,61 @@ public interface CommonPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getRequest_BannedRoutes();
+
+	/**
+	 * Returns the meta object for the attribute '{@link common.Request#getMaximumWalk <em>Maximum Walk</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Maximum Walk</em>'.
+	 * @see common.Request#getMaximumWalk()
+	 * @see #getRequest()
+	 * @generated
+	 */
+	EAttribute getRequest_MaximumWalk();
+
+	/**
+	 * Returns the meta object for the attribute '{@link common.Request#getMaximumWait <em>Maximum Wait</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Maximum Wait</em>'.
+	 * @see common.Request#getMaximumWait()
+	 * @see #getRequest()
+	 * @generated
+	 */
+	EAttribute getRequest_MaximumWait();
+
+	/**
+	 * Returns the meta object for the attribute '{@link common.Request#getSignificantGapWalk <em>Significant Gap Walk</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Significant Gap Walk</em>'.
+	 * @see common.Request#getSignificantGapWalk()
+	 * @see #getRequest()
+	 * @generated
+	 */
+	EAttribute getRequest_SignificantGapWalk();
+
+	/**
+	 * Returns the meta object for the attribute '{@link common.Request#getSignificantGapDuration <em>Significant Gap Duration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Significant Gap Duration</em>'.
+	 * @see common.Request#getSignificantGapDuration()
+	 * @see #getRequest()
+	 * @generated
+	 */
+	EAttribute getRequest_SignificantGapDuration();
+
+	/**
+	 * Returns the meta object for the attribute '{@link common.Request#getSignificantGapDeparture <em>Significant Gap Departure</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Significant Gap Departure</em>'.
+	 * @see common.Request#getSignificantGapDeparture()
+	 * @see #getRequest()
+	 * @generated
+	 */
+	EAttribute getRequest_SignificantGapDeparture();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -392,20 +472,52 @@ public interface CommonPackage extends EPackage {
 		EAttribute REQUEST__TO_LON = eINSTANCE.getRequest_ToLon();
 
 		/**
-		 * The meta object literal for the '<em><b>Max Walk Distance</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute REQUEST__MAX_WALK_DISTANCE = eINSTANCE.getRequest_MaxWalkDistance();
-
-		/**
 		 * The meta object literal for the '<em><b>Banned Routes</b></em>' attribute list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute REQUEST__BANNED_ROUTES = eINSTANCE.getRequest_BannedRoutes();
+
+		/**
+		 * The meta object literal for the '<em><b>Maximum Walk</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUEST__MAXIMUM_WALK = eINSTANCE.getRequest_MaximumWalk();
+
+		/**
+		 * The meta object literal for the '<em><b>Maximum Wait</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUEST__MAXIMUM_WAIT = eINSTANCE.getRequest_MaximumWait();
+
+		/**
+		 * The meta object literal for the '<em><b>Significant Gap Walk</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUEST__SIGNIFICANT_GAP_WALK = eINSTANCE.getRequest_SignificantGapWalk();
+
+		/**
+		 * The meta object literal for the '<em><b>Significant Gap Duration</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUEST__SIGNIFICANT_GAP_DURATION = eINSTANCE.getRequest_SignificantGapDuration();
+
+		/**
+		 * The meta object literal for the '<em><b>Significant Gap Departure</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUEST__SIGNIFICANT_GAP_DEPARTURE = eINSTANCE.getRequest_SignificantGapDeparture();
 
 	}
 

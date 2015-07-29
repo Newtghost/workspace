@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
+import common.Request;
 import routing.Itinerary;
 import routing.Leg;
 import routing.RoutingPackage;
@@ -28,10 +29,11 @@ import routing.RoutingPackage;
  *   <li>{@link routing.impl.ItineraryImpl#getDepartureTime <em>Departure Time</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#getArrivalTime <em>Arrival Time</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#getNbTransfers <em>Nb Transfers</em>}</li>
- *   <li>{@link routing.impl.ItineraryImpl#getWalkingDistance <em>Walking Distance</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#isIsOnRightWay <em>Is On Right Way</em>}</li>
- *   <li>{@link routing.impl.ItineraryImpl#isDeprecated <em>Deprecated</em>}</li>
+ *   <li>{@link routing.impl.ItineraryImpl#getWalkingDistance <em>Walking Distance</em>}</li>
+ *   <li>{@link routing.impl.ItineraryImpl#getWaitingTime <em>Waiting Time</em>}</li>
  *   <li>{@link routing.impl.ItineraryImpl#getTrips <em>Trips</em>}</li>
+ *   <li>{@link routing.impl.ItineraryImpl#isDeprecated <em>Deprecated</em>}</li>
  * </ul>
  *
  * @generated
@@ -128,26 +130,6 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	protected int nbTransfers = NB_TRANSFERS_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getWalkingDistance() <em>Walking Distance</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getWalkingDistance()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final double WALKING_DISTANCE_EDEFAULT = 0.0;
-
-	/**
-	 * The cached value of the '{@link #getWalkingDistance() <em>Walking Distance</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getWalkingDistance()
-	 * @generated
-	 * @ordered
-	 */
-	protected double walkingDistance = WALKING_DISTANCE_EDEFAULT;
-
-	/**
 	 * The default value of the '{@link #isIsOnRightWay() <em>Is On Right Way</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -168,24 +150,44 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	protected boolean isOnRightWay = IS_ON_RIGHT_WAY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isDeprecated() <em>Deprecated</em>}' attribute.
+	 * The default value of the '{@link #getWalkingDistance() <em>Walking Distance</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isDeprecated()
+	 * @see #getWalkingDistance()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean DEPRECATED_EDEFAULT = false;
+	protected static final double WALKING_DISTANCE_EDEFAULT = 0.0;
 
 	/**
-	 * The cached value of the '{@link #isDeprecated() <em>Deprecated</em>}' attribute.
+	 * The cached value of the '{@link #getWalkingDistance() <em>Walking Distance</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isDeprecated()
+	 * @see #getWalkingDistance()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean deprecated = DEPRECATED_EDEFAULT;
+	protected double walkingDistance = WALKING_DISTANCE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getWaitingTime() <em>Waiting Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWaitingTime()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final long WAITING_TIME_EDEFAULT = 0L;
+
+	/**
+	 * The cached value of the '{@link #getWaitingTime() <em>Waiting Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWaitingTime()
+	 * @generated
+	 * @ordered
+	 */
+	protected long waitingTime = WAITING_TIME_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getTrips() <em>Trips</em>}' attribute.
@@ -206,6 +208,26 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * @ordered
 	 */
 	protected String trips = TRIPS_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isDeprecated() <em>Deprecated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isDeprecated()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean DEPRECATED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isDeprecated() <em>Deprecated</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isDeprecated()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean deprecated = DEPRECATED_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -348,6 +370,27 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public long getWaitingTime() {
+		return waitingTime;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWaitingTime(long newWaitingTime) {
+		long oldWaitingTime = waitingTime;
+		waitingTime = newWaitingTime;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, RoutingPackage.ITINERARY__WAITING_TIME, oldWaitingTime, waitingTime));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public boolean isIsOnRightWay() {
 		return isOnRightWay;
 	}
@@ -424,14 +467,16 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				return getArrivalTime();
 			case RoutingPackage.ITINERARY__NB_TRANSFERS:
 				return getNbTransfers();
-			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
-				return getWalkingDistance();
 			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
 				return isIsOnRightWay();
-			case RoutingPackage.ITINERARY__DEPRECATED:
-				return isDeprecated();
+			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
+				return getWalkingDistance();
+			case RoutingPackage.ITINERARY__WAITING_TIME:
+				return getWaitingTime();
 			case RoutingPackage.ITINERARY__TRIPS:
 				return getTrips();
+			case RoutingPackage.ITINERARY__DEPRECATED:
+				return isDeprecated();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -461,17 +506,20 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			case RoutingPackage.ITINERARY__NB_TRANSFERS:
 				setNbTransfers((Integer)newValue);
 				return;
-			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
-				setWalkingDistance((Double)newValue);
-				return;
 			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
 				setIsOnRightWay((Boolean)newValue);
 				return;
-			case RoutingPackage.ITINERARY__DEPRECATED:
-				setDeprecated((Boolean)newValue);
+			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
+				setWalkingDistance((Double)newValue);
+				return;
+			case RoutingPackage.ITINERARY__WAITING_TIME:
+				setWaitingTime((Long)newValue);
 				return;
 			case RoutingPackage.ITINERARY__TRIPS:
 				setTrips((String)newValue);
+				return;
+			case RoutingPackage.ITINERARY__DEPRECATED:
+				setDeprecated((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -500,17 +548,20 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			case RoutingPackage.ITINERARY__NB_TRANSFERS:
 				setNbTransfers(NB_TRANSFERS_EDEFAULT);
 				return;
-			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
-				setWalkingDistance(WALKING_DISTANCE_EDEFAULT);
-				return;
 			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
 				setIsOnRightWay(IS_ON_RIGHT_WAY_EDEFAULT);
 				return;
-			case RoutingPackage.ITINERARY__DEPRECATED:
-				setDeprecated(DEPRECATED_EDEFAULT);
+			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
+				setWalkingDistance(WALKING_DISTANCE_EDEFAULT);
+				return;
+			case RoutingPackage.ITINERARY__WAITING_TIME:
+				setWaitingTime(WAITING_TIME_EDEFAULT);
 				return;
 			case RoutingPackage.ITINERARY__TRIPS:
 				setTrips(TRIPS_EDEFAULT);
+				return;
+			case RoutingPackage.ITINERARY__DEPRECATED:
+				setDeprecated(DEPRECATED_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -534,14 +585,16 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 				return arrivalTime != ARRIVAL_TIME_EDEFAULT;
 			case RoutingPackage.ITINERARY__NB_TRANSFERS:
 				return nbTransfers != NB_TRANSFERS_EDEFAULT;
-			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
-				return walkingDistance != WALKING_DISTANCE_EDEFAULT;
 			case RoutingPackage.ITINERARY__IS_ON_RIGHT_WAY:
 				return isOnRightWay != IS_ON_RIGHT_WAY_EDEFAULT;
-			case RoutingPackage.ITINERARY__DEPRECATED:
-				return deprecated != DEPRECATED_EDEFAULT;
+			case RoutingPackage.ITINERARY__WALKING_DISTANCE:
+				return walkingDistance != WALKING_DISTANCE_EDEFAULT;
+			case RoutingPackage.ITINERARY__WAITING_TIME:
+				return waitingTime != WAITING_TIME_EDEFAULT;
 			case RoutingPackage.ITINERARY__TRIPS:
 				return TRIPS_EDEFAULT == null ? trips != null : !TRIPS_EDEFAULT.equals(trips);
+			case RoutingPackage.ITINERARY__DEPRECATED:
+				return deprecated != DEPRECATED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -564,29 +617,25 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		result.append(arrivalTime);
 		result.append(", nbTransfers: ");
 		result.append(nbTransfers);
-		result.append(", walkingDistance: ");
-		result.append(walkingDistance);
 		result.append(", isOnRightWay: ");
 		result.append(isOnRightWay);
-		result.append(", deprecated: ");
-		result.append(deprecated);
+		result.append(", walkingDistance: ");
+		result.append(walkingDistance);
+		result.append(", waitingTime: ");
+		result.append(waitingTime);
 		result.append(", trips: ");
 		result.append(trips);
+		result.append(", deprecated: ");
+		result.append(deprecated);
 		result.append(')');
 		return result.toString();
 	}
  
-	/* TODO : les thresholds ne doivent pas être statiques, dépendent de chaque utilisateur (requête??) */
-	
-	private static final int THRESHOLD_WALKING = 250 ; /* in meters */
-	private static final int THRESHOLD_DEPARTURE = 600 ; /* in seconds */
-	private static final int THRESHOLD_DURATION = 300 ; /* in seconds */
-
 	@Override
 	/* Time is a departure time when the itinerary doesn't reach the target and a duration otherwise. 
 	 * The function return 1 if the current itinerary dominates the one passed in parameters,
 	 * 0 if they're pareto opt, -1 otherwise */
-	public int isDominated (Itinerary it, boolean toTarget) {
+	public int isDominated (Request request, Itinerary it, boolean toTarget) {
 				
 		int thisIsDominated = 0 ;
 		int thisDominates = 0 ;
@@ -600,6 +649,7 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			else return -1 ;
 		} 
 		
+		int THRESHOLD_WALKING = request.getSignificantGapWalk() ;
 		if (this.walkingDistance + THRESHOLD_WALKING < walkingDistance) {
 			thisDominates ++;
 		} else if (this.walkingDistance > walkingDistance + THRESHOLD_WALKING) {
@@ -609,6 +659,7 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		long time ;
 		if (toTarget) {
 			time = it.getDuration() ;
+			int THRESHOLD_DURATION = request.getSignificantGapDuration() ;
 			if (this.getDuration() + THRESHOLD_DURATION < time) {
 				thisDominates ++;
 			} else if (this.getDuration() > time + THRESHOLD_DURATION) {
@@ -617,6 +668,7 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		}
 		else {
 			time = it.getDepartureTime() ;
+			int THRESHOLD_DEPARTURE = request.getSignificantGapDeparture() ;
 			if (this.departureTime + THRESHOLD_DEPARTURE < time) {
 				thisIsDominated ++;
 			} else if (this.departureTime > time + THRESHOLD_DEPARTURE) {

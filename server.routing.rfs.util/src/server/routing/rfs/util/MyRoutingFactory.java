@@ -20,6 +20,12 @@ import common.util.EmfUtil;
 
 public class MyRoutingFactory {
 	
+	private static final int DEFAULT_MAXIMUM_WALK = 750 ; /* in meters */
+	private static final int DEFAULT_MAXIMUM_WAIT = 15*16 ; /* in seconds */
+	private static final int DEFAULT_SIGNIFICANT_GAP_WALK = 250 ; /* in meters */
+	private static final int DEFAULT_SIGNIFICANT_GAP_DEPARTURE = 600 ; /* in seconds */
+	private static final int DEFAULT_SIGNIFICANT_GAP_DURATION = 300 ; /* in seconds */
+
 	public static Connection createConnection (String serviceId, String tripId, String routeId, String departureId, String arrivalId, 
 			long departureTime, long arrivalTime, int departureSeq, int arrivalSeq) {
 		Connection c = RoutingFactory.eINSTANCE.createConnection() ;
@@ -58,29 +64,57 @@ public class MyRoutingFactory {
 		return s ;
 	}
 
-	public static Request createRequest (String departureId, String arrivalId, String time, String date, String bannedRoutes) {
-		Request r = createRequest(time, date, bannedRoutes) ;
+	public static Request createRequest (String departureId, String arrivalId, String time, String date, String bannedRoutes, 
+			String maximumWait, String maximumWalk, String gapDeparture, String gapDuration, String gapWalk) {
+		
+		Request r = createRequest(time, date, bannedRoutes, maximumWait, maximumWalk, gapDeparture, gapDuration, gapWalk) ;
 		r.setFromStopId(departureId);
 		r.setToStopId(arrivalId);		
 		return r ;
 	}
 
-	public static Request createRequest (String fromLat, String fromLon, String toLat, String toLon, String time, String date, String bannedRoutes) {
-		Request r = createRequest(time, date, bannedRoutes) ;
+	public static Request createRequest (String fromLat, String fromLon, String toLat, String toLon, String time, String date, 
+			String bannedRoutes, String maximumWait, String maximumWalk, String gapDeparture, String gapDuration, String gapWalk) {
+		
+		Request r = createRequest(time, date, bannedRoutes, maximumWait, maximumWalk, gapDeparture, gapDuration, gapWalk) ;
 		r.setFromLat(Double.parseDouble(fromLat));
 		r.setFromLon(Double.parseDouble(fromLon));		
 		r.setToLat(Double.parseDouble(toLat));
-		r.setToLon(Double.parseDouble(toLon));		
+		r.setToLon(Double.parseDouble(toLon));
 		return r ;
 	}
 	
-	private static Request createRequest (String time, String date, String bannedRoutes) {
+	private static Request createRequest (String time, String date, String bannedRoutes, String maximumWait, String maximumWalk, 
+			String gapDeparture, String gapDuration, String gapWalk) {
+		
 		Request r = CommonFactory.eINSTANCE.createRequest() ;
+		
+		/* Mandatory parameters of the request date and time */
 		r.setTime(time);
 		r.setDate(date);
+
+		/* Banned routes */
 		String[] routes = bannedRoutes.split(",");
 		for (int i = 0; i < routes.length ; i++)
 			r.getBannedRoutes().add(routes[i]);
+		
+		/* Parameters useful to define the user profile
+		 * There are not mandatory because they have default values */
+		if(maximumWait.equals("")) r.setMaximumWait(DEFAULT_MAXIMUM_WAIT);
+		else r.setMaximumWait(Integer.parseInt(maximumWait));
+		
+		if (maximumWalk.equals("")) r.setMaximumWalk(DEFAULT_MAXIMUM_WALK);
+		else r.setMaximumWalk(Integer.parseInt(maximumWalk));
+		
+		if (gapDeparture.equals("")) r.setSignificantGapDeparture(DEFAULT_SIGNIFICANT_GAP_DEPARTURE);
+		else r.setSignificantGapDeparture(Integer.parseInt(gapDeparture));
+		
+		if (gapDuration.equals("")) r.setSignificantGapDuration(DEFAULT_SIGNIFICANT_GAP_DURATION);
+		else r.setSignificantGapDuration(Integer.parseInt(gapDuration));
+
+		if (gapWalk.equals("")) r.setSignificantGapWalk(DEFAULT_SIGNIFICANT_GAP_WALK);
+		else r.setSignificantGapWalk(Integer.parseInt(gapWalk));
+		
 		return r ;
 	}
 	
@@ -143,36 +177,26 @@ public class MyRoutingFactory {
 		}
 	}
 
-	public static Itinerary createItinerary(Itinerary prevIt, Leg l, String tripId, long departureTime, long arrivalTime, int nbTransfers, double walkingDistance, boolean isOnRightWay, String trips) {
+	
+	/* */
+	public static Itinerary createItinerary(Itinerary prevIt, Leg l, String tripId, long departureTime, long arrivalTime, int nbTransfers, double walkingDistance, long waitingTime, boolean isOnRightWay, String trips) {
+
 		Itinerary it = RoutingFactory.eINSTANCE.createItinerary() ;
 
-		/* Departure time */
 		it.setDepartureTime(departureTime);
-
-		/* Arrival time */
 		it.setArrivalTime(arrivalTime);
-
-		/* Nb of transfers */
 		it.setNbTransfers(nbTransfers);
-		
-		/* Last trip ID : "" correspond to a footpath */
 		it.setLastTrip(tripId);
+		it.setWalkingDistance(walkingDistance);
+		it.setWaitingTime(waitingTime);
+		it.setIsOnRightWay(isOnRightWay);
+		it.setTrips(trips);
 
 		/* Extend the previous itinerary */
 		if (prevIt != null) it.getPath().addAll(prevIt.getPath()) ;		
 		if (l != null) it.getPath().add(l) ;
 
-		/* Walking distance */
-		it.setWalkingDistance(walkingDistance);
-		
-		/* Right way */
-		it.setIsOnRightWay(isOnRightWay);
-		
-		/* Deprecated */
 		it.setDeprecated(false);
-
-		/* The order and which trips are taken by the itinerary */
-		it.setTrips(trips);
 
 		return it;
 	}

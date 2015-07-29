@@ -85,5 +85,10 @@ public class RoutingAccessors {
 	public static List<String> getBannedRoutes(Request request) {
 		return request.getBannedRoutes();
 	}
+
+	public static Leg getLastLeg(Itinerary itdep) {
+		List<Leg> path = itdep.getPath() ;
+		return path.get(path.size());
+	}
 	
 }

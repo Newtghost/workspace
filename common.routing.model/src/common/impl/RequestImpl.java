@@ -29,8 +29,12 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  *   <li>{@link common.impl.RequestImpl#getFromLon <em>From Lon</em>}</li>
  *   <li>{@link common.impl.RequestImpl#getToLat <em>To Lat</em>}</li>
  *   <li>{@link common.impl.RequestImpl#getToLon <em>To Lon</em>}</li>
- *   <li>{@link common.impl.RequestImpl#getMaxWalkDistance <em>Max Walk Distance</em>}</li>
  *   <li>{@link common.impl.RequestImpl#getBannedRoutes <em>Banned Routes</em>}</li>
+ *   <li>{@link common.impl.RequestImpl#getMaximumWalk <em>Maximum Walk</em>}</li>
+ *   <li>{@link common.impl.RequestImpl#getMaximumWait <em>Maximum Wait</em>}</li>
+ *   <li>{@link common.impl.RequestImpl#getSignificantGapWalk <em>Significant Gap Walk</em>}</li>
+ *   <li>{@link common.impl.RequestImpl#getSignificantGapDuration <em>Significant Gap Duration</em>}</li>
+ *   <li>{@link common.impl.RequestImpl#getSignificantGapDeparture <em>Significant Gap Departure</em>}</li>
  * </ul>
  *
  * @generated
@@ -197,26 +201,6 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 	protected double toLon = TO_LON_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getMaxWalkDistance() <em>Max Walk Distance</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMaxWalkDistance()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final int MAX_WALK_DISTANCE_EDEFAULT = 0;
-
-	/**
-	 * The cached value of the '{@link #getMaxWalkDistance() <em>Max Walk Distance</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getMaxWalkDistance()
-	 * @generated
-	 * @ordered
-	 */
-	protected int maxWalkDistance = MAX_WALK_DISTANCE_EDEFAULT;
-
-	/**
 	 * The cached value of the '{@link #getBannedRoutes() <em>Banned Routes</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -225,6 +209,106 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 	 * @ordered
 	 */
 	protected EList<String> bannedRoutes;
+
+	/**
+	 * The default value of the '{@link #getMaximumWalk() <em>Maximum Walk</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMaximumWalk()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int MAXIMUM_WALK_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getMaximumWalk() <em>Maximum Walk</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMaximumWalk()
+	 * @generated
+	 * @ordered
+	 */
+	protected int maximumWalk = MAXIMUM_WALK_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getMaximumWait() <em>Maximum Wait</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMaximumWait()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int MAXIMUM_WAIT_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getMaximumWait() <em>Maximum Wait</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getMaximumWait()
+	 * @generated
+	 * @ordered
+	 */
+	protected int maximumWait = MAXIMUM_WAIT_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSignificantGapWalk() <em>Significant Gap Walk</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignificantGapWalk()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int SIGNIFICANT_GAP_WALK_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getSignificantGapWalk() <em>Significant Gap Walk</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignificantGapWalk()
+	 * @generated
+	 * @ordered
+	 */
+	protected int significantGapWalk = SIGNIFICANT_GAP_WALK_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSignificantGapDuration() <em>Significant Gap Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignificantGapDuration()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int SIGNIFICANT_GAP_DURATION_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getSignificantGapDuration() <em>Significant Gap Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignificantGapDuration()
+	 * @generated
+	 * @ordered
+	 */
+	protected int significantGapDuration = SIGNIFICANT_GAP_DURATION_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSignificantGapDeparture() <em>Significant Gap Departure</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignificantGapDeparture()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int SIGNIFICANT_GAP_DEPARTURE_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getSignificantGapDeparture() <em>Significant Gap Departure</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignificantGapDeparture()
+	 * @generated
+	 * @ordered
+	 */
+	protected int significantGapDeparture = SIGNIFICANT_GAP_DEPARTURE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -418,32 +502,116 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getMaxWalkDistance() {
-		return maxWalkDistance;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMaxWalkDistance(int newMaxWalkDistance) {
-		int oldMaxWalkDistance = maxWalkDistance;
-		maxWalkDistance = newMaxWalkDistance;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, CommonPackage.REQUEST__MAX_WALK_DISTANCE, oldMaxWalkDistance, maxWalkDistance));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<String> getBannedRoutes() {
 		if (bannedRoutes == null) {
 			bannedRoutes = new EDataTypeUniqueEList<String>(String.class, this, CommonPackage.REQUEST__BANNED_ROUTES);
 		}
 		return bannedRoutes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getMaximumWalk() {
+		return maximumWalk;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMaximumWalk(int newMaximumWalk) {
+		int oldMaximumWalk = maximumWalk;
+		maximumWalk = newMaximumWalk;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CommonPackage.REQUEST__MAXIMUM_WALK, oldMaximumWalk, maximumWalk));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getMaximumWait() {
+		return maximumWait;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setMaximumWait(int newMaximumWait) {
+		int oldMaximumWait = maximumWait;
+		maximumWait = newMaximumWait;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CommonPackage.REQUEST__MAXIMUM_WAIT, oldMaximumWait, maximumWait));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getSignificantGapWalk() {
+		return significantGapWalk;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSignificantGapWalk(int newSignificantGapWalk) {
+		int oldSignificantGapWalk = significantGapWalk;
+		significantGapWalk = newSignificantGapWalk;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CommonPackage.REQUEST__SIGNIFICANT_GAP_WALK, oldSignificantGapWalk, significantGapWalk));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getSignificantGapDuration() {
+		return significantGapDuration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSignificantGapDuration(int newSignificantGapDuration) {
+		int oldSignificantGapDuration = significantGapDuration;
+		significantGapDuration = newSignificantGapDuration;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CommonPackage.REQUEST__SIGNIFICANT_GAP_DURATION, oldSignificantGapDuration, significantGapDuration));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getSignificantGapDeparture() {
+		return significantGapDeparture;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSignificantGapDeparture(int newSignificantGapDeparture) {
+		int oldSignificantGapDeparture = significantGapDeparture;
+		significantGapDeparture = newSignificantGapDeparture;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CommonPackage.REQUEST__SIGNIFICANT_GAP_DEPARTURE, oldSignificantGapDeparture, significantGapDeparture));
 	}
 
 	/**
@@ -470,10 +638,18 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 				return getToLat();
 			case CommonPackage.REQUEST__TO_LON:
 				return getToLon();
-			case CommonPackage.REQUEST__MAX_WALK_DISTANCE:
-				return getMaxWalkDistance();
 			case CommonPackage.REQUEST__BANNED_ROUTES:
 				return getBannedRoutes();
+			case CommonPackage.REQUEST__MAXIMUM_WALK:
+				return getMaximumWalk();
+			case CommonPackage.REQUEST__MAXIMUM_WAIT:
+				return getMaximumWait();
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WALK:
+				return getSignificantGapWalk();
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DURATION:
+				return getSignificantGapDuration();
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DEPARTURE:
+				return getSignificantGapDeparture();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -511,12 +687,24 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 			case CommonPackage.REQUEST__TO_LON:
 				setToLon((Double)newValue);
 				return;
-			case CommonPackage.REQUEST__MAX_WALK_DISTANCE:
-				setMaxWalkDistance((Integer)newValue);
-				return;
 			case CommonPackage.REQUEST__BANNED_ROUTES:
 				getBannedRoutes().clear();
 				getBannedRoutes().addAll((Collection<? extends String>)newValue);
+				return;
+			case CommonPackage.REQUEST__MAXIMUM_WALK:
+				setMaximumWalk((Integer)newValue);
+				return;
+			case CommonPackage.REQUEST__MAXIMUM_WAIT:
+				setMaximumWait((Integer)newValue);
+				return;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WALK:
+				setSignificantGapWalk((Integer)newValue);
+				return;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DURATION:
+				setSignificantGapDuration((Integer)newValue);
+				return;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DEPARTURE:
+				setSignificantGapDeparture((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -554,11 +742,23 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 			case CommonPackage.REQUEST__TO_LON:
 				setToLon(TO_LON_EDEFAULT);
 				return;
-			case CommonPackage.REQUEST__MAX_WALK_DISTANCE:
-				setMaxWalkDistance(MAX_WALK_DISTANCE_EDEFAULT);
-				return;
 			case CommonPackage.REQUEST__BANNED_ROUTES:
 				getBannedRoutes().clear();
+				return;
+			case CommonPackage.REQUEST__MAXIMUM_WALK:
+				setMaximumWalk(MAXIMUM_WALK_EDEFAULT);
+				return;
+			case CommonPackage.REQUEST__MAXIMUM_WAIT:
+				setMaximumWait(MAXIMUM_WAIT_EDEFAULT);
+				return;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WALK:
+				setSignificantGapWalk(SIGNIFICANT_GAP_WALK_EDEFAULT);
+				return;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DURATION:
+				setSignificantGapDuration(SIGNIFICANT_GAP_DURATION_EDEFAULT);
+				return;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DEPARTURE:
+				setSignificantGapDeparture(SIGNIFICANT_GAP_DEPARTURE_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -588,10 +788,18 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 				return toLat != TO_LAT_EDEFAULT;
 			case CommonPackage.REQUEST__TO_LON:
 				return toLon != TO_LON_EDEFAULT;
-			case CommonPackage.REQUEST__MAX_WALK_DISTANCE:
-				return maxWalkDistance != MAX_WALK_DISTANCE_EDEFAULT;
 			case CommonPackage.REQUEST__BANNED_ROUTES:
 				return bannedRoutes != null && !bannedRoutes.isEmpty();
+			case CommonPackage.REQUEST__MAXIMUM_WALK:
+				return maximumWalk != MAXIMUM_WALK_EDEFAULT;
+			case CommonPackage.REQUEST__MAXIMUM_WAIT:
+				return maximumWait != MAXIMUM_WAIT_EDEFAULT;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WALK:
+				return significantGapWalk != SIGNIFICANT_GAP_WALK_EDEFAULT;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DURATION:
+				return significantGapDuration != SIGNIFICANT_GAP_DURATION_EDEFAULT;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DEPARTURE:
+				return significantGapDeparture != SIGNIFICANT_GAP_DEPARTURE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -622,10 +830,18 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 		result.append(toLat);
 		result.append(", toLon: ");
 		result.append(toLon);
-		result.append(", maxWalkDistance: ");
-		result.append(maxWalkDistance);
 		result.append(", bannedRoutes: ");
 		result.append(bannedRoutes);
+		result.append(", maximumWalk: ");
+		result.append(maximumWalk);
+		result.append(", maximumWait: ");
+		result.append(maximumWait);
+		result.append(", significantGapWalk: ");
+		result.append(significantGapWalk);
+		result.append(", significantGapDuration: ");
+		result.append(significantGapDuration);
+		result.append(", significantGapDeparture: ");
+		result.append(significantGapDeparture);
 		result.append(')');
 		return result.toString();
 	}

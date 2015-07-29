@@ -5,6 +5,8 @@ package routing;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
+import common.Request;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Itinerary</b></em>'.
@@ -19,10 +21,11 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link routing.Itinerary#getDepartureTime <em>Departure Time</em>}</li>
  *   <li>{@link routing.Itinerary#getArrivalTime <em>Arrival Time</em>}</li>
  *   <li>{@link routing.Itinerary#getNbTransfers <em>Nb Transfers</em>}</li>
- *   <li>{@link routing.Itinerary#getWalkingDistance <em>Walking Distance</em>}</li>
  *   <li>{@link routing.Itinerary#isIsOnRightWay <em>Is On Right Way</em>}</li>
- *   <li>{@link routing.Itinerary#isDeprecated <em>Deprecated</em>}</li>
+ *   <li>{@link routing.Itinerary#getWalkingDistance <em>Walking Distance</em>}</li>
+ *   <li>{@link routing.Itinerary#getWaitingTime <em>Waiting Time</em>}</li>
  *   <li>{@link routing.Itinerary#getTrips <em>Trips</em>}</li>
+ *   <li>{@link routing.Itinerary#isDeprecated <em>Deprecated</em>}</li>
  * </ul>
  *
  * @see routing.RoutingPackage#getItinerary()
@@ -177,6 +180,32 @@ public interface Itinerary extends EObject {
 	void setWalkingDistance(double value);
 
 	/**
+	 * Returns the value of the '<em><b>Waiting Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Waiting Time</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Waiting Time</em>' attribute.
+	 * @see #setWaitingTime(long)
+	 * @see routing.RoutingPackage#getItinerary_WaitingTime()
+	 * @model
+	 * @generated
+	 */
+	long getWaitingTime();
+
+	/**
+	 * Sets the value of the '{@link routing.Itinerary#getWaitingTime <em>Waiting Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Waiting Time</em>' attribute.
+	 * @see #getWaitingTime()
+	 * @generated
+	 */
+	void setWaitingTime(long value);
+
+	/**
 	 * Returns the value of the '<em><b>Is On Right Way</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -254,7 +283,7 @@ public interface Itinerary extends EObject {
 	 */
 	void setTrips(String value);
 
-	public int isDominated (Itinerary it, boolean isTarget) ;
+	public int isDominated (Request request, Itinerary it, boolean isTarget) ;
 
 	long getDuration();
 

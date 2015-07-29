@@ -157,7 +157,7 @@ public class Router {
 			MyRoutingFactory.initialize(space) ;  
 	
 			/* Creation of the initial empty itinerary from the source */
-			Itinerary it = MyRoutingFactory.createItinerary(null, null, "-1", startTime, startTime, 0, 0.0, false, "") ; /* Itinéraire qui domine tous les autres */
+			Itinerary it = MyRoutingFactory.createItinerary(null, null, "-1", startTime, startTime, 0, 0.0, 0, false, "") ; /* Itinéraire qui domine tous les autres */
 			RoutingAccessors.getJourneys(sourceStop).add(it) ;
 			
 			/* Extend the first itinerary to all the neighbors */
@@ -223,14 +223,16 @@ public class Router {
 			
 			/* Computing parameters of the new itinerary (itdep + l) */
 			int nbTransfers = itdep.getNbTransfers() ; 
+			long waitingTime = itdep.getWaitingTime() ; 
 			String trips = itdep.getTrips() ; 
 			if (!itdep.getLastTrip().equals(c.getTripId())) {
 				nbTransfers ++;
 				trips += c.getTripId() + ";" ;
+				if (!fromSource) waitingTime += c.getDepartureTime() - itdep.getArrivalTime() ; 
 			}
 
 			Itinerary it = MyRoutingFactory.createItinerary(itdep, c, c.getTripId(), fromSource?c.getDepartureTime():itdep.getDepartureTime(), 
-					c.getArrivalTime() + c.getArrivalDelay(), nbTransfers, itdep.getWalkingDistance(), goodWay, trips) ;
+					c.getArrivalTime() + c.getArrivalDelay(), nbTransfers, itdep.getWalkingDistance(), waitingTime, goodWay, trips) ;
 			
 			if (it == null) continue ;			
 
@@ -248,7 +250,7 @@ public class Router {
 		boolean toBeAdded = true ;
 		if (arrJourneys.size() > 0) {
 			for (Itinerary itarr : new ArrayList<Itinerary>(arrJourneys)) { 
-				int dom = itarr.isDominated(it, toTarget) ; 
+				int dom = itarr.isDominated(request, it, toTarget) ; 
 				if (dom == 1) { /* The new itinerary is dominated by an existing one */
 					toBeAdded = false ;
 					break ; 
@@ -269,7 +271,8 @@ public class Router {
 				if (f.getArrivalId().equals(dep.getStopId())) continue ;
 				boolean toTarget = f.getArrivalId().equals(target.getStopId()) ;
 				Itinerary itP = MyRoutingFactory.createItinerary(it, f, f.getTripId(), it.getDepartureTime(), 
-						it.getArrivalTime() + arr.getMinimalConnectionTime() + f.getDuration(), it.getNbTransfers(), it.getWalkingDistance() + f.getDistance(), toTarget, it.getTrips()) ;
+						it.getArrivalTime() + arr.getMinimalConnectionTime() + f.getDuration(), it.getNbTransfers(), 
+						it.getWalkingDistance() + f.getDistance(), it.getWaitingTime(), toTarget, it.getTrips()) ;
 				itineraryAdded (RoutingAccessors.getStopFromId(space, f.getArrivalId()), itP, toTarget) ;
 			}
 		}
@@ -300,11 +303,9 @@ public class Router {
 		JSONObject leg = null;
 
 		for (Itinerary it : RoutingAccessors.getJourneys(targetStop)) {
-
-			prevEndTime = RoutingAccessors.getStartTime(request) * 1000 ; 
-			itinerary = new JSONObject();
+			itinerary = jsonItinerary(it, date, tzOffset);
 			legs = new JSONArray();
-			
+			prevEndTime = RoutingAccessors.getStartTime(request) * 1000 ; 
 			for (Leg s : RoutingAccessors.getPath(it)) {
 	
 				if (s instanceof Footpath) {
@@ -324,6 +325,10 @@ public class Router {
 				} else {
 					
 					Connection c = (Connection) s ;
+
+					/* TODO : le agencyTimeZoneOffset d'une leg (c.getAgencyTimeZoneOffset() et c.setAgencyTimeZoneOffset()) 
+					 	ne servent que pour le tracker (affichage leg par leg) il vaudrait mieux avoir l'info
+					 	qu'une seule fois comme dans le nouveau tracker (angularJS) - à terme, supprimer */
 					
 					if (prevC == null || ! c.getTripId().equals(prevC.getTripId())) {
 						if (leg != null) { /* Signifie qu'on a changé de Leg et qu'on doit donc ajouter le segment précédent qui est terminé */	
@@ -347,9 +352,11 @@ public class Router {
 				completeJsonLeg (legs, leg, date, prevEndTime, tzOffset, prevC) ;
 				leg = null ;
 			}
-			
+						
 			itinerary.put("legs", legs) ;
 			itineraries.add(itinerary) ;
+
+			prevC = null ;
 		}
 		
 		plan.put("itineraries", itineraries) ;
@@ -358,6 +365,20 @@ public class Router {
         return obj.toString();
 	}
 	
+	/* Les heures/dates passés dans le json correspondent au bon fuseau horaire,
+	 * i.e. celui de Portland ici - ce qui explique le -tzOffset */
+	private JSONObject jsonItinerary (Itinerary it, long date, long tzOffset) throws JSONException {
+		JSONObject itinerary = new JSONObject();
+		itinerary.put("startTime", it.getDepartureTime()*1000 + date - tzOffset) ;
+		itinerary.put("endTime", it.getArrivalTime()*1000 + date - tzOffset) ;
+		itinerary.put("duration", it.getDuration()*1000) ;
+		itinerary.put("nbTransfers", it.getNbTransfers()) ;
+		itinerary.put("walkingDistance", it.getWalkingDistance()) ;
+		itinerary.put("waitingTime", it.getWaitingTime()*1000) ;
+		itinerary.put("agencyTimeZoneOffset", tzOffset) ;
+		return itinerary;
+	}
+
 	private void initJsonLeg (JSONObject leg, long date, long prevEndTime, long tzOffset, Leg l) throws JSONException {
 		leg.put("agencyName", space.getAgencyName()) ;
 		leg.put("agencyTimeZoneOffset", tzOffset) ;

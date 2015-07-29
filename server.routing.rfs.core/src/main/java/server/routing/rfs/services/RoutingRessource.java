@@ -74,20 +74,29 @@ public class RoutingRessource {
 		String time = getParam("time", queryParams, true) ;
 		String date = getParam("date", queryParams, true) ;
 		String bannedRoutes = getParam("bannedRoutes", queryParams, false) ;    	
-    	
+		String maximumWait = getParam("maximumWait", queryParams, false) ;
+		String maximumWalk = getParam("maximumWalk", queryParams, false) ;
+		String gapDeparture = getParam("gapDeparture", queryParams, false) ;
+		String gapDuration = getParam("gapDuration", queryParams, false) ;
+		String gapWalk = getParam("gapWalk", queryParams, false) ; ;
+		
     	/* Get the position of the departure and the arrival */
     	if (queryParams.containsKey("from")) {
 			request = MyRoutingFactory.createRequest(
 					getParam("from", queryParams, true),
 					getParam("to", queryParams, true), 
-					time, date, bannedRoutes) ;
+					time, date, bannedRoutes, maximumWait, 
+					maximumWalk, gapDeparture, gapDuration, 
+					gapWalk) ;
     	} else {
 			request = MyRoutingFactory.createRequest(
 					getParam("fromLat", queryParams, true), 
 					getParam("fromLon", queryParams, true), 
 					getParam("toLat", queryParams, true), 
 					getParam("toLon", queryParams, true),
-					time, date, bannedRoutes) ;
+					time, date, bannedRoutes, maximumWait, 
+					maximumWalk, gapDeparture, gapDuration, 
+					gapWalk) ;
     	} 
     	
     	return request;

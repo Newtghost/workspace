@@ -594,31 +594,31 @@ public interface RoutingPackage extends EPackage {
 	int ITINERARY__NB_TRANSFERS = 4;
 
 	/**
-	 * The feature id for the '<em><b>Walking Distance</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ITINERARY__WALKING_DISTANCE = 5;
-
-	/**
 	 * The feature id for the '<em><b>Is On Right Way</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY__IS_ON_RIGHT_WAY = 6;
+	int ITINERARY__IS_ON_RIGHT_WAY = 5;
 
 	/**
-	 * The feature id for the '<em><b>Deprecated</b></em>' attribute.
+	 * The feature id for the '<em><b>Walking Distance</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY__DEPRECATED = 7;
+	int ITINERARY__WALKING_DISTANCE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Waiting Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITINERARY__WAITING_TIME = 7;
 
 	/**
 	 * The feature id for the '<em><b>Trips</b></em>' attribute.
@@ -630,13 +630,22 @@ public interface RoutingPackage extends EPackage {
 	int ITINERARY__TRIPS = 8;
 
 	/**
+	 * The feature id for the '<em><b>Deprecated</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ITINERARY__DEPRECATED = 9;
+
+	/**
 	 * The number of structural features of the '<em>Itinerary</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ITINERARY_FEATURE_COUNT = 9;
+	int ITINERARY_FEATURE_COUNT = 10;
 
 	/**
 	 * The number of operations of the '<em>Itinerary</em>' class.
@@ -1290,6 +1299,17 @@ public interface RoutingPackage extends EPackage {
 	EAttribute getItinerary_WalkingDistance();
 
 	/**
+	 * Returns the meta object for the attribute '{@link routing.Itinerary#getWaitingTime <em>Waiting Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Waiting Time</em>'.
+	 * @see routing.Itinerary#getWaitingTime()
+	 * @see #getItinerary()
+	 * @generated
+	 */
+	EAttribute getItinerary_WaitingTime();
+
+	/**
 	 * Returns the meta object for the attribute '{@link routing.Itinerary#isIsOnRightWay <em>Is On Right Way</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1828,6 +1848,14 @@ public interface RoutingPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ITINERARY__WALKING_DISTANCE = eINSTANCE.getItinerary_WalkingDistance();
+
+		/**
+		 * The meta object literal for the '<em><b>Waiting Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ITINERARY__WAITING_TIME = eINSTANCE.getItinerary_WaitingTime();
 
 		/**
 		 * The meta object literal for the '<em><b>Is On Right Way</b></em>' attribute feature.

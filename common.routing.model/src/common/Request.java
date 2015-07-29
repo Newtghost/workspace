@@ -22,8 +22,12 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link common.Request#getFromLon <em>From Lon</em>}</li>
  *   <li>{@link common.Request#getToLat <em>To Lat</em>}</li>
  *   <li>{@link common.Request#getToLon <em>To Lon</em>}</li>
- *   <li>{@link common.Request#getMaxWalkDistance <em>Max Walk Distance</em>}</li>
  *   <li>{@link common.Request#getBannedRoutes <em>Banned Routes</em>}</li>
+ *   <li>{@link common.Request#getMaximumWalk <em>Maximum Walk</em>}</li>
+ *   <li>{@link common.Request#getMaximumWait <em>Maximum Wait</em>}</li>
+ *   <li>{@link common.Request#getSignificantGapWalk <em>Significant Gap Walk</em>}</li>
+ *   <li>{@link common.Request#getSignificantGapDuration <em>Significant Gap Duration</em>}</li>
+ *   <li>{@link common.Request#getSignificantGapDeparture <em>Significant Gap Departure</em>}</li>
  * </ul>
  *
  * @see common.CommonPackage#getRequest()
@@ -240,32 +244,6 @@ public interface Request extends EObject {
 	void setToLon(double value);
 
 	/**
-	 * Returns the value of the '<em><b>Max Walk Distance</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Max Walk Distance</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Max Walk Distance</em>' attribute.
-	 * @see #setMaxWalkDistance(int)
-	 * @see common.CommonPackage#getRequest_MaxWalkDistance()
-	 * @model
-	 * @generated
-	 */
-	int getMaxWalkDistance();
-
-	/**
-	 * Sets the value of the '{@link common.Request#getMaxWalkDistance <em>Max Walk Distance</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Max Walk Distance</em>' attribute.
-	 * @see #getMaxWalkDistance()
-	 * @generated
-	 */
-	void setMaxWalkDistance(int value);
-
-	/**
 	 * Returns the value of the '<em><b>Banned Routes</b></em>' attribute list.
 	 * The list contents are of type {@link java.lang.String}.
 	 * <!-- begin-user-doc -->
@@ -280,6 +258,136 @@ public interface Request extends EObject {
 	 * @generated
 	 */
 	EList<String> getBannedRoutes();
+
+	/**
+	 * Returns the value of the '<em><b>Maximum Walk</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Maximum Walk</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Maximum Walk</em>' attribute.
+	 * @see #setMaximumWalk(int)
+	 * @see common.CommonPackage#getRequest_MaximumWalk()
+	 * @model
+	 * @generated
+	 */
+	int getMaximumWalk();
+
+	/**
+	 * Sets the value of the '{@link common.Request#getMaximumWalk <em>Maximum Walk</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Maximum Walk</em>' attribute.
+	 * @see #getMaximumWalk()
+	 * @generated
+	 */
+	void setMaximumWalk(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Maximum Wait</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Maximum Wait</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Maximum Wait</em>' attribute.
+	 * @see #setMaximumWait(int)
+	 * @see common.CommonPackage#getRequest_MaximumWait()
+	 * @model
+	 * @generated
+	 */
+	int getMaximumWait();
+
+	/**
+	 * Sets the value of the '{@link common.Request#getMaximumWait <em>Maximum Wait</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Maximum Wait</em>' attribute.
+	 * @see #getMaximumWait()
+	 * @generated
+	 */
+	void setMaximumWait(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Significant Gap Walk</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Significant Gap Walk</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Significant Gap Walk</em>' attribute.
+	 * @see #setSignificantGapWalk(int)
+	 * @see common.CommonPackage#getRequest_SignificantGapWalk()
+	 * @model
+	 * @generated
+	 */
+	int getSignificantGapWalk();
+
+	/**
+	 * Sets the value of the '{@link common.Request#getSignificantGapWalk <em>Significant Gap Walk</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Significant Gap Walk</em>' attribute.
+	 * @see #getSignificantGapWalk()
+	 * @generated
+	 */
+	void setSignificantGapWalk(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Significant Gap Duration</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Significant Gap Duration</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Significant Gap Duration</em>' attribute.
+	 * @see #setSignificantGapDuration(int)
+	 * @see common.CommonPackage#getRequest_SignificantGapDuration()
+	 * @model
+	 * @generated
+	 */
+	int getSignificantGapDuration();
+
+	/**
+	 * Sets the value of the '{@link common.Request#getSignificantGapDuration <em>Significant Gap Duration</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Significant Gap Duration</em>' attribute.
+	 * @see #getSignificantGapDuration()
+	 * @generated
+	 */
+	void setSignificantGapDuration(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Significant Gap Departure</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Significant Gap Departure</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Significant Gap Departure</em>' attribute.
+	 * @see #setSignificantGapDeparture(int)
+	 * @see common.CommonPackage#getRequest_SignificantGapDeparture()
+	 * @model
+	 * @generated
+	 */
+	int getSignificantGapDeparture();
+
+	/**
+	 * Sets the value of the '{@link common.Request#getSignificantGapDeparture <em>Significant Gap Departure</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Significant Gap Departure</em>' attribute.
+	 * @see #getSignificantGapDeparture()
+	 * @generated
+	 */
+	void setSignificantGapDeparture(int value);
 
 	boolean hasStopsId();
 
