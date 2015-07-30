@@ -174,13 +174,22 @@ public interface CommonPackage extends EPackage {
 	int REQUEST__SIGNIFICANT_GAP_WALK = 11;
 
 	/**
+	 * The feature id for the '<em><b>Significant Gap Wait</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REQUEST__SIGNIFICANT_GAP_WAIT = 12;
+
+	/**
 	 * The feature id for the '<em><b>Significant Gap Duration</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REQUEST__SIGNIFICANT_GAP_DURATION = 12;
+	int REQUEST__SIGNIFICANT_GAP_DURATION = 13;
 
 	/**
 	 * The feature id for the '<em><b>Significant Gap Departure</b></em>' attribute.
@@ -189,7 +198,7 @@ public interface CommonPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUEST__SIGNIFICANT_GAP_DEPARTURE = 13;
+	int REQUEST__SIGNIFICANT_GAP_DEPARTURE = 14;
 
 	/**
 	 * The number of structural features of the '<em>Request</em>' class.
@@ -198,7 +207,7 @@ public interface CommonPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int REQUEST_FEATURE_COUNT = 14;
+	int REQUEST_FEATURE_COUNT = 15;
 
 	/**
 	 * The number of operations of the '<em>Request</em>' class.
@@ -353,6 +362,17 @@ public interface CommonPackage extends EPackage {
 	EAttribute getRequest_SignificantGapWalk();
 
 	/**
+	 * Returns the meta object for the attribute '{@link common.Request#getSignificantGapWait <em>Significant Gap Wait</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Significant Gap Wait</em>'.
+	 * @see common.Request#getSignificantGapWait()
+	 * @see #getRequest()
+	 * @generated
+	 */
+	EAttribute getRequest_SignificantGapWait();
+
+	/**
 	 * Returns the meta object for the attribute '{@link common.Request#getSignificantGapDuration <em>Significant Gap Duration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -502,6 +522,14 @@ public interface CommonPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute REQUEST__SIGNIFICANT_GAP_WALK = eINSTANCE.getRequest_SignificantGapWalk();
+
+		/**
+		 * The meta object literal for the '<em><b>Significant Gap Wait</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REQUEST__SIGNIFICANT_GAP_WAIT = eINSTANCE.getRequest_SignificantGapWait();
 
 		/**
 		 * The meta object literal for the '<em><b>Significant Gap Duration</b></em>' attribute feature.

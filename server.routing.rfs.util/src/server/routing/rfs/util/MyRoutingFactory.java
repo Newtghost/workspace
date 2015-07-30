@@ -23,6 +23,7 @@ public class MyRoutingFactory {
 	private static final int DEFAULT_MAXIMUM_WALK = 750 ; /* in meters */
 	private static final int DEFAULT_MAXIMUM_WAIT = 15*16 ; /* in seconds */
 	private static final int DEFAULT_SIGNIFICANT_GAP_WALK = 250 ; /* in meters */
+	private static final int DEFAULT_SIGNIFICANT_GAP_WAIT = 300 ; /* in seconds */
 	private static final int DEFAULT_SIGNIFICANT_GAP_DEPARTURE = 600 ; /* in seconds */
 	private static final int DEFAULT_SIGNIFICANT_GAP_DURATION = 300 ; /* in seconds */
 
@@ -65,18 +66,18 @@ public class MyRoutingFactory {
 	}
 
 	public static Request createRequest (String departureId, String arrivalId, String time, String date, String bannedRoutes, 
-			String maximumWait, String maximumWalk, String gapDeparture, String gapDuration, String gapWalk) {
+			String maximumWait, String maximumWalk, String gapDeparture, String gapDuration, String gapWalk, String gapWait) {
 		
-		Request r = createRequest(time, date, bannedRoutes, maximumWait, maximumWalk, gapDeparture, gapDuration, gapWalk) ;
+		Request r = createRequest(time, date, bannedRoutes, maximumWait, maximumWalk, gapDeparture, gapDuration, gapWalk, gapWait) ;
 		r.setFromStopId(departureId);
 		r.setToStopId(arrivalId);		
 		return r ;
 	}
 
 	public static Request createRequest (String fromLat, String fromLon, String toLat, String toLon, String time, String date, 
-			String bannedRoutes, String maximumWait, String maximumWalk, String gapDeparture, String gapDuration, String gapWalk) {
+			String bannedRoutes, String maximumWait, String maximumWalk, String gapDeparture, String gapDuration, String gapWalk, String gapWait) {
 		
-		Request r = createRequest(time, date, bannedRoutes, maximumWait, maximumWalk, gapDeparture, gapDuration, gapWalk) ;
+		Request r = createRequest(time, date, bannedRoutes, maximumWait, maximumWalk, gapDeparture, gapDuration, gapWalk, gapWait) ;
 		r.setFromLat(Double.parseDouble(fromLat));
 		r.setFromLon(Double.parseDouble(fromLon));		
 		r.setToLat(Double.parseDouble(toLat));
@@ -85,7 +86,7 @@ public class MyRoutingFactory {
 	}
 	
 	private static Request createRequest (String time, String date, String bannedRoutes, String maximumWait, String maximumWalk, 
-			String gapDeparture, String gapDuration, String gapWalk) {
+			String gapDeparture, String gapDuration, String gapWalk, String gapWaiting) {
 		
 		Request r = CommonFactory.eINSTANCE.createRequest() ;
 		
@@ -114,7 +115,10 @@ public class MyRoutingFactory {
 
 		if (gapWalk.equals("")) r.setSignificantGapWalk(DEFAULT_SIGNIFICANT_GAP_WALK);
 		else r.setSignificantGapWalk(Integer.parseInt(gapWalk));
-		
+
+		if (gapWaiting.equals("")) r.setSignificantGapWalk(DEFAULT_SIGNIFICANT_GAP_WAIT);
+		else r.setSignificantGapWalk(Integer.parseInt(gapWaiting));
+
 		return r ;
 	}
 	

@@ -79,6 +79,7 @@ public class RoutingRessource {
 		String gapDeparture = getParam("gapDeparture", queryParams, false) ;
 		String gapDuration = getParam("gapDuration", queryParams, false) ;
 		String gapWalk = getParam("gapWalk", queryParams, false) ; ;
+		String gapWait = getParam("gapWait", queryParams, false) ; ;
 		
     	/* Get the position of the departure and the arrival */
     	if (queryParams.containsKey("from")) {
@@ -87,7 +88,7 @@ public class RoutingRessource {
 					getParam("to", queryParams, true), 
 					time, date, bannedRoutes, maximumWait, 
 					maximumWalk, gapDeparture, gapDuration, 
-					gapWalk) ;
+					gapWalk, gapWait) ;
     	} else {
 			request = MyRoutingFactory.createRequest(
 					getParam("fromLat", queryParams, true), 
@@ -96,7 +97,7 @@ public class RoutingRessource {
 					getParam("toLon", queryParams, true),
 					time, date, bannedRoutes, maximumWait, 
 					maximumWalk, gapDeparture, gapDuration, 
-					gapWalk) ;
+					gapWalk, gapWait) ;
     	} 
     	
     	return request;

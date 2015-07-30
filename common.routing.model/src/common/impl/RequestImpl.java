@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  *   <li>{@link common.impl.RequestImpl#getMaximumWalk <em>Maximum Walk</em>}</li>
  *   <li>{@link common.impl.RequestImpl#getMaximumWait <em>Maximum Wait</em>}</li>
  *   <li>{@link common.impl.RequestImpl#getSignificantGapWalk <em>Significant Gap Walk</em>}</li>
+ *   <li>{@link common.impl.RequestImpl#getSignificantGapWait <em>Significant Gap Wait</em>}</li>
  *   <li>{@link common.impl.RequestImpl#getSignificantGapDuration <em>Significant Gap Duration</em>}</li>
  *   <li>{@link common.impl.RequestImpl#getSignificantGapDeparture <em>Significant Gap Departure</em>}</li>
  * </ul>
@@ -269,6 +270,26 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 	 * @ordered
 	 */
 	protected int significantGapWalk = SIGNIFICANT_GAP_WALK_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSignificantGapWait() <em>Significant Gap Wait</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignificantGapWait()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int SIGNIFICANT_GAP_WAIT_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getSignificantGapWait() <em>Significant Gap Wait</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignificantGapWait()
+	 * @generated
+	 * @ordered
+	 */
+	protected int significantGapWait = SIGNIFICANT_GAP_WAIT_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getSignificantGapDuration() <em>Significant Gap Duration</em>}' attribute.
@@ -577,6 +598,27 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getSignificantGapWait() {
+		return significantGapWait;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSignificantGapWait(int newSignificantGapWait) {
+		int oldSignificantGapWait = significantGapWait;
+		significantGapWait = newSignificantGapWait;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, CommonPackage.REQUEST__SIGNIFICANT_GAP_WAIT, oldSignificantGapWait, significantGapWait));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public int getSignificantGapDuration() {
 		return significantGapDuration;
 	}
@@ -646,6 +688,8 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 				return getMaximumWait();
 			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WALK:
 				return getSignificantGapWalk();
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WAIT:
+				return getSignificantGapWait();
 			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DURATION:
 				return getSignificantGapDuration();
 			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DEPARTURE:
@@ -699,6 +743,9 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 				return;
 			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WALK:
 				setSignificantGapWalk((Integer)newValue);
+				return;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WAIT:
+				setSignificantGapWait((Integer)newValue);
 				return;
 			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DURATION:
 				setSignificantGapDuration((Integer)newValue);
@@ -754,6 +801,9 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WALK:
 				setSignificantGapWalk(SIGNIFICANT_GAP_WALK_EDEFAULT);
 				return;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WAIT:
+				setSignificantGapWait(SIGNIFICANT_GAP_WAIT_EDEFAULT);
+				return;
 			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DURATION:
 				setSignificantGapDuration(SIGNIFICANT_GAP_DURATION_EDEFAULT);
 				return;
@@ -796,6 +846,8 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 				return maximumWait != MAXIMUM_WAIT_EDEFAULT;
 			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WALK:
 				return significantGapWalk != SIGNIFICANT_GAP_WALK_EDEFAULT;
+			case CommonPackage.REQUEST__SIGNIFICANT_GAP_WAIT:
+				return significantGapWait != SIGNIFICANT_GAP_WAIT_EDEFAULT;
 			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DURATION:
 				return significantGapDuration != SIGNIFICANT_GAP_DURATION_EDEFAULT;
 			case CommonPackage.REQUEST__SIGNIFICANT_GAP_DEPARTURE:
@@ -838,6 +890,8 @@ public class RequestImpl extends MinimalEObjectImpl.Container implements Request
 		result.append(maximumWait);
 		result.append(", significantGapWalk: ");
 		result.append(significantGapWalk);
+		result.append(", significantGapWait: ");
+		result.append(significantGapWait);
 		result.append(", significantGapDuration: ");
 		result.append(significantGapDuration);
 		result.append(", significantGapDeparture: ");

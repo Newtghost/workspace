@@ -655,6 +655,23 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		} else if (this.walkingDistance > walkingDistance + THRESHOLD_WALKING) {
 			thisIsDominated ++;
 		}
+		
+		/* TODO : refactorer en utilisant compare... fonction à simplifier. */
+		
+		/* TODO : introduire une gradation dans la prise en compte des critères :
+			Itinerary of 84 min which starts at 10:32:17 and arrives at 11:56:15 ; walking 1,447 m, waiting for 1 min with 5 transfers
+			Itinerary of 67 min which starts at 10:49:17 and arrives at 11:56:15 ; walking 695 m, waiting for 5 min with 3 transfers
+			Itinerary of 81 min which starts at 11:06:17 and arrives at 12:27:15 ; walking 245 m, waiting for 6 min with 2 transfers
+		 * Le premier itinéraire n'a rien à faire là je pense...
+		 */
+
+		long waitingTime = it.getWaitingTime() ;
+		int THRESHOLD_WAITING = request.getSignificantGapWait() ;
+		if (this.waitingTime + THRESHOLD_WAITING < waitingTime) {
+			thisDominates ++;
+		} else if (this.waitingTime > waitingTime + THRESHOLD_WAITING) {
+			thisIsDominated ++;
+		}
 
 		long time ;
 		if (toTarget) {
@@ -696,6 +713,15 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		}
 		
 	}
+	
+//	private static int compare (double a, double b, double threshold, boolean smallest) {
+//		if (a + threshold < b) {
+//			return smallest?1:-1;
+//		} else if (a > b + threshold) {
+//			return smallest?-1:1;
+//		}
+//		return 0 ;
+//	}
 
 	@Override
 	public long getDuration() {

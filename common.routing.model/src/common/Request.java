@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link common.Request#getMaximumWalk <em>Maximum Walk</em>}</li>
  *   <li>{@link common.Request#getMaximumWait <em>Maximum Wait</em>}</li>
  *   <li>{@link common.Request#getSignificantGapWalk <em>Significant Gap Walk</em>}</li>
+ *   <li>{@link common.Request#getSignificantGapWait <em>Significant Gap Wait</em>}</li>
  *   <li>{@link common.Request#getSignificantGapDuration <em>Significant Gap Duration</em>}</li>
  *   <li>{@link common.Request#getSignificantGapDeparture <em>Significant Gap Departure</em>}</li>
  * </ul>
@@ -336,6 +337,32 @@ public interface Request extends EObject {
 	 * @generated
 	 */
 	void setSignificantGapWalk(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Significant Gap Wait</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Significant Gap Wait</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Significant Gap Wait</em>' attribute.
+	 * @see #setSignificantGapWait(int)
+	 * @see common.CommonPackage#getRequest_SignificantGapWait()
+	 * @model
+	 * @generated
+	 */
+	int getSignificantGapWait();
+
+	/**
+	 * Sets the value of the '{@link common.Request#getSignificantGapWait <em>Significant Gap Wait</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Significant Gap Wait</em>' attribute.
+	 * @see #getSignificantGapWait()
+	 * @generated
+	 */
+	void setSignificantGapWait(int value);
 
 	/**
 	 * Returns the value of the '<em><b>Significant Gap Duration</b></em>' attribute.
