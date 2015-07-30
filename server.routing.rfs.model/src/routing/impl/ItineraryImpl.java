@@ -630,7 +630,9 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		result.append(')');
 		return result.toString();
 	}
- 
+	
+	/*********** Multi-criteria version with Pareto-optimality *****************/
+
 	@Override
 	/* Time is a departure time when the itinerary doesn't reach the target and a duration otherwise. 
 	 * The function return 1 if the current itinerary dominates the one passed in parameters,
@@ -656,14 +658,7 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 			thisIsDominated ++;
 		}
 		
-		/* TODO : refactorer en utilisant compare... fonction à simplifier. */
-		
-		/* TODO : introduire une gradation dans la prise en compte des critères :
-			Itinerary of 84 min which starts at 10:32:17 and arrives at 11:56:15 ; walking 1,447 m, waiting for 1 min with 5 transfers
-			Itinerary of 67 min which starts at 10:49:17 and arrives at 11:56:15 ; walking 695 m, waiting for 5 min with 3 transfers
-			Itinerary of 81 min which starts at 11:06:17 and arrives at 12:27:15 ; walking 245 m, waiting for 6 min with 2 transfers
-		 * Le premier itinéraire n'a rien à faire là je pense...
-		 */
+		/* TODO : est ce qu'on peut refactorer ca ? Un peu de code "dupliqué"... */		
 
 		long waitingTime = it.getWaitingTime() ;
 		int THRESHOLD_WAITING = request.getSignificantGapWait() ;
@@ -714,13 +709,64 @@ public class ItineraryImpl extends MinimalEObjectImpl.Container implements Itine
 		
 	}
 	
-//	private static int compare (double a, double b, double threshold, boolean smallest) {
-//		if (a + threshold < b) {
-//			return smallest?1:-1;
-//		} else if (a > b + threshold) {
-//			return smallest?-1:1;
+	/* TODO : introduire une gradation dans la prise en compte des critères :
+		Itinerary of 84 min which starts at 10:32:17 and arrives at 11:56:15 ; walking 1,447 m, waiting for 1 min with 5 transfers
+		Itinerary of 67 min which starts at 10:49:17 and arrives at 11:56:15 ; walking 695 m, waiting for 5 min with 3 transfers
+		Itinerary of 81 min which starts at 11:06:17 and arrives at 12:27:15 ; walking 245 m, waiting for 6 min with 2 transfers
+	 * Le premier itinéraire n'a rien à faire là je pense...
+	 */
+
+	/*********** Heuristic version *****************/
+//	/* Returns one solution... a good one but only one */
+//	
+//	private static final float DOMINANCE_THRESHOLD = 30.0f; 
+//
+//	@Override
+//	/* Time is a departure time when the itinerary doesn't reach the target and a duration otherwise. 
+//	 * The function return 1 if the current itinerary dominates the one passed in parameters,
+//	 * 0 if they're pareto opt, -1 otherwise */
+//	public int isDominated (Request request, Itinerary it, boolean toTarget) {				
+//		
+//		if (this.trips.equals(it.getTrips())) { /* Same itineraries */
+//			return (walkingDistance <= it.getWalkingDistance())?1:-1 ;
+//		} 
+//
+//		float evalThis = this.evaluate(request, toTarget);
+//		float evalIt = it.evaluate(request, toTarget);
+//
+//		//System.out.println("-------------------------------- Eval this = " + evalThis + ", eval it = " + evalIt + " ; différence = " +Math.abs(evalThis-evalIt)) ;
+//		
+//		if (evalThis + DOMINANCE_THRESHOLD >= evalIt) {
+//			return -1 ;
+//		} else if (evalThis <= evalIt + DOMINANCE_THRESHOLD) {
+//			return 1 ;
+//		} else {
+//			return 0; 
 //		}
-//		return 0 ;
+//	}
+//
+//	/* This function evaluate an itinerary due to user's preferences
+//	 * As high is the evaluation as bad is the itinerary.
+//	 * Missing to replace all the coefficients by those defined in
+//	 * the routing request */
+//	public float evaluate (Request request, boolean toTarget) {				
+//		float eval = 0.0f;
+//		
+//		eval += 1.0f * walkingDistance / 50 ;				
+//		
+//		eval += 1.0f * waitingTime / 60 ;
+//
+//		if (toTarget) { /* If we reach the target, then we compare itineraries duration */
+//			eval += getDuration() / 60 ;
+//		} else { /* Otherwise our objective is to leave as late as possible */
+//			eval -= (this.departureTime - LocalTime.parse(request.getTime(), DateTimeFormatter.ISO_TIME).toSecondOfDay()) / 300 ;
+//		}
+//			
+//		/* If we are not already on the right way (on a trip that go through the target stop) 
+//		 * then it means that we need at least one more transfer */
+//		eval += 40.0f * (this.nbTransfers + (isOnRightWay?0:1)) ;
+//
+//		return eval ;
 //	}
 
 	@Override

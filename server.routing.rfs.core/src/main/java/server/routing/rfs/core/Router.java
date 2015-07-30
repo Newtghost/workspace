@@ -327,8 +327,8 @@ public class Router {
 					Connection c = (Connection) s ;
 
 					/* TODO : le agencyTimeZoneOffset d'une leg (c.getAgencyTimeZoneOffset() et c.setAgencyTimeZoneOffset()) 
-					 	ne servent que pour le tracker (affichage leg par leg) il vaudrait mieux avoir l'info
-					 	qu'une seule fois comme dans le nouveau tracker (angularJS) - à terme, supprimer */
+					 	ne servent que pour le tracker (affichage leg par leg et pas de visibilité sur le parent) il vaudrait 
+					 	mieux avoir l'info qu'une seule fois comme dans le nouveau tracker (angularJS) - à terme, supprimer */
 					
 					if (prevC == null || ! c.getTripId().equals(prevC.getTripId())) {
 						if (leg != null) { /* Signifie qu'on a changé de Leg et qu'on doit donc ajouter le segment précédent qui est terminé */	

@@ -284,6 +284,7 @@ public interface Itinerary extends EObject {
 	void setTrips(String value);
 
 	public int isDominated (Request request, Itinerary it, boolean isTarget) ;
+//	public float evaluate (Request request, boolean toTarget) ;
 
 	long getDuration();
 
